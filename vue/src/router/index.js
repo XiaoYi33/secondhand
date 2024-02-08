@@ -5,19 +5,19 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/test',
-    name: 'test',
-    component: () => import('../views/test.vue')
+    path: '/test1',
+    name: 'test1',
+    component: () => import('../views/test1.vue')
+  },
+  {
+    path: '/test2',
+    name: 'test2',
+    component: () => import('../views/test2.vue')
   },
   {
     path: '/',
     name: 'home',
     component: () => import('../views/HomeView.vue')
-  },
-  {
-    path: '/element',
-    name: 'Element',
-    component: () => import('../views/Element.vue')
   },
   {
     path: '/login',

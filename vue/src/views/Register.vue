@@ -12,7 +12,7 @@
 
       <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
         <el-form :model="user" style="width: 80%;" :rules="rules" ref="registerRef">
-          <div style="font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 20px;">欢迎注册后台管理系统</div>
+          <div style="font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 20px;">欢迎注册培正校园二手网</div>
           <el-form-item  prop="username" >
             <el-input prefix-icon="el-icon-user" size="medium" v-model="user.username" placeholder="请输入账号"></el-input>
           </el-form-item>

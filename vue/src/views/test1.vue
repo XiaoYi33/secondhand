@@ -3,20 +3,16 @@
     <el-container>
       <!--    侧边栏  -->
       <el-aside width="200px" style="min-height: 100vh; background-color: #ffffff">
-        <div style="height: 180px; color: white; display: flex; align-items:end; justify-content: center">
-          <!-- <img src="@/assets/logo1.png" alt="" style="width: 150px; height: 150px">todo:这里是头像 -->
-          <el-avatar :size="150" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-          
+        <div style="height: 200px; color: white; display: flex; align-items: center; justify-content: center">
+          <img src="@/assets/logo1.png" alt="" style="width: 150px; height: 150px"><!--todo:这里是头像-->
         </div>
-        <div style="display: flex; font-size: smaller; justify-content: center;align-items:end;height: 30px;">
-          <div style="border-radius:5px; border: 1px solid rgb(25,156,96); width: 60px; justify-content: center;text-align: center; color: rgb(25,156,96); height: 20px; line-height: 20px;">管理员</div>
-          
+        <div>
+
         </div>
-        
 
         <el-menu  router background-color="#ffffff" text-color="rgb(144,147,153)" active-text-color="rgb(25,156,96)" style="border: none;" :default-active="$route.path">
           <el-menu-item index="/">
-            <i class="el-icon-s-home"></i>
+            <i class="el-icon-menu"></i>
             <span slot="title">首页</span>
           </el-menu-item>
           <el-submenu index="3">
@@ -31,7 +27,7 @@
           </el-submenu>
           <el-submenu index="3">
             <template slot="title">
-              <i class="el-icon-user-solid"></i>
+              <i class="el-icon-menu"></i>
               <span>个人中心</span>
             </template>
             <el-menu-item>我的信息</el-menu-item>
@@ -121,13 +117,13 @@
 </template>
 
 <script>
+import axios from 'axios'
 import request from "@/utils/request"
 
 export default {
   name: 'HomeView',
   data() {
     return {
-      avatar:'@/assets/logo1.png',//测试用头像
       users:[]
     }
   },
@@ -160,73 +156,3 @@ export default {
   }
 }
 </script>
-
-<style>
-.el-menu--inline .el-menu-item {
-  /* background-color: #000c17 !important; */
-  padding-left: 49px !important;
-  font-weight: normal;
-  
-}
-/* .el-menu-item:hover, .el-submenu__title:hover {
-  color: #fff !important;
-}
-.el-submenu__title:hover i {
-  color: #fff !important;
-  
-}
-.el-menu-item:hover i {
-  color: #fff !important;
-}  */
-.el-submenu .el-menu-item:hover{
-  color: #fff !important;
-}
-.el-menu-item.is-active {
-  border-radius: 5px !important;
-  width: calc(100% - 15px);
-  /* margin-left: 4px; */
-}
-/* .el-menu-item.is-active i, .el-menu-item.is-active .el-tooltip{
-  margin-left: -4px;
-} */
-.el-menu-item {
-  height: 40px !important;
-  line-height: 40px !important;
-  font-size: 18px;
-  font-weight: bold;
-  margin: 5px 5px 5px 10px;
-  border-radius: 5px !important;
-}
-.el-submenu__title {
-  height: 40px !important;
-  line-height: 40px !important;
-  font-weight: bold;
-  font-size: 18px;
-  margin: 5px 5px 5px 10px;
-  border-radius: 5px !important;
-}
-.el-submenu .el-menu-item {
-  min-width: 0 !important;
-  height: 40px !important;
-  font-size: 17px !important;
-}
-/* .el-menu--inline .el-menu-item.is-active {
-  padding-left: 45px !important;
-} */
-
-.el-aside {
-  transition: width .3s;
-  box-shadow: 2px 0 6px rgba(0,21,41,.35);
-}
-.logo-title {
-  margin-left: 5px;
-  font-size: 20px;
-  transition: all .3s;   /* 0.3s */
-}
-.el-header {
-  box-shadow: 2px 0 6px rgba(0,21,41,.35);
-  display: flex;
-  align-items: center;
-}
-
-</style>
