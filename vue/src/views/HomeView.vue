@@ -55,10 +55,11 @@
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item :to="{ path: '/user' }">用户管理</el-breadcrumb-item>
           </el-breadcrumb> todo:顶部导航栏，估计用不上-->
+          <div style="color: rgb(144,147,153);">欢迎你，{{ user.username }}</div>
 
           <div style="flex: 1; width: 0; display: flex; align-items: center; justify-content: flex-end">
-            <i class="el-icon-quanping" style="font-size: 26px" @click="handleFull"></i>
-            <el-dropdown placement="bottom">
+            <!-- <i class="el-icon-quanping" style="font-size: 26px" @click="handleFull"></i> -->
+            <!-- <el-dropdown placement="bottom">
               <div style="display: flex; align-items: center; cursor: default">
                 <img src="@/assets/logo1.png" alt="" style="width: 40px; height: 40px; margin: 0 5px">
                 <span>管理员</span>
@@ -67,9 +68,9 @@
                 <el-dropdown-item>个人信息</el-dropdown-item>
                 <el-dropdown-item>修改密码</el-dropdown-item>
                 <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
-                <!-- el组件屏蔽了@click -->
               </el-dropdown-menu>
-            </el-dropdown>
+            </el-dropdown> -->
+            <!-- el组件屏蔽了@click -->
           </div>
 
         </el-header>
@@ -105,8 +106,6 @@
                <el-table :data="users">
                   <el-table-column label="ID" prop="id"></el-table-column>
                   <el-table-column label="用户名" prop="username"></el-table-column>
-                  <el-table-column label="姓名" prop="name"></el-table-column>
-                  <el-table-column label="地址" prop="address"></el-table-column>
                </el-table>
              </div>
            </el-card>
@@ -128,7 +127,8 @@ export default {
   data() {
     return {
       avatar:'@/assets/logo1.png',//测试用头像
-      users:[]
+      users:[],
+      user:{}
     }
   },
   
@@ -145,6 +145,9 @@ export default {
 
       request.get('/user/selectAll').then(res=>{
         this.users=res.data
+      })
+      request.get('/user/selectById/1').then(res=>{
+        this.user=res.data
       })
 
   },

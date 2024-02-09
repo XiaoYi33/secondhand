@@ -3,16 +3,20 @@
     <el-container>
       <!--    侧边栏  -->
       <el-aside width="200px" style="min-height: 100vh; background-color: #ffffff">
-        <div style="height: 200px; color: white; display: flex; align-items: center; justify-content: center">
-          <img src="@/assets/logo1.png" alt="" style="width: 150px; height: 150px"><!--todo:这里是头像-->
+        <div style="height: 180px; color: white; display: flex; align-items:end; justify-content: center">
+          <!-- <img src="@/assets/logo1.png" alt="" style="width: 150px; height: 150px">todo:这里是头像 -->
+          <el-avatar :size="150" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+          
         </div>
-        <div>
-
+        <div style="display: flex; font-size: smaller; justify-content: center;align-items:end;height: 30px;">
+          <div style="border-radius:5px; border: 1px solid rgb(25,156,96); width: 60px; justify-content: center;text-align: center; color: rgb(25,156,96); height: 20px; line-height: 20px;">管理员</div>
+          
         </div>
+        
 
         <el-menu  router background-color="#ffffff" text-color="rgb(144,147,153)" active-text-color="rgb(25,156,96)" style="border: none;" :default-active="$route.path">
           <el-menu-item index="/">
-            <i class="el-icon-menu"></i>
+            <i class="el-icon-s-home"></i>
             <span slot="title">首页</span>
           </el-menu-item>
           <el-submenu index="3">
@@ -27,7 +31,7 @@
           </el-submenu>
           <el-submenu index="3">
             <template slot="title">
-              <i class="el-icon-menu"></i>
+              <i class="el-icon-user-solid"></i>
               <span>个人中心</span>
             </template>
             <el-menu-item>我的信息</el-menu-item>
@@ -51,10 +55,11 @@
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
             <el-breadcrumb-item :to="{ path: '/user' }">用户管理</el-breadcrumb-item>
           </el-breadcrumb> todo:顶部导航栏，估计用不上-->
+          <div style="color: rgb(144,147,153);">欢迎你，{{ user.username }}</div>
 
           <div style="flex: 1; width: 0; display: flex; align-items: center; justify-content: flex-end">
-            <i class="el-icon-quanping" style="font-size: 26px" @click="handleFull"></i>
-            <el-dropdown placement="bottom">
+            <!-- <i class="el-icon-quanping" style="font-size: 26px" @click="handleFull"></i> -->
+            <!-- <el-dropdown placement="bottom">
               <div style="display: flex; align-items: center; cursor: default">
                 <img src="@/assets/logo1.png" alt="" style="width: 40px; height: 40px; margin: 0 5px">
                 <span>管理员</span>
@@ -63,9 +68,9 @@
                 <el-dropdown-item>个人信息</el-dropdown-item>
                 <el-dropdown-item>修改密码</el-dropdown-item>
                 <el-dropdown-item @click.native="logout">退出登录</el-dropdown-item>
-                <!-- el组件屏蔽了@click -->
               </el-dropdown-menu>
-            </el-dropdown>
+            </el-dropdown> -->
+            <!-- el组件屏蔽了@click -->
           </div>
 
         </el-header>
@@ -101,8 +106,6 @@
                <el-table :data="users">
                   <el-table-column label="ID" prop="id"></el-table-column>
                   <el-table-column label="用户名" prop="username"></el-table-column>
-                  <el-table-column label="姓名" prop="name"></el-table-column>
-                  <el-table-column label="地址" prop="address"></el-table-column>
                </el-table>
              </div>
            </el-card>
@@ -117,14 +120,15 @@
 </template>
 
 <script>
-import axios from 'axios'
 import request from "@/utils/request"
 
 export default {
   name: 'HomeView',
   data() {
     return {
-      users:[]
+      avatar:'@/assets/logo1.png',//测试用头像
+      users:[],
+      user:{}
     }
   },
   
@@ -142,6 +146,9 @@ export default {
       request.get('/user/selectAll').then(res=>{
         this.users=res.data
       })
+      request.get('/user/selectById/1').then(res=>{
+        this.user=res.data
+      })
 
   },
 
@@ -156,3 +163,4 @@ export default {
   }
 }
 </script>
+
