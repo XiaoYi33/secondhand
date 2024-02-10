@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 
 /**
  * 接口统一返回包装类
- * 作者：程序员青戈
  */
 @Data
 @AllArgsConstructor//所有属性构造函数
