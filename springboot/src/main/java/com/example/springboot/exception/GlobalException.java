@@ -17,4 +17,11 @@ public class GlobalException {
     public Result serviceException(ServiceException e){
         return Result.error(e.getCode(),e.getMessage());
     }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseBody//将返回的Result对象转换成Json
+    public Result globalException(Exception e){
+        e.printStackTrace();
+        return Result.error("500","系统错误");
+    }
 }
