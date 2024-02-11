@@ -18,10 +18,14 @@ public class User {
     private String username;
     private String password;
     private String name;
+    private String role;
+    private String signature;
+    private String qq;
+    private String wechat;
     private String phone;
     private String email;
-    private String address;
     private String avatar;
+    private String create_time;
 
     private String token;
 }

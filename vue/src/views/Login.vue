@@ -101,7 +101,7 @@ export default {
             if(res.code==200){
               this.$router.push('/')//登录成功后跳转到主页
               this.$message.success('登录成功')//用消息组件弹出登录成功
-              localStorage.setItem("honey-user",JSON.stringify(res.data))//存储用户数据
+              localStorage.setItem("SecondHand-User",JSON.stringify(res.data))//存储用户数据
             }else{
               this.$message.error(res.msg)//用消息组件将错误信息弹出
             }
