@@ -3,15 +3,19 @@
     <el-container>
       <!--    侧边栏  -->
       <el-aside width="200px" style="min-height: 100vh; background-color: #ffffff">
+        <!-- <div style="display: flex;color: rgb(144,147,153); justify-content: center; align-items:center; text-align: center; height: 40px;">欢迎登录培正校园二手网</div> -->
         <div style="height: 180px; color: white; display: flex; align-items:end; justify-content: center">
-          <el-avatar :size="150" :src="user.avatar"></el-avatar>
+          
+          <img v-if="user.avatar" :src="user.avatar" class="avatar" style="display: block; width: 150px; height: 150px; border-radius: 50%;">
 
         </div>
-        <div style="display: flex; font-size: smaller; justify-content: center;align-items:center;height: 50px;">
-          <div
-            style="border-radius:5px; border: 1px solid rgb(25,156,96); width: 60px; justify-content: center;text-align: center; color: rgb(25,156,96); height: 20px; line-height: 20px;">
+        <div style="display: flex; font-size: smaller; justify-content: center;align-items:center;height: 28px;">
+          {{ user.name }}
+        </div>
+        <div style="display: flex; font-size: smaller; justify-content: center;align-items:start;height: 28px;">
+          <div 
+            style="border-radius:5px; border: 1px solid rgb(25,156,96); width: 50px; justify-content: center;text-align: center; color: rgb(25,156,96); height: 20px; line-height: 20px;">
             {{ user.role }}</div>
-
         </div>
 
 
@@ -71,9 +75,9 @@
       <el-container>
         <!--        头部区域-->
         <el-header>
-          <div style="color: rgb(144,147,153);">欢迎你，{{ user.name }}</div>
-          <div style="flex: 1; width: 0; display: flex; align-items: center; justify-content: flex-end">
-          </div>
+          <div style="color: rgb(144,147,153);">欢迎登录培正校园二手网</div>
+          <!-- <div style="flex: 1; width: 0; display: flex; align-items: center; justify-content: flex-end">
+          </div> -->
         </el-header>
 
         <!--        主体区域-->
