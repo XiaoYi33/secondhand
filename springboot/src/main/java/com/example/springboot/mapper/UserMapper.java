@@ -13,11 +13,11 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
-    @Insert("insert into `user` (username,password,name,phone,email,avatar) " +
-            "values (#{username},#{password},#{name},#{phone},#{email},#{avatar})")
+    @Insert("insert into `user` (username,password,name,phone,email) " +
+            "values (#{username},#{password},#{name},#{phone},#{email})")
     void insert(User user);
 
-    @Update("update `user` set username = #{username}, password = #{password}, name= #{name}, phone = #{phone}, " +
+    @Update("update `user` set username = #{username}, password = #{password}, name= #{name}, role=#{role},signature=#{signature},qq=#{qq},wechat=#{wechat},phone = #{phone}, " +
             "email = #{email},  avatar = #{avatar} where id = #{id}")
     void update(User user);
 

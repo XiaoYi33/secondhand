@@ -6,7 +6,6 @@
             <el-table-column prop="name" label="昵称" align="center"></el-table-column>
             <el-table-column prop="phone" label="电话" align="center"></el-table-column>
             <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
-            <el-table-column prop="address" label="地址" align="center"></el-table-column>
             <el-table-column label="头像">
                 <template v-slot="scope">
                     <el-avatar v-if="scope.row.avatar" :src="scope.row.avatar" ></el-avatar>
