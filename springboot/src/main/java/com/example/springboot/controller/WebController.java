@@ -38,7 +38,7 @@ public class WebController {
         if(StrUtil.isBlank(user.getUsername())||StrUtil.isBlank(user.getPassword())){
             return Result.error("数据输入不合法");
         }
-        //待做：这里可以校验一下输入用户名的规则，前后端一起做校验
+        //todo：这里可以校验一下输入用户名的规则，前后端一起做校验
         user = userService.register(user);
         return Result.success(user);
     }
