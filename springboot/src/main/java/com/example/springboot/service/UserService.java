@@ -34,4 +34,6 @@ public interface UserService {
     User login( User user);
 
     User register(User user);
+
+    void resetPassword(User user);
 }

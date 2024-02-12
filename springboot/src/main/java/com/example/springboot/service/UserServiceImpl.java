@@ -5,6 +5,7 @@ import com.example.springboot.common.Page;
 import com.example.springboot.entity.User;
 import com.example.springboot.exception.ServiceException;
 import com.example.springboot.mapper.UserMapper;
+import com.example.springboot.utils.MD5PasswordEncoder;
 import com.example.springboot.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void updateUser(User user) {
+        user.setPassword(MD5PasswordEncoder.encode(user.getPassword()));
         userMapper.update(user);
     }
 
@@ -103,7 +105,7 @@ public class UserServiceImpl implements UserService{
             //抛出一个自定义的异常
             throw  new ServiceException("用户名或密码错误");//抛出异常，然后会被全局捕获器捕获到
         }
-        if(!Objects.equals(user.getPassword(), dbUser.getPassword())){
+        if(!Objects.equals(MD5PasswordEncoder.encode(user.getPassword()), dbUser.getPassword())){
             throw new ServiceException("用户名或密码错误");
         }
 
@@ -120,9 +122,23 @@ public class UserServiceImpl implements UserService{
             //抛出一个自定义的异常
             throw  new ServiceException("用户名已存在");//抛出异常，然后会被全局捕获器捕获到
         }
-        user.setName(user.getUsername());
+        user.setPassword(MD5PasswordEncoder.encode(user.getPassword()));
         userMapper.insert(user);
         return user;
+    }
+
+    @Override
+    public void resetPassword(User user) {
+        User dbUser = userMapper.selectByUsername(user.getUsername());
+        if(dbUser==null){
+            //抛出一个自定义的异常
+            throw  new ServiceException("用户不存在");//抛出异常，然后会被全局捕获器捕获到
+        }
+        if(!dbUser.getEmail().equals(user.getEmail())){
+            throw  new ServiceException("邮箱错误");
+        }
+        dbUser.setPassword(MD5PasswordEncoder.encode("123456"));
+        userMapper.update(dbUser);
     }
 
 }
