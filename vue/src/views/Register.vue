@@ -20,7 +20,7 @@
             <el-input prefix-icon="el-icon-lock" size="medium" show-password v-model="user.password" placeholder="请输入密码"></el-input>
           </el-form-item>
           <el-form-item  prop="confirmPassword">
-            <el-input prefix-icon="el-icon-circle-check" size="medium" style="flex: 1;" v-model="user.confirmPassword" placeholder="请确认密码"></el-input>
+            <el-input prefix-icon="el-icon-circle-check" size="medium" show-password style="flex: 1;" v-model="user.confirmPassword" placeholder="请确认密码"></el-input>
           </el-form-item>
           <el-form-item >
             <el-button type="success" style="width: 100%;" @click="register">注 册</el-button>
