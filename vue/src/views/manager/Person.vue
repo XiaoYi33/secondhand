@@ -35,8 +35,11 @@
                 <el-form-item label="电话" prop="phone">
                     <el-input v-model="user.phone" placeholder="电话"></el-input>
                 </el-form-item>
-                <el-form-item label="创建时间" prop="create_time">{{ user.create_time }}
+                <el-form-item label="创建时间" prop="createTime">
+                    <el-input v-model="user.createTime" placeholder="创建时间" disabled></el-input>
                 </el-form-item>
+                <!-- <el-form-item label="创建时间" prop="create_time">{{ user.create_time }}
+                </el-form-item> -->
                 <div style="text-align: center; margin-bottom: 20px;">
                     <el-button type="primary" @click="update">保存</el-button>
                 </div>
@@ -128,4 +131,6 @@ export default {
     display: block;
     border-radius: 50%;
 }
+
+
 </style>

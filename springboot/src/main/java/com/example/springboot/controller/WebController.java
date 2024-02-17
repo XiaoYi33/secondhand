@@ -8,6 +8,8 @@ import com.example.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+
 /**
  * author HKX
  * date: 2024-01-30 14:16
