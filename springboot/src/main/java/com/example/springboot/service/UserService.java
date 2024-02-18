@@ -1,7 +1,9 @@
 package com.example.springboot.service;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.example.springboot.controller.FileController;
 import com.example.springboot.entity.User;
 import com.example.springboot.exception.ServiceException;
 import com.example.springboot.mapper.UserMapper;
@@ -10,6 +12,7 @@ import com.example.springboot.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Objects;
 
 /**
@@ -21,6 +24,23 @@ import java.util.Objects;
 public class UserService extends ServiceImpl<UserMapper,User>{
     @Autowired
     private UserMapper userMapper;
+
+    /**
+     * 重写save方法，为了保存的时候自动添加默认密码和昵称
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean save(User user) {
+        if(StrUtil.isBlank(user.getPassword())){
+            user.setPassword(MD5PasswordEncoder.encode("123456"));//新增用户密码为空则默认为123456
+        }
+        if(StrUtil.isBlank(user.getName())){
+            user.setName(user.getUsername());//新增用户昵称为空则默认为用户名
+        }
+        return super.save(user);
+    }
+
 
     public User selectByUsername(String username){ //根据用户名查询封装成方法方便后续使用
         QueryWrapper<User> queryWrapper=new QueryWrapper<>();
