@@ -1,23 +1,22 @@
 <template>
     <div style="display: flex; ">
         <el-card style="width: 35%; ">
-            <div style="margin: 15px; text-align: center;">
-                <el-upload class="avatar-uploader" action="http://localhost:9090/file/upload"
-                    :headers="{ token: user.token }" :show-file-list="false" :before-upload="beforeAvatarUpload"
-                    :on-success="handleAvatarSuccess">
-
-                    <img v-if="user.avatar" :src="user.avatar" class="avatar">
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                </el-upload>
-            </div>
             <el-form :model="user" label-width="80px" style="padding-right: 20px;" :rules="rules">
+                <div style="margin: 15px; text-align: center;">
+                    <el-upload class="avatar-uploader" action="http://localhost:9090/file/upload"
+                        :headers="{ token: user.token }" :show-file-list="false" :before-upload="beforeAvatarUpload"
+                        :on-success="handleAvatarSuccess">
+                        <img v-if="user.avatar" :src="user.avatar" class="avatar">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                </div>
                 <el-form-item label="用户名" prop="username">
                     <el-input v-model="user.username" placeholder="用户名" disabled></el-input>
                 </el-form-item>
                 <el-form-item label="昵称" prop="name">
                     <el-input v-model="user.name" placeholder="昵称"></el-input>
                 </el-form-item>
-                <el-form-item label="角色" prop="role" v-if="user.role!=='管理员'&&user.role!=='站长'">
+                <el-form-item label="角色" prop="role" v-if="user.role !== '管理员' && user.role !== '站长'">
                     <el-select v-model="user.role" placeholder="请选择身份">
                         <el-option label="学生" value="学生"></el-option>
                         <el-option label="老师" value="老师"></el-option>
@@ -131,6 +130,4 @@ export default {
     display: block;
     border-radius: 50%;
 }
-
-
 </style>

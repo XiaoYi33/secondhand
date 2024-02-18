@@ -3,7 +3,6 @@
     <el-container>
       <!--    侧边栏  -->
       <el-aside width="200px" style="min-height: 100vh; background-color: #ffffff">
-        <!-- <div style="display: flex;color: rgb(144,147,153); justify-content: center; align-items:center; text-align: center; height: 40px;">欢迎登录培正校园二手网</div> -->
         <div style="height: 180px; color: white; display: flex; align-items:end; justify-content: center">
 
           <img v-if="user.avatar" :src="user.avatar" class="avatar"
@@ -45,19 +44,9 @@
             <el-menu-item index="/user">用户管理</el-menu-item>
             <el-menu-item index="/product">商品管理</el-menu-item>
             <el-menu-item index="">订单管理</el-menu-item>
-            <el-menu-item v-if="user.role === '站长'" index="">数据统计</el-menu-item>
+            <el-menu-item >数据统计</el-menu-item>
           </el-submenu>
 
-          <!-- <el-submenu index="rootTool" v-if="user.role==='站长'">
-            <template slot="title">
-              <i class="el-icon-s-tools"></i>
-              <span>后台管理</span>
-            </template>
-            <el-menu-item index="/user">用户管理</el-menu-item>
-            <el-menu-item index="/product">商品管理</el-menu-item>
-            <el-menu-item index="/order">订单管理</el-menu-item>
-            <el-menu-item index="">数据统计</el-menu-item>
-          </el-submenu> -->
           <el-submenu index="center">
             <template slot="title">
               <i class="el-icon-user-solid"></i>
@@ -77,9 +66,6 @@
       <el-container>
         <!--        头部区域-->
         <el-header>
-          <!-- <div style="color: rgb(144,147,153);">欢迎登录培正校园二手网</div> -->
-          <!-- <div style="flex: 1; width: 0; display: flex; align-items: center; justify-content: flex-end">
-          </div> -->
           <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-left: 20px">
             <el-breadcrumb-item :to="{ path: '/home' }">培正校园二手交易网</el-breadcrumb-item>
             <el-breadcrumb-item :to="{ path: $route.path }">{{ $route.meta.name }}</el-breadcrumb-item>
