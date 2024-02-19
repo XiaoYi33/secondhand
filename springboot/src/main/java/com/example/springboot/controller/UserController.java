@@ -93,17 +93,17 @@ public class UserController {
      * @param pageNumber
      * @param pageSize
      * @param username
-     * @param name
+     * @param nickname
      * @return
      */
     @GetMapping("selectByPage")
     public Result selectByPage(@RequestParam Integer pageNumber,
                                @RequestParam Integer pageSize,
                                @RequestParam String username,
-                               @RequestParam String name){
+                               @RequestParam String nickname){
         QueryWrapper<User> queryWrapper = new QueryWrapper<User>().orderByDesc("id");
         queryWrapper.like(StrUtil.isNotBlank(username),"username",username);
-        queryWrapper.like(StrUtil.isNotBlank(name),"name",name);
+        queryWrapper.like(StrUtil.isNotBlank(nickname),"nickname",nickname);
         //select * from user where username like '%#{username}%' and name like '%#{name}%'
 
         Page<User> page = userService.page(new Page<>(pageNumber, pageSize), queryWrapper);

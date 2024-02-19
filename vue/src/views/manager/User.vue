@@ -1,9 +1,10 @@
 <template>
     <div>
+        <!-- 搜索框和按钮 -->
         <div style="display: flex; margin: 10px 0;">
             <div style="flex:1">
                 <el-input style="width: 200px;" placeholder="输入要查询的用户名" v-model="username"></el-input>
-                <el-input style="width: 200px; margin: 0 5px;" placeholder="输入要查询的昵称" v-model="name"></el-input>
+                <el-input style="width: 200px; margin: 0 5px;" placeholder="输入要查询用户的昵称" v-model="nickname"></el-input>
                 <el-button type="success" @click="reacher">查询</el-button>
                 <el-button type="info" @click="reset">重置</el-button>
             </div>
@@ -13,12 +14,13 @@
             </div>
         </div>
 
+        <!-- 表格 -->
         <el-table :data="tableData" stripe @selection-change="handleSelectionChange" >
             <el-table-column type="selection" width="55" align="center" :selectable="isRowSelectable">
             </el-table-column>
             <el-table-column prop="id" label="ID" align="center" width="55"></el-table-column>
             <el-table-column prop="username" label="用户名" align="center"></el-table-column>
-            <el-table-column prop="name" label="昵称" align="center"></el-table-column>
+            <el-table-column prop="nickname" label="昵称" align="center"></el-table-column>
             <el-table-column prop="wechat" label="微信" align="center"></el-table-column>
             <el-table-column prop="phone" label="电话" align="center"></el-table-column>
             <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
@@ -38,6 +40,7 @@
 
             </el-table-column>
         </el-table>
+        <!-- 分页按钮 -->
         <div style="margin: 10px 0;">
             <span class="demonstration"></span>
             <el-pagination @current-change="handleCurrentChange" :current-page="pageNum" :page-sizes="[100, 200, 300, 400]"
@@ -45,8 +48,8 @@
             </el-pagination>
         </div>
 
-
-        <el-dialog title="新增编辑用户" :visible.sync="formVisible" width="20%">
+        <!-- 新增和编辑用户弹出对话框 -->
+        <el-dialog title="新增编辑用户" :visible.sync="formVisible" width="25%">
             <el-form :model="form" label-width="80px" style="padding-right: 20px;" :rules="rules" ref="formRef">
                 <div style="margin: 15px; text-align: center;">
                     <el-upload class="avatar-uploader" action="http://localhost:9090/file/upload"
@@ -61,8 +64,8 @@
                 <el-form-item label="用户名" prop="username" v-if="form.id">
                     <el-input v-model="form.username" placeholder="用户名" disabled></el-input>
                 </el-form-item>
-                <el-form-item label="昵称" prop="name">
-                    <el-input v-model="form.name" placeholder="昵称"></el-input>
+                <el-form-item label="昵称" prop="nickname">
+                    <el-input v-model="form.nickname" placeholder="昵称"></el-input>
                 </el-form-item>
                 <el-form-item label="角色" prop="role">
                     <el-select v-model="form.role" placeholder="请选择身份">
@@ -72,9 +75,6 @@
                 </el-form-item>
                 <el-form-item label="邮箱" prop="email">
                     <el-input v-model="form.email" placeholder="邮箱"></el-input>
-                </el-form-item>
-                <el-form-item label="QQ" prop="qq">
-                    <el-input v-model="form.qq" placeholder="QQ"></el-input>
                 </el-form-item>
                 <el-form-item label="微信" prop="wechat">
                     <el-input v-model="form.wechat" placeholder="微信"></el-input>
@@ -103,7 +103,7 @@ export default {
             pageNum: 1, //当前页码
             pageSize: 10, //每页显示的数据个数
             username: '',//绑定查询输入框
-            name: '',//绑定查询输入框
+            nickname: '',//绑定查询输入框
             total: 0, //分页总数，动态获取
             formVisible: false,
             form: {},
@@ -132,7 +132,7 @@ export default {
                     pageNumber: this.pageNum,
                     pageSize: this.pageSize,
                     username: this.username,
-                    name: this.name
+                    nickname: this.nickname
                 }
             }).then(res => {
                 //this.tableData = res.data.records 将后端返回的记录赋值给tableData
@@ -153,13 +153,13 @@ export default {
         },
         reset() {//绑定重置按钮
             this.username = '',
-                this.name = '',
+                this.nickname = '',
                 this.load()
         },
         reacher() {//绑定查询按钮
             this.pageNum = 1,
-                this.pageSize = 10,
-                this.load()
+            this.pageSize = 10,
+            this.load()
         },
         handleAvatarSuccess(response, file, fileList) {//绑定新增用户弹窗里的上传头像按钮
             this.form.avatar = response.data

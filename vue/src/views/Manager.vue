@@ -10,7 +10,7 @@
 
         </div>
         <div style="display: flex; font-size: smaller; justify-content: center;align-items:center;height: 28px;">
-          {{ user.name }}
+          {{ user.nickname }}
         </div>
         <div style="display: flex; font-size: smaller; justify-content: center;align-items:start;height: 28px;">
           <div
