@@ -25,9 +25,6 @@
                 <el-form-item label="邮箱" prop="email">
                     <el-input v-model="user.email" placeholder="邮箱"></el-input>
                 </el-form-item>
-                <el-form-item label="QQ" prop="qq">
-                    <el-input v-model="user.qq" placeholder="QQ"></el-input>
-                </el-form-item>
                 <el-form-item label="微信" prop="wechat">
                     <el-input v-model="user.wechat" placeholder="微信"></el-input>
                 </el-form-item>

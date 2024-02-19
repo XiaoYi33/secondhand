@@ -35,8 +35,8 @@ public class UserService extends ServiceImpl<UserMapper,User>{
         if(StrUtil.isBlank(user.getPassword())){
             user.setPassword(MD5PasswordEncoder.encode("123456"));//新增用户密码为空则默认为123456
         }
-        if(StrUtil.isBlank(user.getName())){
-            user.setName(user.getUsername());//新增用户昵称为空则默认为用户名
+        if(StrUtil.isBlank(user.getNickname())){
+            user.setNickname(user.getUsername());//新增用户昵称为空则默认为用户名
         }
         return super.save(user);
     }

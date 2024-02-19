@@ -22,14 +22,15 @@ public class Product {
     @TableId(type= IdType.AUTO)
     private Integer id;
     private String name;
-    private String detail;
+    private String description;
     private String image;
-    private String createTime;
-    private String updateTime;
-    private String state;
     private Integer categoryId;
     private Double price;
     private Integer quantity;
+    private Integer userId;
+    private String state;
+    private String createTime;
+    private String updateTime;
 
 
 }
