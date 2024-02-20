@@ -99,8 +99,8 @@ public class UserController {
     @GetMapping("selectByPage")
     public Result selectByPage(@RequestParam Integer pageNumber,
                                @RequestParam Integer pageSize,
-                               @RequestParam String username,
-                               @RequestParam String nickname){
+                               @RequestParam(required = false) String username,
+                               @RequestParam(required = false) String nickname){
         QueryWrapper<User> queryWrapper = new QueryWrapper<User>().orderByDesc("id");
         queryWrapper.like(StrUtil.isNotBlank(username),"username",username);
         queryWrapper.like(StrUtil.isNotBlank(nickname),"nickname",nickname);
