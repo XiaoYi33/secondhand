@@ -1,5 +1,7 @@
 package com.example.springboot.controller;
 
+import cn.hutool.Hutool;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springboot.common.Result;
@@ -47,13 +49,19 @@ public class ProductController {
     @GetMapping("/selectByPage")
     public Result selectByPage(@RequestParam Integer pageNumber,
                                @RequestParam Integer pageSize,
-                               @RequestParam String productName,
-                               @RequestParam String productCategory
+                               @RequestParam(required = false) String productName,
+                               @RequestParam(required = false) String productCategory
                                ){
-        Category category = categoryService.getOne(new QueryWrapper<Category>().eq("name", productCategory));
-        Integer categoryId = category.getId();//获取传入productCategory对应的id
+        Integer categoryId=null;
 
-        QueryWrapper<Product> queryWrapper = new QueryWrapper<Product>().orderByDesc("update_time").eq("category_id",categoryId);;
+        if(StrUtil.isNotBlank(productCategory)){
+            Category category = categoryService.getOne(new QueryWrapper<Category>().eq("name", productCategory));
+            categoryId = category.getId();//获取传入productCategory对应的id
+        }
+
+        QueryWrapper<Product> queryWrapper = new QueryWrapper<Product>().orderByDesc("update_time");
+        queryWrapper.eq(StrUtil.isNotBlank(productCategory),"category_id",categoryId);//如传入productCategory为空则不执行
+        queryWrapper.like(StrUtil.isNotBlank(productName),"name", productName);//如传入productName则不执行
 
         Page<Product> page=productService.page(new Page<>(pageNumber,pageSize),queryWrapper);
         return Result.success(page);

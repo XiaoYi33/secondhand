@@ -35,6 +35,7 @@ export default {
             pageNumber: 1,
             pageSize: 24,//一页显示24个商品
             total: 0,
+            
         };
     },
     created() {
@@ -45,7 +46,7 @@ export default {
             this.$request.get('/product/selectByPage', {
                 params: {
                     pageNumber: this.pageNumber,
-                    pageSize: this.pageSize
+                    pageSize: this.pageSize,
                 }
             }).then(res => {
                 this.products = res.data.records,
