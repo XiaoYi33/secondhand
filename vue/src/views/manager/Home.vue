@@ -1,21 +1,97 @@
 <template>
-    <div style="display: flex">
-        <el-card style="width: 50%;margin-right: 10px">
-            <div slot="header" class="clearfix">
-                <span>青哥哥带你做毕设2024</span>
-            </div>
-            <div>
-                2024毕设正式开始了！青哥哥带你手把手敲出来！
-                <div style="margin-top: 20px">
-                    <div style="margin: 10px 0"><strong>主题色</strong></div>
-                    <el-button type="primary">按钮</el-button>
-                    <el-button type="success">按钮</el-button>
-                    <el-button type="warning">按钮</el-button>
-                    <el-button type="danger">按钮</el-button>
-                    <el-button type="info">按钮</el-button>
+    <el-container>
+        <el-main>
+            <el-card :body-style="{ padding: '0px' }" v-for="product in products" :key="product.id"
+                style="float: left; margin-left: 30px ; margin-bottom: 30px; ">
+                <img :src="product.image" class="image">
+                <div style="padding: 14px; width: 250px; ">
+                    <div style="height: 23px; text-overflow: ellipsis; overflow: hidden; font-size: 15px;">{{product.name }}
+                    </div>
+                    <div class="bottom clearfix">
+                        <time class="time">{{ product.updateTime }}</time>
+                        <el-button type="text" class="button" style="color: rgb(25,156,96)">查看</el-button>
+                    </div>
                 </div>
-            </div>
-        </el-card>
+            </el-card>
 
-    </div>
+        </el-main>
+        <el-footer>
+            <el-pagination @current-change="handleCurrentChange" :current-page="pageNumber"
+                :page-sizes="[100, 200, 300, 400]" :page-size="pageSize" layout="total, prev, pager, next" :total="total">
+            </el-pagination>
+        </el-footer>
+
+    </el-container>
 </template>
+
+
+
+<script>
+
+export default {
+    data() {
+        return {
+            products: [],
+            pageNumber: 1,
+            pageSize: 24,//一页显示24个商品
+            total: 0,
+        };
+    },
+    created() {
+        this.load()
+    },
+    methods: {
+        load() {
+            this.$request.get('/product/selectByPage', {
+                params: {
+                    pageNumber: this.pageNumber,
+                    pageSize: this.pageSize
+                }
+            }).then(res => {
+                this.products = res.data.records,
+                    this.total = res.data.total
+            })
+        },
+        handleCurrentChange(pageNumber) {
+            this.pageNumber = pageNumber
+            this.load()
+        },
+    },
+}
+
+
+
+</script>
+<style scoped>
+.time {
+    font-size: 13px;
+    color: #999;
+}
+
+.bottom {
+    margin-top: 5px;
+    line-height: 12px;
+}
+
+.button {
+    padding: 0;
+    float: right;
+}
+
+.image {
+    height: 250px;
+    width: 250px;
+    /* width: 100%; */
+    display: block;
+}
+
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: "";
+}
+
+.clearfix:after {
+    clear: both
+}
+</style>
