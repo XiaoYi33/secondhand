@@ -31,6 +31,12 @@ public class Product {
     private String state;
     private String createTime;
     private String updateTime;
+    private String reason;
+
+    @TableField(exist = false)//数据库不存在这个字段
+    private Category category;
+    @TableField(exist = false)//数据库不存在这个字段
+    private User user;
 
 
 }

@@ -13,8 +13,8 @@
                 <el-form-item label="用户名" prop="username">
                     <el-input v-model="user.username" placeholder="用户名" disabled></el-input>
                 </el-form-item>
-                <el-form-item label="昵称" prop="name">
-                    <el-input v-model="user.name" placeholder="昵称"></el-input>
+                <el-form-item label="昵称" prop="nickname">
+                    <el-input v-model="user.nickname" placeholder="昵称"></el-input>
                 </el-form-item>
                 <el-form-item label="角色" prop="role" v-if="user.role !== '管理员' && user.role !== '站长'">
                     <el-select v-model="user.role" placeholder="请选择身份">

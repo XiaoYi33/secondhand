@@ -67,7 +67,6 @@ public class UserController {
 
     @GetMapping("/selectById/{id}")
     public Result selectById(@PathVariable Integer id){
-        System.out.println("查询的id为" + id);
         User user=userService.getById(id);
         if(user==null){
             return Result.error("查无此人");

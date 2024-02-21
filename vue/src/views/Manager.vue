@@ -30,8 +30,8 @@
               <i class="el-icon-menu"></i>
               <span>分类</span>
             </template>
-            <el-menu-item index="/test1">数码</el-menu-item>
-            <el-menu-item index="/test2">电器</el-menu-item>
+            <el-menu-item index="/digitaDevice">数码</el-menu-item>
+            <el-menu-item index="/electricAppliance">电器</el-menu-item>
             <el-menu-item index="/Furniture">家具</el-menu-item>
             <el-menu-item index="/Books">书籍</el-menu-item>
             <el-menu-item index="">零食</el-menu-item>
