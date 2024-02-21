@@ -42,7 +42,7 @@ public class WebController {
             return Result.error("数据输入不合法");
         }
         //todo：这里可以校验一下输入用户名的规则，前后端一起做校验
-        user = userService.register(user);
+        userService.register(user);
         return Result.success(user);
     }
 
