@@ -3,8 +3,12 @@
         <el-card style="width: 35%; ">
             <el-form :model="user" label-width="80px" style="padding-right: 20px;" :rules="rules">
                 <div style="margin: 15px; text-align: center;">
-                    <el-upload class="avatar-uploader" action="http://localhost:9090/file/upload"
-                        :headers="{ token: user.token }" :show-file-list="false" :before-upload="beforeAvatarUpload"
+                    <el-upload 
+                    class="avatar-uploader" 
+                    action="http://localhost:9090/file/upload"
+                        :headers="{ token: user.token }" 
+                        :show-file-list="false" 
+                        :before-upload="beforeAvatarUpload"
                         :on-success="handleAvatarSuccess">
                         <img v-if="user.avatar" :src="user.avatar" class="avatar">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -34,8 +38,6 @@
                 <el-form-item label="创建时间" prop="createTime">
                     <el-input v-model="user.createTime" placeholder="创建时间" disabled></el-input>
                 </el-form-item>
-                <!-- <el-form-item label="创建时间" prop="create_time">{{ user.create_time }}
-                </el-form-item> -->
                 <div style="text-align: center; margin-bottom: 20px;">
                     <el-button type="primary" @click="update">保存</el-button>
                 </div>

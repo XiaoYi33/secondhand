@@ -10,14 +10,14 @@
                 <el-button type="success" @click="reacher">查询</el-button>
                 <el-button type="info" @click="reset">重置</el-button>
             </div>
-            <!-- <div style="flex:1 right: inherit;">
+            <div style="flex:1 right: inherit;">
                 <el-button type="danger" @click="deleteBatch">批量删除</el-button>
-            </div> -->
+            </div>
         </div>
 
-         <!-- 表格 -->
-         <el-table :data="tableData" stripe @selection-change="handleSelectionChange" >
-            <el-table-column type="selection" width="55" align="center" >
+        <!-- 表格 -->
+        <el-table :data="tableData" stripe @selection-change="handleSelectionChange">
+            <el-table-column type="selection" width="55" align="center">
             </el-table-column>
             <el-table-column prop="id" label="ID" align="center" width="55"></el-table-column>
             <el-table-column prop="name" label="商品名称" align="center"></el-table-column>
@@ -26,13 +26,13 @@
                     <el-image style="width: 70px; height: 70px;" v-if="scope.row.image" :src="scope.row.image" :preview-src-list="[scope.row.image]"></el-image>
                 </template>
             </el-table-column>
-            <el-table-column prop="category.name" label="类别" align="center" ></el-table-column>
+            <el-table-column prop="category.name" label="类别" align="center"></el-table-column>
             <el-table-column prop="price" label="价格" align="center"></el-table-column>
             <el-table-column prop="user.username" label="用户名" align="center"></el-table-column>
-            <el-table-column prop="state" label="状态" align="center" ></el-table-column>
+            <el-table-column prop="state" label="状态" align="center"></el-table-column>
             <el-table-column label="操作" align="center" width="180px">
                 <template v-slot="scope">
-                    <el-button type="success" plain @click="handleCheck(scope.row)" >查看</el-button>
+                    <el-button type="success" plain @click="handleCheck(scope.row)">查看</el-button>
                     <el-button type="danger" plain @click="handleDelete(scope.row.id)">删除</el-button>
                 </template>
             </el-table-column>
@@ -45,22 +45,38 @@
             </el-pagination>
         </div>
         <!-- 查看商品弹出对话框 -->
-        <el-dialog title="" :visible.sync="formVisible" width="30%">
-            <el-form :model="form" label-width="80px" style="padding-right: 20px;" >
-              <el-form-item label="商品名称" prop="name">{{ form.name }}</el-form-item>
-              <el-form-item label="状态" prop="state">{{ form.state }}</el-form-item>
-              <el-form-item label="用户名" prop="user">{{ form.user.username }}</el-form-item>
-              <el-form-item label="商品描述" prop="description">{{ form.description }}</el-form-item>
-              <el-form-item label="价格" prop="price">{{ form.price }}</el-form-item>
-              <el-form-item label="创建时间" prop="createTime">{{ form.createTime }}</el-form-item>
-              <el-form-item label="更新时间" prop="updateTime">{{ form.updateTime }}</el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer" style="text-align:center">
-                <el-button type="warning" @click="takeDown()">下架</el-button>
-                <el-button @click="formVisible = false">取 消</el-button>
+        <el-dialog title="查看商品" :visible.sync="formVisible" width="70%">
+            <div style="display: flex; align-items: center; justify-content: center; ">
+                <div style="text-align: center; width: 60%; height: 100%;">
+                    <el-image style="height: 100%; width: 100%;" :src="form.image" fit="cover"
+                        :preview-src-list="[form.image]"></el-image>
+                </div>
+                <div style="width: 40%; padding-left: 5%;">
+                    <el-form :model="form">
+                        <el-form-item label="名称：">{{ form.name }}</el-form-item>
+                        <el-form-item label="状态：">{{ form.state }}</el-form-item>
+                        <el-form-item label="分类：">{{ form.category.name }}</el-form-item>
+                        <el-form-item label="描述：">{{ form.description }}</el-form-item>
+                        <el-form-item label="价格：">{{ form.price }}</el-form-item>
+                        <el-form-item label="用户名：">{{ form.user.username }}</el-form-item>
+                        <el-form-item v-if="form.reason" label="下架原因：">{{ form.reason }}</el-form-item>
+                        <el-form-item label="创建时间：">{{ form.createTime }}</el-form-item>
+                        <el-form-item label="更新时间：">{{ form.updateTime }}</el-form-item>
+                    </el-form>
+                    <el-button v-if="form.state !== '下架'" type="warning" style="width: 80%;"
+                        @click="takeDownDialogVisible = true">下架</el-button>
+                </div>
             </div>
         </el-dialog>
-        
+
+        <!-- 下架商品弹出对话框 -->
+        <el-dialog title="确认下架" :visible.sync="takeDownDialogVisible" width="30%">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <el-input v-model="form.reason" placeholder="请输入下架原因" style="margin-right: 5px;"  maxlength="40" show-word-limit></el-input>
+                <el-button type="warning" @click="takeDown" style="margin-left: auto;">提交</el-button>
+            </div>
+        </el-dialog>
+
     </div>
 </template>
 
@@ -78,13 +94,17 @@ export default {
             pageNum: 1, //当前页码
             pageSize: 10, //每页显示的数据个数
             total: 0, //分页总数，动态获取
-            form:{
-                user:{
-                    username:''
+            form: {
+                user: {
+                    username: ''
+                },
+                category: {
+                    name: ''
                 }
             },//绑定编辑商品对话框，
-            formVisible:false,//绑定编辑商品对话框,true则弹出对话框
-            
+            formVisible: false,//绑定编辑商品对话框,true则弹出对话框
+            takeDownDialogVisible: false,//确认下架对话框
+
 
         }
     },
@@ -94,7 +114,7 @@ export default {
     methods: {
         //方法
         load() {
-            this.$request.get('/product/selectByParams', {
+            this.$request.get('/admin/product/selectByParams', {
                 params: {
                     pageNumber: this.pageNum,
                     pageSize: this.pageSize,
@@ -106,6 +126,7 @@ export default {
                 this.tableData = res.data.records
                 this.total = res.data.total
             });
+            
 
         },
         reacher() {//绑定查询按钮
@@ -125,7 +146,7 @@ export default {
         },
         handleDelete(id) {//绑定删除按钮
             this.$confirm('是否确认删除商品', '确认删除', { type: "warning" }).then(res => {
-                this.$request.delete('/product/delete/' + id).then(res => {
+                this.$request.delete('/admin/product/delete/' + id).then(res => {
                     if (res.code === '200') {
                         this.$message.success('删除成功')
                         this.load()
@@ -142,20 +163,51 @@ export default {
         },
         handleCheck(row) {//绑定查看按钮
             this.form = JSON.parse(JSON.stringify(row)) //给form对象赋值，深拷贝数据
-            console.log(this.form.user.username)
             this.formVisible = true //打开弹窗
         },
-        
+
         handleAvatarSuccess(response, file, fileList) {//绑定编辑商品弹窗里的上传图片按钮
             this.form.avatar = response.data
         },
-        takeDown(){
+        takeDown() {//绑定查看商品对话框的下架按钮
+            if(!this.form.reason){
+                this.$message.error('原因不能为空')
+                return 
+            }
+            //更新数据库当前商品信息
+            this.form.state = "下架"
+            
+            this.$request.put('/admin/product/update', this.form).then(res => {
+                if (res.code === '200') {
+                    this.$message.success('下架成功')
+                    this.formVisible = false
+                    this.takeDownDialogVisible = false
+                    this.load()
+                } else {
+                    this.$message.error(res.msg)
+                }
+            })
+        },
+        deleteBatch(ids) {//绑定批量删除按钮
+            if (!this.ids.length) {//当id数组为空时提示
+                this.$message.warning("请选择数据")
+                return
+            }
+            this.$confirm('是否确认批量删除商品', '确认删除', { type: "warning" }).then(res => {
+                this.$request.delete('/admin/product/delete/batch', { data: this.ids }).then(res => {
+                    if (res.code === '200') {
+                        this.$message.success('删除成功')
+                        this.load()
+                    } else {
+                        this.$message.error(res.msg)
+                    }
+                })
 
+            }).catch(() => { })
         },
 
     }
 }
 </script>
  
-<style scoped>
-</style>
+<style scoped></style>

@@ -127,7 +127,7 @@ export default {
     },
     methods: {
         load() {
-            this.$request.get('/user/selectByPage', {
+            this.$request.get('/admin/user/selectByPage', {
                 params: {
                     pageNumber: this.pageNum,
                     pageSize: this.pageSize,
@@ -135,7 +135,6 @@ export default {
                     nickname: this.nickname
                 }
             }).then(res => {
-                //this.tableData = res.data.records 将后端返回的记录赋值给tableData
                 this.tableData = res.data.records.map(item => {//在后端数据原有的基础上多加disabled属性，用来判断多选框是否可以被选中
                     return {
                         ...item,
@@ -143,9 +142,7 @@ export default {
                     }
                 })
                 this.total = res.data.total
-
             });
-
         },
         handleCurrentChange(pageNum) {
             this.pageNum = pageNum
@@ -168,7 +165,7 @@ export default {
             this.$refs.formRef.validate((valid) => {
                 if (valid) {
                     this.$request({
-                        url: this.form.id ? '/user/update' : '/user/add',
+                        url: this.form.id ? '/admin/user/update' : '/admin/user/add',
                         method: this.form.id ? 'PUT' : 'POST',
                         data: this.form
                     }).then(res => {
@@ -186,7 +183,6 @@ export default {
         handleAdd() {//绑定新增按钮
             this.form = {}//新增数据时清空数据
             this.formVisible = true//打开新增用户弹窗
-
         },
         handleEdit(row) {//绑定编辑按钮
             this.form = JSON.parse(JSON.stringify(row)) //给form对象赋值，深拷贝数据
@@ -194,7 +190,7 @@ export default {
         },
         handleDelete(id) {
             this.$confirm('是否确认删除用户', '确认删除', { type: "warning" }).then(res => {
-                this.$request.delete('/user/delete/' + id).then(res => {
+                this.$request.delete('/admin/user/delete/' + id).then(res => {
                     if (res.code === '200') {
                         this.$message.success('删除成功')
                         this.load()
@@ -215,7 +211,7 @@ export default {
                 return
             }
             this.$confirm('是否确认批量删除用户', '确认删除', { type: "warning" }).then(res => {
-                this.$request.delete('/user/delete/batch', { data: this.ids }).then(res => {
+                this.$request.delete('/admin/user/delete/batch', { data: this.ids }).then(res => {
                     if (res.code === '200') {
                         this.$message.success('删除成功')
                         this.load()

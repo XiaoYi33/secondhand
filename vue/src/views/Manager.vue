@@ -67,7 +67,7 @@
         <!--        头部区域-->
         <el-header>
           <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-left: 20px">
-            <el-breadcrumb-item :to="{ path: '/home' }">培正校园二手交易网</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/home' }">校园二手交易网</el-breadcrumb-item>
             <el-breadcrumb-item :to="{ path: $route.path }">{{ $route.meta.name }}</el-breadcrumb-item>
           </el-breadcrumb>
         </el-header>
@@ -159,7 +159,7 @@ export default {
 .el-aside {
   transition: width .3s;
   /* box-shadow: 2px 0 6px rgba(0, 21, 41, .35); */
-  box-shadow: 2px 0 6px rgb(242, 241, 246);
+  box-shadow: 6px 0 6px rgb(242, 241, 246);
 }
 
 .logo-title {
