@@ -27,4 +27,5 @@ public class ProductService extends ServiceImpl<ProductMapper,Product> {
     public Product getById(Serializable id) {
         return super.getById(id);
     }
+
 }

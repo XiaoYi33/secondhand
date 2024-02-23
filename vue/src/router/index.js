@@ -16,6 +16,7 @@ const routes = [
     redirect: '/home', //重定向到主页
     children: [
       { path: 'home', name: 'Home', meta: { name: '首页' }, component: () => import('../views/manager/Home') },
+      { path: 'productDetail', name: 'ProductDetail', meta: { name: '商品详情' }, component: () => import('../views/manager/ProductDetail') },
       { path: 'digitaDevice', name: 'DigitaDevice', meta: { name: '数码' }, component: () => import('../views/manager/DigitaDevice') },
       { path: 'user', name: 'User', meta: { name: '用户管理' }, component: () => import('../views/manager/User') },
       { path: 'product', name: 'Product', meta: { name: '商品管理' }, component: () => import('../views/manager/Product') },
