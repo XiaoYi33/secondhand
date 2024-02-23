@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * author HKX
@@ -41,7 +42,8 @@ public class ProductController {
     }
 
     @GetMapping("/selectById/{id}")
-    public Result selectByid(@PathVariable Integer id){
+    public Result selectById(@PathVariable Integer id){
+
         Product product = productService.getById(id);
         if(product==null){
             return Result.error("查无此商品");
@@ -51,6 +53,33 @@ public class ProductController {
             return Result.success(product);
         }
     }
+
+
+    /**
+     * 查询单个商品，给ProductDetail.vue用（还没用）
+     * @param id
+     * @return
+     */
+    @GetMapping("/selectProductDetailById/{id}")
+    public Result selectProductDetailById(@PathVariable Integer id){
+        Map product=productService.selectProductDetailById(id);
+        return Result.success(product);
+    }
+
+    /**
+     * 代替selectByPage，还没开发完
+     * @param pageNumber
+     * @param pageSize
+     * @return
+     */
+    @GetMapping("/selectProductsByPage")
+    public Result selectProductsByPage(@RequestParam Integer pageNumber,
+                                       @RequestParam Integer pageSize){
+        Map productsMap=productService.selectProductsByPage();
+        return Result.success(productsMap);
+
+    }
+
 
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable Integer id){

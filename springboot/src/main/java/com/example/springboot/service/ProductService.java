@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * author HKX
@@ -23,9 +24,13 @@ public class ProductService extends ServiceImpl<ProductMapper,Product> {
     private ProductMapper productMapper;
 
 
-    @Override
-    public Product getById(Serializable id) {
-        return super.getById(id);
+    public Map selectProductDetailById(Integer id) {
+        Map productMap = productMapper.queryDetailMap(id);
+        return productMap;
     }
 
+    public Map selectProductsByPage() {
+        Map productsMap=productMapper.selectProductsByPage();
+        return productsMap;
+    }
 }
