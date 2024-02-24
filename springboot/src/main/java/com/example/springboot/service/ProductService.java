@@ -8,8 +8,10 @@ import com.example.springboot.common.Result;
 import com.example.springboot.entity.Product;
 import com.example.springboot.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -20,7 +22,7 @@ import java.util.Map;
  **/
 @Service
 public class ProductService extends ServiceImpl<ProductMapper,Product> {
-    @Autowired
+    @Resource
     private ProductMapper productMapper;
 
 
