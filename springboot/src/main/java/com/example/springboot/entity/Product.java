@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 /**
  * author HKX
  * date: 2024-02-19 00:25
@@ -29,7 +31,7 @@ public class Product {
     private Integer quantity;
     private Integer userId;
     private String state;
-    private String createTime;
+    private String  createTime;
     private String updateTime;
     private String reason;
 

@@ -1,6 +1,5 @@
 package com.example.springboot.controller;
 
-import cn.hutool.Hutool;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -15,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * author HKX
@@ -42,7 +42,8 @@ public class ProductController {
     }
 
     @GetMapping("/selectById/{id}")
-    public Result selectByid(@PathVariable Integer id){
+    public Result selectById(@PathVariable Integer id){
+
         Product product = productService.getById(id);
         if(product==null){
             return Result.error("查无此商品");
@@ -53,9 +54,29 @@ public class ProductController {
         }
     }
 
+
+    /**
+     * 查询单个商品，给ProductDetail.vue用（还没用）
+     * @param id
+     * @return
+     */
+    @GetMapping("/selectProductDetailById/{id}")
+    public Result selectProductDetailById(@PathVariable Integer id){
+        Map product=productService.selectProductDetailById(id);
+        return Result.success(product);
+    }
+
+
+
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable Integer id){
         productService.removeById(id);
+        return Result.success();
+    }
+
+    @PostMapping("/add")
+    public Result add(@RequestBody Product product){
+        productService.save(product);
         return Result.success();
     }
 
@@ -84,49 +105,16 @@ public class ProductController {
         queryWrapper.like(StrUtil.isNotBlank(productName),"name", productName);//如传入productName则不执行
         queryWrapper.eq("state","上架");
         Page<Product> page=productService.page(new Page<>(pageNumber,pageSize),queryWrapper);
-        return Result.success(page);
-
-    }
-
-    /**
-     * 通过用户名、用户昵称、商品ID、商品名来查询
-     * 给商品管理页使用
-     * @param pageNumber
-     * @param pageSize
-     * @param productId
-     * @param productName
-     * @param username
-     * @return
-     */
-
-    @GetMapping("/selectByParams")
-    public Result selectByParams(@RequestParam Integer pageNumber,
-                                 @RequestParam Integer pageSize,
-                                 @RequestParam(required = false) Integer productId,
-                                 @RequestParam(required = false) String productName,
-                                 @RequestParam(required = false) String username
-                                 ){
-
-        QueryWrapper<Product> productQueryWrapper = new QueryWrapper<>();
-        productQueryWrapper.orderByDesc("id");
-        productQueryWrapper.eq(productId!=null,"id",productId);
-        productQueryWrapper.like(StrUtil.isNotBlank(productName),"name",productName);
-
-        if(StrUtil.isNotBlank(username)){
-            User user = userService.getOne(new QueryWrapper<User>().eq("username",username));
-            if(user!=null){
-                productQueryWrapper.eq("user_id",user.getId());
-            }
-        }
-        Page<Product> page=productService.page(new Page<>(pageNumber,pageSize),productQueryWrapper);
 
         for(Product product:page.getRecords()){
             product.setUser(userService.getOne(new QueryWrapper<User>().eq("id",product.getUserId())));
             product.setCategory(categoryService.getOne(new QueryWrapper<Category>().eq("id",product.getCategoryId())));
         }
-
+        
         return Result.success(page);
 
     }
+
+
 
 }
