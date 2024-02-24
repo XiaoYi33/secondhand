@@ -9,5 +9,4 @@ public interface ProductMapper extends BaseMapper<Product> {
 
     Map queryDetailMap(Integer id);
 
-    Map selectProductsByPage();
 }

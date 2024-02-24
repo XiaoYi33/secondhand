@@ -33,13 +33,13 @@ public class AdminProductController {
     private UserService userService;
 
     /**
-     * 更新商品信息
+     * 更新商品信息，主要用在下架商品
      * @param product
      * @return
      */
     @PutMapping("/update")
     public Result update(@RequestBody Product product){
-//        product.setUpdateTime(LocalDateTimeUtil.format(LocalDateTimeUtil.now(), "yyyy-MM-dd HH:mm:ss"));//更新商品的update_time
+        product.setUpdateTime(LocalDateTimeUtil.format(LocalDateTimeUtil.now(), "yyyy-MM-dd HH:mm:ss"));//更新商品的update_time
         productService.updateById(product);
         return Result.success();
     }

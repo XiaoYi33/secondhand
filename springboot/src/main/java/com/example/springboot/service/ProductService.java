@@ -29,8 +29,4 @@ public class ProductService extends ServiceImpl<ProductMapper,Product> {
         return productMap;
     }
 
-    public Map selectProductsByPage() {
-        Map productsMap=productMapper.selectProductsByPage();
-        return productsMap;
-    }
 }
