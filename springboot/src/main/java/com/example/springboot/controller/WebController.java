@@ -42,13 +42,12 @@ public class WebController {
             return Result.error("数据输入不合法");
         }
         //todo：这里可以校验一下输入用户名的规则，前后端一起做校验
-        userService.register(user);
+        user = userService.register(user);
         return Result.success(user);
     }
 
     /**
      * 重置密码
-     * @return
      */
     @AuthAccess
     @PutMapping("/resetPassword")

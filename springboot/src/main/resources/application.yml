@@ -7,7 +7,7 @@ server:
 #    url: jdbc:mysql://localhost:3306/honey2024?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2b8
 #    username: "root"
 #    password: "123456"
-#
+
 #远程数据库
 spring:
   datasource:
@@ -22,13 +22,6 @@ spring:
       max-file-size: 5MB #控制上传文件大小
 
 ip: 47.236.125.77
-
-#mybatis-plus:
-#  config-location: classpath:mybatis-config.xml
-#  mapper-locations: classpath:/mapper/*.xml  # Mapper XML 文件的位置
-#  type-aliases-package: com.example.springboot.entity  # 实体类的包路径
-#  configuration:
-#    map-underscore-to-camel-case: true
 
 
 
