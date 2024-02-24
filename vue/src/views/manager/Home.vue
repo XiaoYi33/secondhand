@@ -6,7 +6,7 @@
                 <el-image :src="product.image" lazy style="width: 250px; height: 250px;"></el-image>
                 <div style="padding: 14px; width: 250px; ">
                     <div
-                        style="height: 30px; text-overflow: ellipsis; overflow: hidden; font-size: 18px; font-weight: bold;">
+                        style="height: 29px; text-overflow: ellipsis; overflow: hidden; font-size: 18px; font-weight: bold;">
                         {{ product.name
                         }}
                     </div>
@@ -23,9 +23,9 @@
                             <el-image :src="product.user.avatar" lazy
                                 style="width: 40px; height: 40px; border-radius: 50%; border: 10px;"></el-image>
                         </div>
-                        <div style=";">
+                        <div>
                             <div style="height: 50%; font-size: 12px; color:rgb(122,122,122) ;">{{product.user.nickname}}</div>
-                            <div style="height: 50%; font-size: 12px; color: rgb(190,190,190);">{{product.updateTime}}</div>
+                            <div style="height: 50%; font-size: 12px; color: rgb(190,190,190);">发布于{{product.updateTime}}</div>
                         </div>
                     </div>
                 </div>
@@ -41,13 +41,13 @@
 
         <!-- 发布商品按钮 -->
         <el-button type="success" class="floating-button" icon="el-icon-plus" @click="publishDialogVisible = true"
-            circle></el-button>
+            round>发布</el-button>
 
         <!-- 发布商品对话框 -->
         <el-dialog title="发布商品" :visible.sync="publishDialogVisible" width="35%">
             <el-form :model="form" style="padding-right: 20px;" label-width="80px" :rules="rules" ref="formRef">
                 <el-form-item label="名称" prop="name">
-                    <el-input v-model="form.name" maxlength="14" show-word-limit></el-input>
+                    <el-input v-model="form.name" maxlength="12" show-word-limit></el-input>
                 </el-form-item>
                 <el-form-item label="类别" prop="categoryId">
                     <el-select v-model="form.categoryId">
@@ -58,7 +58,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="描述" prop="description">
-                    <el-input v-model="form.description" type="textarea" maxlength="100" show-word-limit></el-input>
+                    <el-input v-model="form.description" type="textarea" maxlength="400" show-word-limit></el-input>
                 </el-form-item>
                 <el-form-item label="价格" prop="price">
                     <el-input v-model="form.price"></el-input>
@@ -107,9 +107,6 @@ export default {
                 price: [
                     { required: true, message: '请输入商品价格', trigger: 'blur' },
                 ],
-                // image: [
-                //     { required: true, message: '请上传商品图片', trigger: 'blur' },
-                // ],
 
             },
 
@@ -232,8 +229,8 @@ export default {
     bottom: 8%;
     right: 4%;
     z-index: 999;
-    height: 50px;
-    width: 50px;
+    /* height: 50px;
+    width: 50px; */
     box-shadow: 1px 1px 6px rgb(242, 241, 246);
 
 }

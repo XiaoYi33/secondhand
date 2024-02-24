@@ -26,8 +26,8 @@
 
 
     <select id="queryDetailMap" resultType="map">
-        select p.*,u.nickname user_nickname,u.avatar user_avatar
-        from product p inner join user u on p.user_id=u.id where p.id=#{id}
+        select p.*,u.nickname user_nickname,u.avatar user_avatar,c.name category_name
+        from product p inner join user u inner join category c on p.user_id=u.id and p.category_id=c.id where p.id=#{id}
     </select>
 
 
