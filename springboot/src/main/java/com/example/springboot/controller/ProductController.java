@@ -66,19 +66,6 @@ public class ProductController {
         return Result.success(product);
     }
 
-    /**
-     * 代替selectByPage，还没开发完
-     * @param pageNumber
-     * @param pageSize
-     * @return
-     */
-    @GetMapping("/selectProductsByPage")
-    public Result selectProductsByPage(@RequestParam Integer pageNumber,
-                                       @RequestParam Integer pageSize){
-        Map productsMap=productService.selectProductsByPage();
-        return Result.success(productsMap);
-
-    }
 
 
     @DeleteMapping("/delete/{id}")

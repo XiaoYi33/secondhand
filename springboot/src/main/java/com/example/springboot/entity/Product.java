@@ -31,8 +31,8 @@ public class Product {
     private Integer quantity;
     private Integer userId;
     private String state;
-    private LocalDateTime  createTime;
-    private LocalDateTime updateTime;
+    private String  createTime;
+    private String updateTime;
     private String reason;
 
     @TableField(exist = false)//数据库不存在这个字段
