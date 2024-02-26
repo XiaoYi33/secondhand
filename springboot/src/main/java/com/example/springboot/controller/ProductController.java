@@ -10,6 +10,7 @@ import com.example.springboot.entity.User;
 import com.example.springboot.service.CategoryService;
 import com.example.springboot.service.ProductService;
 import com.example.springboot.service.UserService;
+import com.example.springboot.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,22 @@ public class ProductController {
         return  Result.success(productList);
     }
 
+    /**
+     * 更新商品接口，用在myProducts.vue
+     * @param product
+     * @return
+     */
+    @PutMapping("/update")
+    public Result update(@RequestBody Product product){
+        User currentUser = TokenUtils.getCurrentUser();//获取传进token的用户id
+        if(product.getUserId()!=currentUser.getId()){//将当前用户id和商品的用户id进行比较
+            return Result.error("无法编辑他人商品");
+        }
+        productService.updateById(product);
+        return Result.success();
+
+    }
+
     @GetMapping("/selectById/{id}")
     public Result selectById(@PathVariable Integer id){
 
@@ -67,9 +84,18 @@ public class ProductController {
     }
 
 
-
+    /**
+     * 根据ID删除商品，用在myProducts.vue
+     * @param id
+     * @return
+     */
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable Integer id){
+        User currentUser = TokenUtils.getCurrentUser();//获取传进token的用户id
+        Product product = productService.getById(id);
+        if(product.getUserId()!=currentUser.getId()){//将当前用户id和商品的用户id进行比较
+            return Result.error("无法删除他人商品");
+        }
         productService.removeById(id);
         return Result.success();
     }
@@ -113,6 +139,39 @@ public class ProductController {
         
         return Result.success(page);
 
+    }
+
+    @GetMapping("/selectProductsByUserId")
+    public Result selectProductsByUserId(@RequestParam Integer pageNumber,
+                                         @RequestParam Integer pageSize,
+                                         @RequestParam Integer userId,
+                                         @RequestParam String productState){
+        QueryWrapper<Product> productQueryWrapper = new QueryWrapper<>();
+        productQueryWrapper.eq("user_id",userId);
+        productQueryWrapper.eq("state",productState);
+        Page<Product> page=productService.page(new Page<>(pageNumber,pageSize),productQueryWrapper);
+        for(Product product:page.getRecords()){
+            product.setCategory(categoryService.getOne(new QueryWrapper<Category>().eq("id",product.getCategoryId())));
+        }
+        return Result.success(page);
+    }
+
+
+    /**
+     * 用户商品下架接口，用于myProducts.vue
+     * @return
+     */
+    @PutMapping("/takeDown")
+    public Result takeDown(@RequestParam Integer productId){
+        User currentUser = TokenUtils.getCurrentUser();//获取传进token的用户id
+        Product product = productService.getById(productId);
+        if(product.getUserId()!=currentUser.getId()){//将当前用户id和商品的用户id进行比较
+            return Result.error("无法编辑他人商品");
+        }
+        product.setState("下架");
+        product.setReason("用户下架");
+        productService.updateById(product);
+        return Result.success();
     }
 
 
