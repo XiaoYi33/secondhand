@@ -5,7 +5,7 @@
             <div style="flex: 1; padding: 10px 20px 0 10px; box-shadow: 0 3px 12px 0 rgba(0,0,0,.1) !important; background-color: #fff;">
                 <!-- 左边：返回按钮+商品名 -->
                 <div>
-                    <el-button icon="el-icon-arrow-left" round style="border:0px; height: 50px; margin-right: 5px;"
+                    <el-button class="button" icon="el-icon-arrow-left" round style="border:0px; height: 50px; margin-right: 5px;"
                         @click="goback">返回</el-button><span style="font-weight: bold;">{{ form.name }}</span>
                 </div>
 
@@ -100,5 +100,9 @@ export default {
 }
 .el-card{
     box-shadow: none;
+}
+.button:hover{
+    background-color: rgba(0,0,0,.1);
+    color: #fff;
 }
 </style>

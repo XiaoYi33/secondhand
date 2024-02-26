@@ -1,5 +1,6 @@
 <template>
-    <el-container v-if="products">
+    <el-container v-if="products!==null">
+        <!-- 商品卡片 -->
         <el-main >
             <el-card :body-style="{ padding: '0px' }" v-for="product in products" :key="product.id"
                 style="float: left; margin-left: 30px ; margin-bottom: 30px; ">
@@ -17,8 +18,9 @@
                         <el-button type="text" class="button" style="color: rgb(25,156,96)"
                             @click="check(product.id)">查看</el-button>
                     </div>
-                    <hr style="border-color: rgb(242,241,246);">
-                    <div style="padding-top: 1%;display: flex;">
+                    <!-- <hr style="border-color: rgb(242,241,246);"> -->
+                    <el-divider></el-divider>
+                    <div style=";display: flex;">
                         <div style="width: 50px;">
                             <el-image :src="product.user.avatar" lazy
                                 style="width: 40px; height: 40px; border-radius: 50%; border: 10px;"></el-image>
@@ -30,8 +32,9 @@
                     </div>
                 </div>
             </el-card>
-
         </el-main>
+
+        <!-- 分页器 -->
         <el-footer>
             <el-pagination @current-change="handleCurrentChange" :current-page="pageNumber" :page-size="pageSize"
                 layout="total, prev, pager, next" :total="total">
@@ -243,5 +246,8 @@ export default {
 .el-button--success:hover {
     background-color: rgb(31, 173, 109);
     border-color: rgb(31, 173, 109);
+}
+.el-divider--horizontal{
+    margin: 6px 0;
 }
 </style>
