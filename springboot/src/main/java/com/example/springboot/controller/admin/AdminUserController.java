@@ -4,7 +4,11 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springboot.common.Result;
+import com.example.springboot.entity.Product;
+import com.example.springboot.entity.Transaction;
 import com.example.springboot.entity.User;
+import com.example.springboot.service.ProductService;
+import com.example.springboot.service.TransactionService;
 import com.example.springboot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -23,6 +27,10 @@ import java.util.List;
 public class AdminUserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private ProductService productService;
+    @Autowired
+    private TransactionService transactionService;
 
     /**
      * 查询所有用户
@@ -85,6 +93,8 @@ public class AdminUserController {
      */
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable Integer id){
+        productService.deleteByUserId(id);
+        transactionService.deleteByUserId(id);
         userService.removeById(id);
         return Result.success();
     }
@@ -96,6 +106,10 @@ public class AdminUserController {
      */
     @DeleteMapping("/delete/batch")
     public Result batchDelete(@RequestBody List<Integer> ids){
+        for(Integer id:ids){
+            productService.deleteByUserId(id);
+            transactionService.deleteByUserId(id);
+        }
         userService.removeBatchByIds(ids);
         return Result.success();
     }

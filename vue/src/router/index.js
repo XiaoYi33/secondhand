@@ -17,14 +17,21 @@ const routes = [
     children: [
       { path: 'home', name: 'Home', meta: { name: '首页' }, component: () => import('../views/manager/Home') },
       { path: 'productDetail', name: 'ProductDetail', meta: { name: '商品详情' }, component: () => import('../views/manager/ProductDetail') },
-      { path: 'digitaDevice', name: 'DigitaDevice', meta: { name: '数码' }, component: () => import('../views/manager/DigitaDevice') },
-      { path: 'user', name: 'User', meta: { name: '用户管理' }, component: () => import('../views/manager/User') },
-      { path: 'product', name: 'Product', meta: { name: '商品管理' }, component: () => import('../views/manager/Product') },
       { path: '403', name: 'Auth', meta: { name: '无权限' }, component: () => import('../views/manager/Auth') },
-      { path: 'person', name: 'Person', meta: { name: '个人信息' }, component: () => import('../views/manager/Person') },
-      { path: 'password', name: 'Password', meta: { name: '修改密码' }, component: () => import('../views/manager/Password') },
-      { path: 'MyProducts', name: 'myProducts', meta: { name: '我发布的' }, component: () => import('../views/manager/MyProducts') },
-      { path: 'test', name: 'test', meta: { name: '测试' }, component: () => import('../views/manager/test') },
+
+      { path: 'digitaDevice', name: 'DigitaDevice', meta: { name: '数码' }, component: () => import('../views/manager/category/DigitaDevice') },
+      { path: 'appliance', name: 'Appliance', meta: { name: '电器' }, component: () => import('../views/manager/category/Appliance') },
+      { path: 'furniture', name: 'Furniture', meta: { name: '家具' }, component: () => import('../views/manager/category/Furniture') },
+      { path: 'books', name: 'Books', meta: { name: '书籍' }, component: () => import('../views/manager/category/Books') },
+      { path: 'snacks', name: 'Snacks', meta: { name: '零食' }, component: () => import('../views/manager/category/Snacks') },
+
+      { path: 'user', name: 'User', meta: { name: '用户管理' }, component: () => import('../views/manager/admintools/User') },
+      { path: 'product', name: 'Product', meta: { name: '商品管理' }, component: () => import('../views/manager/admintools/Product') },
+      { path: 'transaction', name: 'Transaction', meta: { name: '订单管理' }, component: () => import('../views/manager/admintools/Transaction') },
+
+      { path: 'person', name: 'Person', meta: { name: '个人信息' }, component: () => import('../views/manager/personal center/Person') },
+      { path: 'password', name: 'Password', meta: { name: '修改密码' }, component: () => import('../views/manager/personal center/Password') },
+      { path: 'MyProducts', name: 'myProducts', meta: { name: '我发布的' }, component: () => import('../views/manager/personal center/MyProducts') },
     ]
   },
   { path: '/login', name: 'Login', meta: { name: '登录' }, component: () => import('../views/Login.vue') },
@@ -40,7 +47,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   // to是到达路由信息，from是来源的路由信息，next是帮助我们跳转路由的函数 
-  let adminPaths = ['/user', '/product']
+  let adminPaths = ['/user', '/product','/order']
   let user = JSON.parse(localStorage.getItem('SecondHand-User') || '{}')
   if (user.role !== '管理员' && adminPaths.includes(to.path)) {
     //如果当前登录的用户不是管理员， 然后当前的到达路径是管理员才能权限访问的路径，这时就让用户去到一个没有权限的页面，不访问实际的页面

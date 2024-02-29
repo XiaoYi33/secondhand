@@ -1,7 +1,9 @@
 package com.example.springboot.controller;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.springboot.common.Result;
 import com.example.springboot.entity.Category;
@@ -53,11 +55,13 @@ public class ProductController {
         if(product.getUserId()!=currentUser.getId()){//将当前用户id和商品的用户id进行比较
             return Result.error("无法编辑他人商品");
         }
+        product.setUpdateTime(LocalDateTimeUtil.format(LocalDateTimeUtil.now(), "yyyy-MM-dd HH:mm:ss"));//更新商品的update_time
         productService.updateById(product);
         return Result.success();
 
     }
 
+    @Deprecated
     @GetMapping("/selectById/{id}")
     public Result selectById(@PathVariable Integer id){
 
@@ -73,7 +77,7 @@ public class ProductController {
 
 
     /**
-     * 查询单个商品，给ProductDetail.vue用（还没用）
+     * 查询单个商品，给ProductDetail.vue用
      * @param id
      * @return
      */
@@ -111,8 +115,11 @@ public class ProductController {
      * 先通过的categoryService查到对应的分类ID，再一起通过productService查到对应商品
      *
      * 给主页和搜索框用
+     *
+     * 已废弃
      * @return
      */
+    @Deprecated
     @GetMapping("/selectByPage")
     public Result selectByPage(@RequestParam Integer pageNumber,
                                @RequestParam Integer pageSize,
@@ -141,18 +148,38 @@ public class ProductController {
 
     }
 
+    /**
+     * 代替/selectByPage接口，用在home.vue和Manager.vue的搜索框
+     * @param pageNumber
+     * @param pageSize
+     * @param productName
+     * @param productCategory
+     * @return
+     */
+    @GetMapping("/selectProductsByPage")
+    public Result selectProductsByPage(@RequestParam Integer pageNumber,
+                                 @RequestParam Integer pageSize,
+                                 @RequestParam(required = false) String productName,
+                                 @RequestParam(required = false) String productCategory){
+        IPage<Map> page = productService.selectPageByNameOrCategory(pageNumber, pageSize, productName, productCategory);
+        return Result.success(page);
+    }
+
+
+    /**
+     * 根据用户Id查商品，用在myProducts.vue
+     * @param pageNumber
+     * @param pageSize
+     * @param userId
+     * @param productState
+     * @return
+     */
     @GetMapping("/selectProductsByUserId")
     public Result selectProductsByUserId(@RequestParam Integer pageNumber,
                                          @RequestParam Integer pageSize,
                                          @RequestParam Integer userId,
                                          @RequestParam String productState){
-        QueryWrapper<Product> productQueryWrapper = new QueryWrapper<>();
-        productQueryWrapper.eq("user_id",userId);
-        productQueryWrapper.eq("state",productState);
-        Page<Product> page=productService.page(new Page<>(pageNumber,pageSize),productQueryWrapper);
-        for(Product product:page.getRecords()){
-            product.setCategory(categoryService.getOne(new QueryWrapper<Category>().eq("id",product.getCategoryId())));
-        }
+        IPage<Map> page = productService.selectProductsByUserId(pageNumber, pageSize, userId, productState);
         return Result.success(page);
     }
 
@@ -169,6 +196,7 @@ public class ProductController {
             return Result.error("无法编辑他人商品");
         }
         product.setState("下架");
+        product.setUpdateTime(LocalDateTimeUtil.format(LocalDateTimeUtil.now(), "yyyy-MM-dd HH:mm:ss"));//更新商品的update_time
         product.setReason("用户下架");
         productService.updateById(product);
         return Result.success();

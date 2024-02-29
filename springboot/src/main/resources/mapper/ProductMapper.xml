@@ -23,11 +23,58 @@
     <sql id="Base_Column_List">
         id,name,description,image,category_id,price,quantity,user_id,state,create_time,update_time,reason
     </sql>
+    <delete id="deleteByUserId">
+        delete from product where user_id=#{userId}
+    </delete>
 
 
     <select id="queryDetailMap" resultType="map">
         select p.*,u.nickname user_nickname,u.avatar user_avatar,c.name category_name
-        from product p inner join user u inner join category c on p.user_id=u.id and p.category_id=c.id where p.id=#{id}
+        from product p inner join user u inner join category c on p.user_id=u.id and p.category_id=c.id
+        where p.id=#{id}
+    </select>
+
+    <select id="selectPageByNameOrCategory" resultType="java.util.Map">
+        select p.*,u.nickname user_nickname,u.avatar user_avatar,c.name category_name
+        from product p inner join user u inner join category c on p.user_id=u.id and p.category_id=c.id
+        <where>
+            p.state='上架'
+            <if test="productName != null and productCategory != null">
+                and p.name=#{productName} and c.name=#{productCategory}
+            </if>
+            <if test="productName != null and productCategory == null">
+                and p.name=#{productName}
+            </if>
+            <if test="productName == null and productCategory != null">
+                and c.name=#{productCategory}
+            </if>
+
+        </where>
+        order by p.id desc
+
+    </select>
+
+    <select id="selectByParams" resultType="java.util.Map">
+        select p.*,u.username user_username,u.avatar user_avatar,c.name category_name
+        from product p inner join user u inner join category c on p.user_id=u.id and p.category_id=c.id
+        <where>
+            <if test="productId != null and username != null">
+                p.id=#{productId} and u.username=#{username}
+            </if>
+            <if test="productId != null and username == null">
+                p.id=#{productId}
+            </if>
+            <if test="productId == null and username != null">
+                u.username=#{username}
+            </if>
+        </where>
+        order by p.id desc
+    </select>
+
+    <select id="selectProductsByUserId" resultType="java.util.Map">
+        select p.*,c.name category_name
+        from product p inner join category c on p.category_id=c.id
+        where p.user_id=#{userId} and p.state=#{productState}
     </select>
 
 

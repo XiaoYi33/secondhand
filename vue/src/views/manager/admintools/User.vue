@@ -40,6 +40,7 @@
 
             </el-table-column>
         </el-table>
+        
         <!-- 分页按钮 -->
         <div style="margin: 10px 0;">
             <span class="demonstration"></span>
@@ -189,7 +190,7 @@ export default {
             this.formVisible = true //打开弹窗
         },
         handleDelete(id) {
-            this.$confirm('是否确认删除用户', '确认删除', { type: "warning" }).then(res => {
+            this.$confirm('删除用户将会删除对应的商品和订单信息，是否确认删除？', '确认删除', { type: "warning" }).then(res => {
                 this.$request.delete('/admin/user/delete/' + id).then(res => {
                     if (res.code === '200') {
                         this.$message.success('删除成功')
