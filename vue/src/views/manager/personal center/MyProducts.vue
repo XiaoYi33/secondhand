@@ -34,13 +34,13 @@
                                 <span style="font-size: 20px; color: rgb(244, 73, 61); font-weight: bold;">{{ product.price
                                 }}</span>
                                 <span style="margin-left: 10px; color:rgb(122,122,122); font-size: 12px;">{{
-                                    product.category.name }}</span>
+                                    product.category_name }}</span>
                             </div>
                             <div style="font-size: 12px; margin-top: 22px; color:rgb(122,122,122)"
                                 v-if="productState === '上架'">
-                                <span style="margin-right: 1%;">发布 {{ product.updateTime }}</span>
+                                <span style="margin-right: 1%;">发布 {{ product.create_time }}</span>
                                 <span v-if="product.updateTime">/</span>
-                                <span v-if="product.updateTime" style="margin-left: 1%;">更新 {{ product.updateTime
+                                <span v-if="product.updateTime" style="margin-left: 1%;">更新 {{ product.update_time
                                 }}</span>
                             </div>
                             <div style="font-size: 12px; margin-top: 22px; color:rgb(122,122,122)"
@@ -137,6 +137,21 @@ export default {
             popconfirmVisable: false,
             form:{},
             editFormVisable:false,//绑定编辑商品弹窗
+            rules: {//修改商品校验
+                name: [
+                    { required: true, message: '请输入昵称', trigger: 'blur' },
+                ],
+                categoryId: [
+                    { required: true, message: '请选择商品类别', trigger: 'blur' },
+                ],
+                description: [
+                    { required: true, message: '请输入商品描述', trigger: 'blur' },
+                ],
+                price: [
+                    { required: true, message: '请输入商品价格', trigger: 'blur' },
+                ],
+
+            },
         }
     },
     created() {

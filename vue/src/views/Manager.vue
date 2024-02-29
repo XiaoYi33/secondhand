@@ -31,10 +31,10 @@
               <span>分类</span>
             </template>
             <el-menu-item index="/digitaDevice">数码</el-menu-item>
-            <el-menu-item index="/electricAppliance">电器</el-menu-item>
+            <el-menu-item index="/Appliance">电器</el-menu-item>
             <el-menu-item index="/Furniture">家具</el-menu-item>
             <el-menu-item index="/Books">书籍</el-menu-item>
-            <el-menu-item index="">零食</el-menu-item>
+            <el-menu-item index="/Snacks">零食</el-menu-item>
           </el-submenu>
           <el-submenu index="adminTool" v-if="user.role === '管理员' || user.role === '站长'">
             <template slot="title">
@@ -43,7 +43,7 @@
             </template>
             <el-menu-item index="/user">用户管理</el-menu-item>
             <el-menu-item index="/product">商品管理</el-menu-item>
-            <el-menu-item index="">订单管理</el-menu-item>
+            <el-menu-item index="/transaction">订单管理</el-menu-item>
             <el-menu-item >数据统计</el-menu-item>
           </el-submenu>
 

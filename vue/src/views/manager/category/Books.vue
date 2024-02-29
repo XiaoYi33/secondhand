@@ -124,6 +124,7 @@ export default {
                 params: {
                     pageNumber: this.pageNumber,
                     pageSize: this.pageSize,
+                    productCategory:'书籍'
                 }
             }).then(res => {
                 this.products = res.data.records,
