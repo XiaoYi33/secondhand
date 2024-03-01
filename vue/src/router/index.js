@@ -32,6 +32,7 @@ const routes = [
       { path: 'person', name: 'Person', meta: { name: '个人信息' }, component: () => import('../views/manager/personal center/Person') },
       { path: 'password', name: 'Password', meta: { name: '修改密码' }, component: () => import('../views/manager/personal center/Password') },
       { path: 'MyProducts', name: 'myProducts', meta: { name: '我发布的' }, component: () => import('../views/manager/personal center/MyProducts') },
+      { path: 'PurchasedProducts', name: 'purchasedProducts', meta: { name: '我买的' }, component: () => import('../views/manager/personal center/PurchasedProducts') },
     ]
   },
   { path: '/login', name: 'Login', meta: { name: '登录' }, component: () => import('../views/Login.vue') },

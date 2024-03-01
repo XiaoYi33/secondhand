@@ -39,8 +39,8 @@
                             <div style="font-size: 12px; margin-top: 22px; color:rgb(122,122,122)"
                                 v-if="productState === '上架'">
                                 <span style="margin-right: 1%;">发布 {{ product.create_time }}</span>
-                                <span v-if="product.updateTime">/</span>
-                                <span v-if="product.updateTime" style="margin-left: 1%;">更新 {{ product.update_time
+                                <span v-if="product.update_time">/</span>
+                                <span v-if="product.update_time" style="margin-left: 1%;">更新 {{ product.update_time
                                 }}</span>
                             </div>
                             <div style="font-size: 12px; margin-top: 22px; color:rgb(122,122,122)"
