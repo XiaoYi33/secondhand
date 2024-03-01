@@ -55,6 +55,9 @@ public class ProductController {
         if(product.getUserId()!=currentUser.getId()){//将当前用户id和商品的用户id进行比较
             return Result.error("无法编辑他人商品");
         }
+        if(StrUtil.equals("下架",product.getState())){
+            return Result.error("已下架商品无法编辑");
+        }
         product.setUpdateTime(LocalDateTimeUtil.format(LocalDateTimeUtil.now(), "yyyy-MM-dd HH:mm:ss"));//更新商品的update_time
         productService.updateById(product);
         return Result.success();

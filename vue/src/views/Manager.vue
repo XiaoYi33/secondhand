@@ -54,9 +54,9 @@
             </template>
             <el-menu-item index="/person">我的信息</el-menu-item>
             <el-menu-item index="/myProducts">我发布的</el-menu-item>
-            <el-menu-item index="">我买的</el-menu-item>
+            <el-menu-item index="/purchasedProducts">我买的</el-menu-item>
             <el-menu-item index="">我卖的</el-menu-item>
-            <el-menu-item index="">我的评价</el-menu-item>
+            <!-- <el-menu-item index="">我的评价</el-menu-item> -->
             <el-menu-item index="/password">修改密码</el-menu-item>
             <el-menu-item @click.native="logout">退出登录</el-menu-item>
           </el-submenu>
