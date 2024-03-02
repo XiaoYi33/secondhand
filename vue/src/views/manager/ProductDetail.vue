@@ -78,8 +78,9 @@ export default {
         this.$request.get('/product/selectProductDetailById/' + this.$route.query.id).then(res => {//获取前端返回的query里的id
             this.form = res.data
             this.transaction = {
-                userId: this.user.id,
-                productId: this.form.id
+                buyerId: this.user.id,
+                productId: this.form.id,
+                sellerUsername:this.form.user_username
             }
         })
     },

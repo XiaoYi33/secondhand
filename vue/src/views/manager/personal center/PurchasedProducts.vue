@@ -6,13 +6,17 @@
                 <el-button v-if="this.transactionState === '待交易'" class="button" round
                     style="border:0px; font-weight: bold; background-color: #fff;color: #606266;"
                     @click="changeState('待交易')">待交易({{ this.total }})</el-button>
-                <el-button v-if="this.transactionState === '已完成'" class="button" round
-                    style="border:0px;  background-color:rgb(242, 241, 246) ;" @click="changeState('已完成')">已完成</el-button>
+
                 <el-button v-if="this.transactionState === '待交易'" class="button" round
+                    style="border:0px;  background-color:rgb(242, 241, 246) ;" @click="changeState('完成')">已完成</el-button>
+
+                <el-button v-if="this.transactionState === '完成'" class="button" round
                     style="border:0px;  background-color:rgb(242, 241, 246) ;" @click="changeState('待交易')">待交易</el-button>
-                <el-button v-if="this.transactionState === '已完成'" class="button" round
+
+                <el-button v-if="this.transactionState === '完成'" class="button" round
                     style="border:0px; font-weight: bold; background-color: #fff;color: #606266;"
-                    @click="changeState('已完成')">已完成({{ this.total }})</el-button>
+                    @click="changeState('完成')">已完成({{ this.total }})</el-button>
+
             </div>
 
             <el-card :body-style="{ padding: '0px' }">
@@ -34,7 +38,8 @@ export default {
            pageSize:20,
            total:0,
            user: JSON.parse(localStorage.getItem('SecondHand-User')),//获取当前登录用户
-           transactionState:'待交易'
+           transactionState:'待交易',
+           transactions:[],
         }
     },
     created() {
@@ -42,20 +47,24 @@ export default {
     },
     methods: {
         load(){
-            this.$request.get('/transaction/selectAllInfoByPage',{
+            this.total=0
+            this.$request.get('/transaction/selectAllInfoByBuyerId',{
                 params:{
                     pageSize:this.pageSize,
                     pageNumber:this.pageNumber,
                     userId:this.user.id,
-                    transactioState:this.transactionState
+                    transactionState:this.transactionState
                 }
 
             }).then(res=>{
+                this.total=res.data.total
+                this.transactions=res.data.records
 
             })
         },
         changeState(state){
             this.transactionState=state
+            this.load()
         }
     }
 }

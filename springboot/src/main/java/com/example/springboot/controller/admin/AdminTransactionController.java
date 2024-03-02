@@ -32,7 +32,7 @@ public class AdminTransactionController {
     @GetMapping("/selectPageById")
     public Result selectPageById(@RequestParam Integer pageNumber,
                                  @RequestParam Integer pageSize,
-                                 @RequestParam(required = false) Integer id){
+                                 @RequestParam(required = false) String id){
         IPage<Map> page= transactionService.selectPageById(pageNumber,pageSize,id);
         return Result.success(page);
 

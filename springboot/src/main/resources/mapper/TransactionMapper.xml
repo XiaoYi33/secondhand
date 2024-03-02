@@ -6,29 +6,36 @@
 
     <resultMap id="BaseResultMap" type="com.example.springboot.entity.Transaction">
             <id property="id" column="id" jdbcType="VARCHAR"/>
-            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="buyerId" column="user_id" jdbcType="INTEGER"/>
             <result property="productId" column="product_id" jdbcType="INTEGER"/>
             <result property="createTime" column="create_time" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,seller_id,buyer_id,
+        id,buyer_id,seller_username
         product_id,create_time
     </sql>
     <delete id="deleteByUserId">
-        delete from transaction where user_id=#{userId}
+        delete from transaction where buyer_id=#{userId}
     </delete>
 
     <select id="selectPageById" resultType="map">
-        select t.*,u.username buyer_username,q.username seller_username from transaction t inner join user u inner join (select p.id,u.username from product p inner join user u on p.user_id = u.id) q on t.user_id=u.id and t.product_id=q.id
+        select t.*,u.username buyer_username from transaction t
+            inner join user u on t.buyer_id=u.id
         <if test="id != null">
             where t.id=#{id}
         </if>
         order by t.id desc
     </select>
 
+    <select id="selectAllInfoByBuyerId" resultType="java.util.Map">
+        select t.*,p.name product_name,p.image product_image,u.nickname seller_nickname,u.avatar seller_avatar from transaction t
+        left join secondHand.product p on p.id = t.product_id
+        left join user u on seller_username=u.username
+        where t.buyer_id=#{userId} and t.state=#{transactionState}
 
 
+    </select>
 
 
 </mapper>

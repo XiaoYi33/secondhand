@@ -2,6 +2,7 @@ package com.example.springboot.controller;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.springboot.common.Result;
 import com.example.springboot.entity.Product;
 import com.example.springboot.entity.Transaction;
@@ -10,6 +11,7 @@ import com.example.springboot.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -36,7 +38,7 @@ public class TransactionController {
         if(StrUtil.equals(product.getState(),"下架")){//验证商品是否为下架状态
             return Result.error("无法购买已下架商品");
         }
-        if(transaction.getUserId()==product.getUserId()){
+        if(transaction.getBuyerId()==product.getUserId()){
             return Result.error("无法购买自己发布的商品");
         }
 
@@ -52,12 +54,14 @@ public class TransactionController {
     }
 
     /**
-     * 查询订单的所有信息，包括商品和对应用户
+     * 用户以买家身份，传入ID和订单状态，查询跟用户有关的所有订单跟商品信息
+     * 用在purchasedProducts.vue
      *
      * @return
      */
-    @GetMapping("/selectAllInfoByPage")
-    public Result selectAllInfoByPage(){
-
+    @GetMapping("/selectAllInfoByBuyerId")
+    public Result selectAllInfoByBuyerId(@RequestParam Integer pageNumber,@RequestParam Integer pageSize,@RequestParam Integer userId,@RequestParam String transactionState){
+        IPage<Map> page=transactionService.selectAllInfoByBuyerId(pageNumber,pageSize,userId,transactionState);
+        return Result.success(page);
     }
 }
