@@ -14,10 +14,12 @@ import java.util.Map;
 */
 public interface TransactionMapper extends BaseMapper<Transaction> {
 
-    IPage<Map>  selectPageById(IPage<Map> page, Integer id);
+    IPage<Map>  selectPageById(IPage<Map> page, String id);
 
 
     void deleteByUserId(Integer userId);
+
+    IPage<Map> selectAllInfoByBuyerId(IPage<Map> page, Integer userId,String transactionState);
 }
 
 

@@ -12,7 +12,8 @@ import lombok.Data;
 public class Transaction implements Serializable {
     private String id;
 
-    private Integer userId;
+    private Integer buyerId;
+    private String sellerUsername;
 
     private Integer productId;
 

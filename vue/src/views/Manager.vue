@@ -67,7 +67,7 @@
         <!--        头部区域-->
         <el-header>
           <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-left: 20px">
-            <el-breadcrumb-item :to="{ path: '/home' }">校园二手交易网</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/home' }">校园二手交易平台</el-breadcrumb-item>
             <el-breadcrumb-item :to="{ path: $route.path }">{{ $route.meta.name }}</el-breadcrumb-item>
           </el-breadcrumb>
         </el-header>

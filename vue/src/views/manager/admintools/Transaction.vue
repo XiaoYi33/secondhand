@@ -48,7 +48,7 @@ export default {
     data() {
         return {
             tableData: [],
-            transactionId: '',//绑定查询输入框
+            transactionId: null,//绑定查询输入框
             pageNumber: 1, //当前页码
             pageSize: 10, //每页显示的数据个数
             total: 0, //分页总数，动态获取
@@ -75,7 +75,7 @@ export default {
             this.load()
         },
         reset() {//绑定重置按钮
-            this.transactionId=''
+            this.transactionId=null
             this.load()
         },
         deleteBatch() {//绑定批量删除按钮

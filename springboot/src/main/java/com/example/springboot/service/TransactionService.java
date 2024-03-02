@@ -20,7 +20,7 @@ public class TransactionService extends ServiceImpl<TransactionMapper, Transacti
     @Autowired
     private TransactionMapper transactionMapper;
 
-    public IPage<Map> selectPageById(Integer pageNumber, Integer pageSize, Integer id) {
+    public IPage<Map> selectPageById(Integer pageNumber, Integer pageSize, String id) {
         IPage<Map> page=new Page<>(pageNumber,pageSize);
         transactionMapper.selectPageById(page,id);
         return page;
@@ -36,5 +36,11 @@ public class TransactionService extends ServiceImpl<TransactionMapper, Transacti
 
     public void deleteByUserId(Integer userId) {
         transactionMapper.deleteByUserId(userId);
+    }
+
+    public IPage<Map> selectAllInfoByBuyerId(Integer pageNumber, Integer pageSize, Integer userId,String transactionState) {
+        IPage<Map> page=new Page<>(pageNumber,pageSize);
+        transactionMapper.selectAllInfoByBuyerId(page,userId,transactionState);
+        return page;
     }
 }
