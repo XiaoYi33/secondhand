@@ -48,6 +48,7 @@ public class WebController {
 
     /**
      * 重置密码
+     * @return
      */
     @AuthAccess
     @PutMapping("/resetPassword")
