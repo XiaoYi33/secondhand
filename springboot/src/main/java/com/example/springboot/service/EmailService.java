@@ -24,7 +24,7 @@ public class EmailService {
         mimeMessageHelper.setFrom(from);
         mimeMessageHelper.setTo(to);
         mimeMessageHelper.setSubject(subject);
-        mimeMessageHelper.setText(text);
+        mimeMessageHelper.setText(text);//第二个参数加true可发送html格式
         javaMailSender.send(message);
     }
 

@@ -8,11 +8,17 @@ import com.example.springboot.entity.User;
 import com.example.springboot.exception.ServiceException;
 import com.example.springboot.mapper.UserMapper;
 import com.example.springboot.utils.MD5PasswordEncoder;
+import com.example.springboot.utils.RandomCode;
 import com.example.springboot.utils.TokenUtils;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.annotation.Resource;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -22,8 +28,12 @@ import java.util.Objects;
  **/
 @Service
 public class UserService extends ServiceImpl<UserMapper,User>{
-    @Autowired
+    @Resource
     private UserMapper userMapper;
+    @Resource
+    private EmailService emailService;
+
+    private Map<String, String> verificationCodes = new HashMap<>();
 
     /**
      * 重写save方法，为了保存的时候自动添加默认密码和昵称
@@ -68,6 +78,7 @@ public class UserService extends ServiceImpl<UserMapper,User>{
 
         String token = TokenUtils.createToken(dbUser.getId().toString(), dbUser.getPassword());
         dbUser.setToken(token);
+        dbUser.setPassword("");
         return dbUser;
     }
 
@@ -82,18 +93,30 @@ public class UserService extends ServiceImpl<UserMapper,User>{
         return user;
     }
 
-    public void resetPassword(User user) {
-        User dbUser = selectByUsername(user.getUsername());
+    public String getCode(String username) throws MessagingException {
+        User dbUser = selectByUsername(username);
         if(dbUser==null){
             //抛出一个自定义的异常
             throw  new ServiceException("用户不存在");//抛出异常，然后会被全局捕获器捕获到
         }
-        if(!dbUser.getEmail().equals(user.getEmail())){
-            throw  new ServiceException("邮箱错误");
-        }
-        dbUser.setPassword(MD5PasswordEncoder.encode("123456"));
-        updateById(dbUser);
-    }
+        String code = RandomCode.generateRandomCode();//获取验证码
+        String subject = "找回密码验证";
+        String text = "您的验证码是:"+code;
+        emailService.sendEmail(dbUser.getEmail(),subject,text);
+        verificationCodes.put(dbUser.getUsername(),code);
+//        //dbUser.setPassword(MD5PasswordEncoder.encode("123456"));
+//        updateById(dbUser);
 
+        return dbUser.getEmail();
+    }
+    public void resetPassword(String username, String password,String code){
+        if(!code.equals(verificationCodes.get(username))){//判断输入的验证码与之前生成的验证码是否一致
+            throw new ServiceException("验证码错误");
+        }
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(MD5PasswordEncoder.encode(password));
+        //差一个根据username更新数据库的方法
+    }
 }
 

@@ -5,6 +5,7 @@ import com.example.springboot.common.AuthAccess;
 import com.example.springboot.common.Result;
 import com.example.springboot.entity.User;
 import com.example.springboot.service.UserService;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,15 +20,16 @@ import javax.annotation.Resource;
 public class WebController {
     @Autowired
     private UserService userService;
+
     @AuthAccess
     @GetMapping("/")
-    public Result hello(){
+    public Result hello() {
         return Result.success("success");
     }
 
     @PostMapping("/login")
-    public Result login(@RequestBody User user){
-        if(StrUtil.isBlank(user.getUsername())||StrUtil.isBlank(user.getPassword())){
+    public Result login(@RequestBody User user) {
+        if (StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())) {
             return Result.error("数据输入不合法");
         }
         user = userService.login(user);
@@ -36,8 +38,8 @@ public class WebController {
 
     @AuthAccess
     @PostMapping("/register")
-    public Result register(@RequestBody User user){
-        if(StrUtil.isBlank(user.getUsername())||StrUtil.isBlank(user.getPassword())){
+    public Result register(@RequestBody User user) {
+        if (StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())) {
             //todo 这里修改注册界面的时候要改校验规则
             return Result.error("数据输入不合法");
         }
@@ -48,16 +50,26 @@ public class WebController {
 
     /**
      * 重置密码
+     *
      * @return
      */
     @AuthAccess
-    @PutMapping("/resetPassword")
-    public Result resetPassword(@RequestBody User user){
-        if(StrUtil.isBlank(user.getUsername())||StrUtil.isBlank(user.getEmail())){
+    @GetMapping("/getCode/{username}")
+    public Result getCode(@PathVariable String username) throws MessagingException {
+        if (StrUtil.isBlank(username)) {
             return Result.error("数据输入不合法");
         }
-        userService.resetPassword(user);
-        return Result.success();
+        String email = userService.getCode(username);
+        return Result.success(email);
     }
 
+    @AuthAccess
+    @PostMapping("/resetPassword")
+    public Result resetPassword(@RequestParam String username, @RequestParam String password, @RequestParam String code) {
+        if (StrUtil.isBlank(username) || StrUtil.isBlank(password) || StrUtil.isBlank(code)) {
+            return Result.error("数据输入不合法");
+        }
+        userService.resetPassword(username,password,code);
+        return Result.success();
+    }
 }
