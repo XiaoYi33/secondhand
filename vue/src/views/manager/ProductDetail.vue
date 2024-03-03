@@ -80,7 +80,8 @@ export default {
             this.transaction = {
                 buyerId: this.user.id,
                 productId: this.form.id,
-                sellerUsername:this.form.user_username
+                sellerId:this.form.user_id,
+                price:this.form.price
             }
         })
     },

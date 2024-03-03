@@ -34,8 +34,8 @@ public class TransactionService extends ServiceImpl<TransactionMapper, Transacti
         transactionMapper.insert(transaction);
     }
 
-    public void deleteByUserId(Integer userId) {
-        transactionMapper.deleteByUserId(userId);
+    public Transaction getOneByUserId(Integer userId) {
+        return transactionMapper.getOneByUserId(userId);
     }
 
     public IPage<Map> selectAllInfoByBuyerId(Integer pageNumber, Integer pageSize, Integer userId,String transactionState) {

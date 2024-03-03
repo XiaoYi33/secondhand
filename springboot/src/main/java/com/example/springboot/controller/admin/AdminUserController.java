@@ -87,15 +87,20 @@ public class AdminUserController {
     }
 
     /**
-     * 根据id删除用户
+     * 根据id删除用户，删除用户同时删除对应商品和取消所有订单
      * @param id
      * @return
      */
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable Integer id){
+        Transaction dbTransaction = transactionService.getOneByUserId(id);
+        if(dbTransaction!=null && StrUtil.equals(dbTransaction.getState(),"待交易")){
+            dbTransaction.setState("已取消");
+            transactionService.updateById(dbTransaction);
+        }
         productService.deleteByUserId(id);
-        transactionService.deleteByUserId(id);
         userService.removeById(id);
+
         return Result.success();
     }
 
@@ -108,7 +113,6 @@ public class AdminUserController {
     public Result batchDelete(@RequestBody List<Integer> ids){
         for(Integer id:ids){
             productService.deleteByUserId(id);
-            transactionService.deleteByUserId(id);
         }
         userService.removeBatchByIds(ids);
         return Result.success();

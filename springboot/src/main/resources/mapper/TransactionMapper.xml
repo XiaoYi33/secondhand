@@ -8,20 +8,19 @@
             <id property="id" column="id" jdbcType="VARCHAR"/>
             <result property="buyerId" column="user_id" jdbcType="INTEGER"/>
             <result property="productId" column="product_id" jdbcType="INTEGER"/>
-            <result property="createTime" column="create_time" jdbcType="INTEGER"/>
+            <result property="sellerId" column="seller_id" jdbcType="INTEGER"/>
+            <result property="sellerId" column="seller_id" jdbcType="INTEGER"/>
+            <result property="price" column="price" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+            <result property="state" column="state" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,buyer_id,seller_username
-        product_id,create_time
+        id,buyer_id,product_id,seller_id,price,create_time,state
     </sql>
-    <delete id="deleteByUserId">
-        delete from transaction where buyer_id=#{userId}
-    </delete>
 
     <select id="selectPageById" resultType="map">
-        select t.*,u.username buyer_username from transaction t
-            inner join user u on t.buyer_id=u.id
+        select t.*,buyer.username buyer_username ,seller.username seller_username from transaction t left join user buyer on t.buyer_id=buyer.id left join user seller on t.seller_id=seller.id
         <if test="id != null">
             where t.id=#{id}
         </if>
@@ -30,11 +29,14 @@
 
     <select id="selectAllInfoByBuyerId" resultType="java.util.Map">
         select t.*,p.name product_name,p.image product_image,u.nickname seller_nickname,u.avatar seller_avatar from transaction t
-        left join secondHand.product p on p.id = t.product_id
+        left join product p on p.id = t.product_id
         left join user u on seller_username=u.username
         where t.buyer_id=#{userId} and t.state=#{transactionState}
 
 
+    </select>
+    <select id="getOneByUserId" resultType="com.example.springboot.entity.Transaction">
+        select * from transaction where buyer_id=#{userId}
     </select>
 
 
