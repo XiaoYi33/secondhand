@@ -13,11 +13,14 @@ public class Transaction implements Serializable {
     private String id;
 
     private Integer buyerId;
-    private String sellerUsername;
+
+    private Integer sellerId;
 
     private Integer productId;
 
-    private Integer createTime;
+    private Integer price;
+
+    private String createTime;
 
     private String state;
 
