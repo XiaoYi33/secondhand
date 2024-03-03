@@ -4,9 +4,7 @@
         <div style="display: flex; margin: 10px 0;">
             <div style="flex:1">
                 <el-input style="width: 200px;" placeholder="输入要查询的商品编号" v-model="productId"></el-input>
-                <el-input style="width: 200px; margin: 0 0 0 5px;" placeholder="输入要查询的商品名称"
-                    v-model="productName"></el-input>
-                <el-input style="width: 200px; margin: 0 5px;" placeholder="输入要查询的用户名" v-model="username"></el-input>
+                <el-input style="width: 200px; margin: 0 5px 0 5px;" placeholder="输入要查询的用户名" v-model="username"></el-input>
                 <el-button type="success" @click="reacher">查询</el-button>
                 <el-button type="info" @click="reset">重置</el-button>
             </div>
@@ -26,9 +24,9 @@
                     <el-image style="width: 70px; height: 70px;" v-if="scope.row.image" :src="scope.row.image" :preview-src-list="[scope.row.image]"></el-image>
                 </template>
             </el-table-column>
-            <el-table-column prop="category.name" label="类别" align="center"></el-table-column>
+            <el-table-column prop="category_name" label="类别" align="center"></el-table-column>
             <el-table-column prop="price" label="价格" align="center"></el-table-column>
-            <el-table-column prop="user.username" label="用户名" align="center"></el-table-column>
+            <el-table-column prop="user_username" label="用户名" align="center"></el-table-column>
             <el-table-column prop="state" label="状态" align="center"></el-table-column>
             <el-table-column label="操作" align="center" width="180px">
                 <template v-slot="scope">
@@ -55,13 +53,13 @@
                     <el-form :model="form">
                         <el-form-item label="名称：">{{ form.name }}</el-form-item>
                         <el-form-item label="状态：">{{ form.state }}</el-form-item>
-                        <el-form-item label="分类：">{{ form.category.name }}</el-form-item>
+                        <el-form-item label="分类：">{{ form.category_name }}</el-form-item>
                         <el-form-item label="描述：">{{ form.description }}</el-form-item>
                         <el-form-item label="价格：">{{ form.price }}</el-form-item>
-                        <el-form-item label="用户名：">{{ form.user.username }}</el-form-item>
+                        <el-form-item label="用户名：">{{ form.user_username }}</el-form-item>
                         <el-form-item v-if="form.reason" label="下架原因：">{{ form.reason }}</el-form-item>
-                        <el-form-item label="创建时间：">{{ form.createTime }}</el-form-item>
-                        <el-form-item label="更新时间：">{{ form.updateTime }}</el-form-item>
+                        <el-form-item label="创建时间：">{{ form.create_time }}</el-form-item>
+                        <el-form-item label="更新时间：">{{ form.update_time }}</el-form-item>
                     </el-form>
                     <el-button v-if="form.state !== '下架'" type="warning" style="width: 80%;"
                         @click="takeDownDialogVisible = true">下架</el-button>
@@ -86,10 +84,8 @@ export default {
     data() {
         //数据
         return {
-            productId: '',//商品Id，绑定查询框
-            productName: '',//商品名，绑定查询框
-            username: '',//用户名，绑定查询框
-            nickname: '',//用户昵称，绑定查询框
+            productId: null,//商品Id，绑定查询框
+            username: null,//用户名，绑定查询框
             tableData: [],//表单数据，接收后端查询返回的数据
             pageNum: 1, //当前页码
             pageSize: 10, //每页显示的数据个数
@@ -120,7 +116,6 @@ export default {
                     pageSize: this.pageSize,
                     username: this.username,
                     productId: this.productId,
-                    productName: this.productName,
                 }
             }).then(res => {
                 this.tableData = res.data.records
@@ -135,9 +130,8 @@ export default {
                 this.load()
         },
         reset() {//绑定重置按钮
-            this.productId = '',
-                this.productName = '',
-                this.username = '',
+            this.productId = null,
+                this.username = null,
                 this.load()
         },
         handleCurrentChange(pageNum) {

@@ -39,7 +39,7 @@
                     <el-input v-model="user.createTime" placeholder="创建时间" disabled></el-input>
                 </el-form-item>
                 <div style="text-align: center; margin-bottom: 20px;">
-                    <el-button type="primary" @click="update">保存</el-button>
+                    <el-button type="success" @click="update">保存</el-button>
                 </div>
             </el-form>
         </el-card>
@@ -128,5 +128,14 @@ export default {
     height: 178px;
     display: block;
     border-radius: 50%;
+}
+.el-button--success {
+    background-color: rgb(25, 156, 96);
+    border-color: rgb(25, 156, 96);
+}
+
+.el-button--success:hover {
+    background-color: rgb(31, 173, 109);
+    border-color: rgb(31, 173, 109);
 }
 </style>
