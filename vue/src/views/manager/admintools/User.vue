@@ -190,7 +190,7 @@ export default {
             this.formVisible = true //打开弹窗
         },
         handleDelete(id) {
-            this.$confirm('删除用户将会删除对应的商品和订单信息，是否确认删除？', '确认删除', { type: "warning" }).then(res => {
+            this.$confirm('删除用户将会删除对应的商品并取消所有未完成订单，是否确认删除？', '确认删除', { type: "warning" }).then(res => {
                 this.$request.delete('/admin/user/delete/' + id).then(res => {
                     if (res.code === '200') {
                         this.$message.success('删除成功')

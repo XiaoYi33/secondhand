@@ -19,8 +19,9 @@
 
             </div>
 
-            <el-card :body-style="{ padding: '0px' }">
-
+            <el-card :body-style="{ padding: '0px' }"  v-for="transaction in transactions" :key="transaction.id"
+                style="float: left; margin-left: 30px ; margin-bottom: 30px; width: 500px;" v-if="transaction">
+                
             </el-card>
 
 
@@ -35,7 +36,7 @@ export default {
     data() {
         return {
            pageNumber:1,
-           pageSize:20,
+           pageSize:24,
            total:0,
            user: JSON.parse(localStorage.getItem('SecondHand-User')),//获取当前登录用户
            transactionState:'待交易',
@@ -48,6 +49,7 @@ export default {
     methods: {
         load(){
             this.total=0
+            this.transactions=[]
             this.$request.get('/transaction/selectAllInfoByBuyerId',{
                 params:{
                     pageSize:this.pageSize,

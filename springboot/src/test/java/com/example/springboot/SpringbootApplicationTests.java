@@ -1,23 +1,25 @@
 package com.example.springboot;
 
 import cn.hutool.core.date.LocalDateTimeUtil;
-import com.example.springboot.service.EmailService;
-import jakarta.mail.MessagingException;
+import com.example.springboot.entity.Transaction;
+import com.example.springboot.service.TransactionService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import javax.annotation.Resource;
 
 @SpringBootTest
 class SpringbootApplicationTests {
-	@Resource
-	private EmailService emailService;
+	@Autowired
+	TransactionService transactionService;
+
 	@Test
-	void test() throws MessagingException {
-		emailService.sendEmail("2678089155@qq.com","测试","测试测试");
+	void test(){
+
 	}
 	@Test
-	void contextLoads() {
+	void getOneByUserId() {
+		Transaction oneByUserId = transactionService.getOneByUserId(1);
+		System.out.println("oneByUserId = " + oneByUserId);
 	}
 
 }

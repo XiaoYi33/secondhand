@@ -16,11 +16,14 @@
             <el-table-column type="selection" width="55" align="center" >
             </el-table-column>
             <el-table-column prop="id" label="订单编号" align="center"></el-table-column>
+            <el-table-column prop="buyer_id" label="买家ID" align="center" width="100px"></el-table-column>
             <el-table-column prop="buyer_username" label="买家用户名" align="center"></el-table-column>
             <el-table-column prop="product_id" label="商品编号" align="center"></el-table-column>
+            <el-table-column prop="seller_id" label="卖家ID" align="center" width=100px></el-table-column>
             <el-table-column prop="seller_username" label="卖家用户名" align="center"></el-table-column>
             <el-table-column prop="create_time" label="创建时间" align="center"></el-table-column>
-            <el-table-column prop="state" label="状态" align="center"></el-table-column>
+            <el-table-column prop="price" label="价格" align="center"></el-table-column>
+            <el-table-column prop="state" label="状态" align="center" width="100px"></el-table-column>
             <el-table-column label="操作" align="center" width="100px">
                 <template v-slot="scope">
                     <el-button type="danger" plain @click="handleDelete(scope.row.id)">删除</el-button>
