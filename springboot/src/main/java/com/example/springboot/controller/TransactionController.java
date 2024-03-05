@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.springboot.common.Result;
 import com.example.springboot.entity.Product;
 import com.example.springboot.entity.Transaction;
+import com.example.springboot.entity.User;
 import com.example.springboot.service.TransactionService;
 import com.example.springboot.service.ProductService;
+import com.example.springboot.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,8 +62,76 @@ public class TransactionController {
      * @return
      */
     @GetMapping("/selectAllInfoByBuyerId")
-    public Result selectAllInfoByBuyerId(@RequestParam Integer pageNumber,@RequestParam Integer pageSize,@RequestParam Integer userId,@RequestParam String transactionState){
+    public Result selectAllInfoByBuyerId(@RequestParam Integer pageNumber,@RequestParam Integer pageSize,@RequestParam Integer userId,@RequestParam(required = false) String transactionState){
         IPage<Map> page=transactionService.selectAllInfoByBuyerId(pageNumber,pageSize,userId,transactionState);
         return Result.success(page);
+    }
+
+    /**
+     * 确认交易接口，用在PurchasedProducts.vue
+     * @param transaction
+     * @return
+     */
+    @PutMapping("/confirmFinish")
+    public Result confirmFinish(@RequestBody Transaction transaction){
+        User currentUser = TokenUtils.getCurrentUser();//获取当前用户id
+        Transaction dbTransaction = transactionService.getById(transaction.getId());//从数据库获取完整对象
+        if(currentUser.getId()!=dbTransaction.getBuyerId()){
+            return Result.error("无法操作他人订单");
+        }
+        dbTransaction.setState("已完成");
+        dbTransaction.setComment("交易已完成");
+        dbTransaction.setUpdateTime(LocalDateTimeUtil.format(LocalDateTimeUtil.now(), "yyyy-MM-dd HH:mm:ss"));
+        transactionService.updateById(dbTransaction);
+        return Result.success();
+    }
+
+    /**
+     * 取消订单接口，用在PurchasedProducts.vue
+     * @param transaction
+     * @return
+     */
+    @PutMapping("/cancel")
+    public Result cancel(@RequestBody Transaction transaction){
+        User currentUser = TokenUtils.getCurrentUser();//获取当前用户id
+        Transaction dbTransaction = transactionService.getById(transaction.getId());//从数据库获取完整对象
+        if(currentUser.getId()!=dbTransaction.getBuyerId()){
+            return Result.error("无法操作他人订单");
+        }
+        dbTransaction.setState("已取消");
+        dbTransaction.setComment("买家取消了订单");
+        dbTransaction.setUpdateTime(LocalDateTimeUtil.format(LocalDateTimeUtil.now(), "yyyy-MM-dd HH:mm:ss"));
+        transactionService.updateById(dbTransaction);
+        return Result.success();
+    }
+
+
+    /**
+     * 买家删除订单，用在PurchasedProduct。vue
+     * @param transaction
+     * @return
+     */
+    @PutMapping("/buyerDelete")
+    public Result buyerDelete(@RequestBody Transaction transaction){
+        User currentUser = TokenUtils.getCurrentUser();//获取当前用户id
+        Transaction dbTransaction = transactionService.getById(transaction.getId());//从数据库获取完整对象
+        if(currentUser.getId()!=dbTransaction.getBuyerId()){
+            return Result.error("无法操作他人订单");
+        }
+        dbTransaction.setIsShowedToBuyer(0);//逻辑删除
+        transactionService.updateById(dbTransaction);
+        return Result.success();
+    }
+
+    /**
+     * 通过订单Id查询订单详细信息，用在PurchasedProduct。vue
+     * @param id
+     * @return
+     */
+
+    @GetMapping("/selectDetailById/{id}")
+    public Result selectDetailById(@PathVariable String id){
+        Map map=transactionService.selectDetailById(id);
+        return Result.success(map);
     }
 }

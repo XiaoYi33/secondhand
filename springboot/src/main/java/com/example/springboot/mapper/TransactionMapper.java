@@ -21,6 +21,8 @@ public interface TransactionMapper extends BaseMapper<Transaction> {
     IPage<Map> selectAllInfoByBuyerId(IPage<Map> page, Integer userId,String transactionState);
 
     Transaction getOneByUserId(Integer userId);
+
+    Map selectDetailById(String id);
 }
 
 

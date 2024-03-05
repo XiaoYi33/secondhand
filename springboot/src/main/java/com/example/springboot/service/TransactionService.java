@@ -43,4 +43,8 @@ public class TransactionService extends ServiceImpl<TransactionMapper, Transacti
         transactionMapper.selectAllInfoByBuyerId(page,userId,transactionState);
         return page;
     }
+
+    public Map selectDetailById(String id) {
+        return transactionMapper.selectDetailById(id);
+    }
 }

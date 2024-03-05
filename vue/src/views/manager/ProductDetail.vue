@@ -18,7 +18,7 @@
                 <div style="width: 100%;">
                     <div style="font-size: 20px; ;margin-bottom: 5px;">{{ form.user_nickname }}</div>
                     <div style="color:rgb(122,122,122);height: 50%; ;">
-                        <span style="margin-right: 1%;">发布于 {{ form.update_time }}</span>
+                        <span style="margin-right: 1%;">发布于 {{ form.create_time }}</span>
                         <span v-if="form.update_time">/</span>
                         <span v-if="form.update_time" style="margin-left: 1%;">最近更新 {{ form.update_time
                         }}</span>
@@ -43,11 +43,12 @@
                 {{ form.description }}
             </div>
 
-
+            <el-divider></el-divider>
 
             <!-- 左边：购买按钮 -->
-            <div style=" padding: 10px 0 0 20px;margin-top: 10px;">
+            <div style=" padding: 5px 0 0 20px;margin-top: 10px;">
                 <el-button type="success" @click="buy" v-if="form.state === '上架'">我想要</el-button>
+                <span v-if="form.state !== '上架'">下架原因：{{ form.reason }}</span>
             </div>
 
         </div>
@@ -58,6 +59,7 @@
             <el-image v-if="form.image" :src="form.image" style="height: 600px;" fit="fill"
                 :preview-src-list="[form.image]"></el-image>
         </div>
+
 
 
     </div>
@@ -80,8 +82,8 @@ export default {
             this.transaction = {
                 buyerId: this.user.id,
                 productId: this.form.id,
-                sellerId:this.form.user_id,
-                price:this.form.price
+                sellerId: this.form.user_id,
+                price: this.form.price
             }
         })
     },
@@ -93,7 +95,7 @@ export default {
             this.$router.back();
         },
         buy() {
-            this.$confirm('是否确认购买？<br>购买后请及时联系卖家（联系方式可在订单界面查询）', '确认购买', { type: "warning",dangerouslyUseHTMLString: true}).then(res => {
+            this.$confirm('是否确认购买？<br>购买后请及时联系卖家（联系方式可在订单界面查询）', '确认购买', { type: "warning", dangerouslyUseHTMLString: true }).then(res => {
                 this.$request.post('/transaction/create', this.transaction).then(res => {
                     if (res.code === '200') {
                         this.$message.success('购买成功，请及时联系卖家（联系方式可在订单界面查询）')
@@ -104,7 +106,7 @@ export default {
                     }
                 })
             }).catch(() => { })
-        }
+        },
     }
 }
 </script>
@@ -127,4 +129,9 @@ export default {
 .button:hover {
     background-color: rgba(0, 0, 0, .1);
     color: #fff;
-}</style>
+}
+
+.el-divider--horizontal {
+    margin: 6px 0;
+}
+</style>

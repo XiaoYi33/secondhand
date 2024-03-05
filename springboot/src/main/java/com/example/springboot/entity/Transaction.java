@@ -21,7 +21,11 @@ public class Transaction implements Serializable {
     private Integer price;
 
     private String createTime;
+    private String updateTime;
 
     private String state;
+    private String comment;
+    private Integer isShowedToBuyer;
+    private Integer isShowedToSeller;
 
 }
