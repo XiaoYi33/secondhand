@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static com.example.springboot.utils.HtmlGenerator.codeText;
+
 /**
  * author HKX
  * date: 2024-01-30 16:21
@@ -101,12 +103,7 @@ public class UserService extends ServiceImpl<UserMapper,User>{
         }
         String code = RandomCode.generateRandomCode();//获取验证码
         String subject = "找回密码验证";
-        String text = "<html><body>" +
-                "<h2>找回密码验证</h2>" +
-                "<p>尊敬的用户，您的验证码是：</p>" +
-                "<h1 style='font-size: 32px; color: #FF0000;'>" + code + "</h1>" +
-                "</body></html>";
-        emailService.sendEmail(dbUser.getEmail(),subject,text);
+        emailService.sendEmail(dbUser.getEmail(),subject,codeText(dbUser.getUsername(),code));
         verificationCodes.put(dbUser.getUsername(),code);
 //        //dbUser.setPassword(MD5PasswordEncoder.encode("123456"));
 //        updateById(dbUser);
