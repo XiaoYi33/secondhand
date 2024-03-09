@@ -39,16 +39,13 @@
         from product p inner join user u inner join category c on p.user_id=u.id and p.category_id=c.id
         <where>
             p.state='上架'
-            <if test="productName != null and productCategory != null">
-                and p.name=#{productName} and c.name=#{productCategory}
-            </if>
-            <if test="productName != null and productCategory == null">
-                and p.name=#{productName}
-            </if>
-            <if test="productName == null and productCategory != null">
+            <if test="productCategory != null">
                 and c.name=#{productCategory}
             </if>
 
+            <if test="productName != null">
+                and p.name like CONCAT('%', #{productName}, '%')
+            </if>
         </where>
         order by p.id desc
 

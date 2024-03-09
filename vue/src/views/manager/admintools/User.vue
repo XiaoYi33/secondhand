@@ -54,7 +54,7 @@
             <el-form :model="form" label-width="80px" style="padding-right: 20px;" :rules="rules" ref="formRef">
                 <div style="margin: 15px; text-align: center;">
                     <el-upload class="avatar-uploader" action="http://localhost:9090/file/upload"
-                        :headers="{ token: user.token }" :show-file-list="false" :on-success="handleAvatarSuccess">
+                        :headers="{ token: user.token }" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                         <img v-if="form.avatar" :src="form.avatar" class="avatar">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
@@ -67,6 +67,9 @@
                 </el-form-item>
                 <el-form-item label="昵称" prop="nickname">
                     <el-input v-model="form.nickname" placeholder="昵称"></el-input>
+                </el-form-item>
+                <el-form-item label="密码" prop="">
+                    <el-button type="warning" size="small" @click="resetPassword(form)" >重置密码</el-button>
                 </el-form-item>
                 <el-form-item label="角色" prop="role">
                     <el-select v-model="form.role" placeholder="请选择身份">
@@ -108,7 +111,7 @@ export default {
             total: 0, //分页总数，动态获取
             formVisible: false,
             form: {},
-            user: JSON.parse(localStorage.getItem('SecondHand-User')),
+            user: JSON.parse(localStorage.getItem('SecondHand-User') || '{}'),
             rules: {
                 username: [
                     { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -225,6 +228,30 @@ export default {
         },
         isRowSelectable(row, index) {
             return row.disabled; // 只有当行的 disabled 属性为 true 时才可选，不是管理员的row都是true
+        },
+        resetPassword(form){
+            this.$confirm('是否重置密码？', '重置密码', { type: "warning",dangerouslyUseHTMLString: true }).then(res => {
+                this.$request.put('/admin/user/resetPassword', form).then(res => {
+                    if (res.code === '200') {
+                        this.$message.success('重置成功')
+                    } else {
+                        this.$message.error(res.msg)
+                    }
+                })
+
+            }).catch(() => { })
+        },
+        beforeAvatarUpload(file) {
+            const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
+            const isLt5M = file.size / 1024 / 1024 < 5;
+
+            if (!isJPG) {
+                this.$message.error('上传头像图片只能是 JPG 或 PNG 格式!');
+            }
+            if (!isLt5M) {
+                this.$message.error('上传头像图片大小不能超过 5MB!');
+            }
+            return isJPG && isLt5M;
         },
     },
 }

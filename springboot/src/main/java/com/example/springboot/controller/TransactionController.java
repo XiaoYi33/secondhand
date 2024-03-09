@@ -62,18 +62,18 @@ public class TransactionController {
      * @return
      */
     @GetMapping("/selectAllInfoByBuyerId")
-    public Result selectAllInfoByBuyerId(@RequestParam Integer pageNumber,@RequestParam Integer pageSize,@RequestParam Integer userId,@RequestParam(required = false) String transactionState){
-        IPage<Map> page=transactionService.selectAllInfoByBuyerId(pageNumber,pageSize,userId,transactionState);
+    public Result selectAllInfoByBuyerId(@RequestParam Integer pageNumber,@RequestParam Integer pageSize,@RequestParam Integer userId,@RequestParam(required = false) String transactionState,@RequestParam(required = false) String productName){
+        IPage<Map> page=transactionService.selectAllInfoByBuyerId(pageNumber,pageSize,userId,transactionState,productName);
         return Result.success(page);
     }
 
     /**
-     * 确认交易接口，用在PurchasedProducts.vue
+     * 完成交易接口，用在PurchasedProducts.vue
      * @param transaction
      * @return
      */
-    @PutMapping("/confirmFinish")
-    public Result confirmFinish(@RequestBody Transaction transaction){
+    @PutMapping("/finishTransaction")
+    public Result finishTransaction(@RequestBody Transaction transaction){
         User currentUser = TokenUtils.getCurrentUser();//获取当前用户id
         Transaction dbTransaction = transactionService.getById(transaction.getId());//从数据库获取完整对象
         if(currentUser.getId()!=dbTransaction.getBuyerId()){
@@ -85,14 +85,32 @@ public class TransactionController {
         transactionService.updateById(dbTransaction);
         return Result.success();
     }
+    /**
+     * 确认交易接口，用在PurchasedProducts.vue
+     * @param transaction
+     * @return
+     */
+    @PutMapping("/confirmTransaction")
+    public Result confirmTransaction(@RequestBody Transaction transaction){
+        User currentUser = TokenUtils.getCurrentUser();//获取当前用户id
+        Transaction dbTransaction = transactionService.getById(transaction.getId());//从数据库获取完整对象
+        if(currentUser.getId()!=dbTransaction.getSellerId()){
+            return Result.error("无法操作他人订单");
+        }
+        dbTransaction.setState("待确认");
+        dbTransaction.setComment("等待买家完成交易");
+        dbTransaction.setUpdateTime(LocalDateTimeUtil.format(LocalDateTimeUtil.now(), "yyyy-MM-dd HH:mm:ss"));
+        transactionService.updateById(dbTransaction);
+        return Result.success();
+    }
 
     /**
      * 取消订单接口，用在PurchasedProducts.vue
      * @param transaction
      * @return
      */
-    @PutMapping("/cancel")
-    public Result cancel(@RequestBody Transaction transaction){
+    @PutMapping("/cancelByBuyer")
+    public Result cancelByBuyer(@RequestBody Transaction transaction){
         User currentUser = TokenUtils.getCurrentUser();//获取当前用户id
         Transaction dbTransaction = transactionService.getById(transaction.getId());//从数据库获取完整对象
         if(currentUser.getId()!=dbTransaction.getBuyerId()){
@@ -100,6 +118,25 @@ public class TransactionController {
         }
         dbTransaction.setState("已取消");
         dbTransaction.setComment("买家取消了订单");
+        dbTransaction.setUpdateTime(LocalDateTimeUtil.format(LocalDateTimeUtil.now(), "yyyy-MM-dd HH:mm:ss"));
+        transactionService.updateById(dbTransaction);
+        return Result.success();
+    }
+
+    /**
+     * 取消订单接口，用在PurchasedProducts.vue
+     * @param transaction
+     * @return
+     */
+    @PutMapping("/cancelBySeller")
+    public Result cancelBySeller(@RequestBody Transaction transaction){
+        User currentUser = TokenUtils.getCurrentUser();//获取当前用户id
+        Transaction dbTransaction = transactionService.getById(transaction.getId());//从数据库获取完整对象
+        if(currentUser.getId()!=dbTransaction.getSellerId()){
+            return Result.error("无法操作他人订单");
+        }
+        dbTransaction.setState("已取消");
+        dbTransaction.setComment("卖家取消了订单");
         dbTransaction.setUpdateTime(LocalDateTimeUtil.format(LocalDateTimeUtil.now(), "yyyy-MM-dd HH:mm:ss"));
         transactionService.updateById(dbTransaction);
         return Result.success();
@@ -124,6 +161,23 @@ public class TransactionController {
     }
 
     /**
+     * 卖家删除订单，用在PurchasedProduct。vue
+     * @param transaction
+     * @return
+     */
+    @PutMapping("/sellerDelete")
+    public Result sellerDelete(@RequestBody Transaction transaction){
+        User currentUser = TokenUtils.getCurrentUser();//获取当前用户id
+        Transaction dbTransaction = transactionService.getById(transaction.getId());//从数据库获取完整对象
+        if(currentUser.getId()!=dbTransaction.getSellerId()){
+            return Result.error("无法操作他人订单");
+        }
+        dbTransaction.setIsShowedToSeller(0);//逻辑删除
+        transactionService.updateById(dbTransaction);
+        return Result.success();
+    }
+
+    /**
      * 通过订单Id查询订单详细信息，用在PurchasedProduct。vue
      * @param id
      * @return
@@ -133,5 +187,20 @@ public class TransactionController {
     public Result selectDetailById(@PathVariable String id){
         Map map=transactionService.selectDetailById(id);
         return Result.success(map);
+    }
+
+    /**
+     * 用户以卖家身份传入ID，查询跟用户有关的所有订单跟商品信息
+     * 用在soldProducts.vue
+     * @param pageNumber
+     * @param pageSize
+     * @param userId
+     * @param transactionState
+     * @return
+     */
+    @GetMapping("/selectAllInfoBySellerId")
+    public  Result selectAllInfoBySellerId(@RequestParam Integer pageNumber,@RequestParam Integer pageSize,@RequestParam Integer userId,@RequestParam(required = false) String transactionState,@RequestParam(required = false) String productName){
+        IPage<Map> page=transactionService.selectAllInfoBySellerId(pageNumber,pageSize,userId,transactionState,productName);
+        return Result.success(page);
     }
 }

@@ -72,7 +72,7 @@ export default {
         //数据
         return {
             form: {},
-            user: JSON.parse(localStorage.getItem('SecondHand-User')),
+            user: JSON.parse(localStorage.getItem('SecondHand-User') || '{}'),
             transaction: {},
         }
     },

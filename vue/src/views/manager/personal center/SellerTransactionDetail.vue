@@ -13,8 +13,8 @@
             <!-- 进度条 -->
             <div  style="padding: 0 100px 0 100px; height: 57px;">
                 <el-steps v-if="form.state !== '已取消'" :active="active" finish-status="success" align-center>
-                    <el-step title="创建"></el-step>
                     <el-step title="交易"></el-step>
+                    <el-step title="确认"></el-step>
                     <el-step title="完成"></el-step>
                 </el-steps>
             </div>
@@ -86,12 +86,12 @@
                     <div style="flex: content;">{{ form.id }}</div>
                 </div>
                 <div style="flex:content;display: flex;margin-bottom: 10px;">
-                    <div style="width: 100px;">卖家昵称</div>
-                    <div style="flex: content;">{{ form.seller_nickname }}</div>
+                    <div style="width: 100px;">买家昵称</div>
+                    <div style="flex: content;">{{ form.buyer_nickname }}</div>
                 </div>
                 <div v-if="form.state!=='已取消'" style="flex:content;display: flex;margin-bottom: 10px;">
-                    <div style="width: 100px;">卖家WeChat</div>
-                    <div style="flex: content;">{{ form.seller_wechat }}</div>
+                    <div style="width: 100px;">买家WeChat</div>
+                    <div style="flex: content;">{{ form.buyer_wechat }}</div>
                 </div>
                 <div style="flex:content;display: flex;margin-bottom: 10px;">
                     <div style="width: 100px;">交易创建时间</div>
@@ -117,7 +117,7 @@
                 </div>
                 <div style="flex:0">
                     <el-button type="success" size="small" v-if="form.state === '待确认'"
-                        @click="confirmFinish(form)">确认完成交易</el-button>
+                        @click="finishTransaction(form)">完成交易</el-button>
                     <el-button type="danger" size="small" v-if="form.state === '已取消' || form.state === '已完成'"
                         @click="deleteTransaction(form)">删除订单</el-button>
                 </div>
@@ -144,8 +144,8 @@ export default {
     computed: {
         active() {
             switch (this.form.state) {
-                case '待交易': return 1;
-                case '待确认': return 2;
+                case '待交易': return 0;
+                case '待确认': return 1;
                 case '已完成': return 3;
             }
         },
@@ -168,8 +168,8 @@ export default {
             })
         },
         deleteTransaction(transaction){//绑定删除订单按钮
-            this.$confirm('是否确认删除交易？', '', { type: "warning", dangerouslyUseHTMLString: true }).then(res => {
-                this.$request.put('/transaction/buyerDelete',transaction).then(res=>{
+            this.$confirm('是否删除此交易记录？', '', { type: "warning", dangerouslyUseHTMLString: true }).then(res => {
+                this.$request.put('/transaction/sellerDelete',transaction).then(res=>{
                     if (res.code === '200') {
                             this.$message.success('删除交易成功')
                             this.$router.back();
@@ -180,8 +180,8 @@ export default {
             }).catch(() => { })
         },
         cancelTransaction(transaction){
-            this.$confirm('是否确认取消交易？', '', { type: "warning", dangerouslyUseHTMLString: true }).then(res => {
-                this.$request.put('/transaction/cancel',transaction).then(res=>{
+            this.$confirm('是否取消交易？', '', { type: "warning", dangerouslyUseHTMLString: true }).then(res => {
+                this.$request.put('/transaction/cancelBySeller',transaction).then(res=>{
                     if (res.code === '200') {
                             this.$message.success('取消交易成功')
                             location.reload();
@@ -191,11 +191,11 @@ export default {
                 })
             }).catch(() => { })
         },
-        confirmFinish(transaction){
-            this.$confirm('是否确认完成交易？', '', { type: "warning", dangerouslyUseHTMLString: true }).then(res => {
-                this.$request.put('/transaction/confirmFinish',transaction).then(res=>{
+        finishTransaction(transaction){
+            this.$confirm('是否完成交易？', '', { type: "warning", dangerouslyUseHTMLString: true }).then(res => {
+                this.$request.put('/transaction/confirmTransaction',transaction).then(res=>{
                     if (res.code === '200') {
-                            this.$message.success('确认成功')
+                            this.$message.success('完成交易成功')
                             location.reload();
                     } else {
                             this.$message.error(res.msg)
@@ -216,5 +216,14 @@ export default {
 
 .el-divider--horizontal {
     margin: 6px 0;
+}
+.el-button--success {
+    background-color: rgb(25, 156, 96);
+    border-color: rgb(25, 156, 96);
+}
+
+.el-button--success:hover {
+    background-color: rgb(31, 173, 109);
+    border-color: rgb(31, 173, 109);
 }
 </style>

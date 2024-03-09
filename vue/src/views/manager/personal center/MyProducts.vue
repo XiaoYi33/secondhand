@@ -139,7 +139,7 @@ export default {
             pageNumber: 1,
             pageSize: 24,
             total: 0,
-            user: JSON.parse(localStorage.getItem('SecondHand-User')),//获取当前登录用户
+            user: JSON.parse(localStorage.getItem('SecondHand-User') || '{}'),//获取当前登录用户
             productState: '上架',//绑定
             popconfirmVisable: false,
             form:{},

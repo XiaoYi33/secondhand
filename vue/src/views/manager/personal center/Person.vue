@@ -51,7 +51,7 @@ export default {
     name: 'Person',
     data() {
         return {
-            user: JSON.parse(localStorage.getItem('SecondHand-User')),
+            user: JSON.parse(localStorage.getItem('SecondHand-User') || '{}'),
 
             rules: {
                 name: [
@@ -68,8 +68,17 @@ export default {
         handleAvatarSuccess(response, file, fileList) {
             this.user.avatar = response.data
         },
-        beforeAvatarUpload() {
+        beforeAvatarUpload(file) {
+            const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
+            const isLt5M = file.size / 1024 / 1024 < 5;
 
+            if (!isJPG) {
+                this.$message.error('上传头像图片只能是 JPG 或 PNG 格式!');
+            }
+            if (!isLt5M) {
+                this.$message.error('上传头像图片大小不能超过 5MB!');
+            }
+            return isJPG && isLt5M;
         },
         update() {
             //更新数据库当前用户信息

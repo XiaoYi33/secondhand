@@ -38,13 +38,19 @@ public class TransactionService extends ServiceImpl<TransactionMapper, Transacti
         return transactionMapper.getOneByUserId(userId);
     }
 
-    public IPage<Map> selectAllInfoByBuyerId(Integer pageNumber, Integer pageSize, Integer userId,String transactionState) {
+    public IPage<Map> selectAllInfoByBuyerId(Integer pageNumber, Integer pageSize, Integer userId,String transactionState,String productName) {
         IPage<Map> page=new Page<>(pageNumber,pageSize);
-        transactionMapper.selectAllInfoByBuyerId(page,userId,transactionState);
+        transactionMapper.selectAllInfoByBuyerId(page,userId,transactionState,productName);
         return page;
     }
 
     public Map selectDetailById(String id) {
         return transactionMapper.selectDetailById(id);
+    }
+
+    public IPage<Map> selectAllInfoBySellerId(Integer pageNumber, Integer pageSize, Integer userId, String transactionState,String productName) {
+        IPage<Map> page=new Page<>(pageNumber,pageSize);
+        transactionMapper.selectAllInfoBySellerId(page,userId,transactionState,productName);
+        return page;
     }
 }

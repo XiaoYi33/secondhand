@@ -1,12 +1,13 @@
 <template>
     <el-container>
         <el-main>
-            <!-- 状态按钮和搜索框 -->
+
+            <!-- 状态按钮 -->
             <div style="display: flex; margin-bottom: 30px; margin-left: 30px;">
                 <div>
                     <el-button class="stateButton" v-if="this.transactionState === null"  round
                         style="border:0px; font-weight: bold; background-color: #fff;color: #606266;"
-                        @click="changeState(null)">全部({{ page.total }})</el-button>
+                        @click="changeState(null)">全部({{ total }})</el-button>
                     <el-button v-if="this.transactionState !== null" class="stateButton" round
                         style="border:0px;  background-color:rgb(242, 241, 246) ;" @click="changeState(null)">全部</el-button>
                 </div>
@@ -14,7 +15,7 @@
                 <div>
                     <el-button v-if="this.transactionState === '待交易'" class="stateButton" round
                         style="border:0px; font-weight: bold; background-color: #fff;color: #606266;"
-                        @click="changeState('待交易')">待交易({{ page.total }})</el-button>
+                        @click="changeState('待交易')">待交易({{ total }})</el-button>
                     <el-button v-if="this.transactionState !== '待交易'" class="stateButton" round
                         style="border:0px;  background-color:rgb(242, 241, 246) ;"
                         @click="changeState('待交易')">待交易</el-button>
@@ -23,7 +24,7 @@
                 <div>
                     <el-button v-if="this.transactionState === '待确认'" class="stateButton" round
                         style="border:0px; font-weight: bold; background-color: #fff;color: #606266;"
-                        @click="changeState('待确认')">待确认({{ page.total }})</el-button>
+                        @click="changeState('待确认')">待确认({{ total }})</el-button>
                     <el-button v-if="this.transactionState !== '待确认'" class="stateButton" round
                         style="border:0px;  background-color:rgb(242, 241, 246) ;"
                         @click="changeState('待确认')">待确认</el-button>
@@ -32,7 +33,7 @@
                 <div>
                     <el-button v-if="this.transactionState === '已完成'" class="stateButton" round
                         style="border:0px; font-weight: bold; background-color: #fff;color: #606266;"
-                        @click="changeState('已完成')">已完成({{ page.total }})</el-button>
+                        @click="changeState('已完成')">已完成({{ total }})</el-button>
                     <el-button v-if="this.transactionState !== '已完成'" class="stateButton" round
                         style="border:0px;  background-color:rgb(242, 241, 246) ;"
                         @click="changeState('已完成')">已完成</el-button>
@@ -44,7 +45,7 @@
                         @click="changeState('已取消')">已取消</el-button>
                     <el-button v-if="this.transactionState === '已取消'" class="stateButton" round
                         style="border:0px; font-weight: bold; background-color: #fff;color: #606266;"
-                        @click="changeState('已取消')">已取消({{ page.total }})</el-button>
+                        @click="changeState('已取消')">已取消({{ total }})</el-button>
                 </div>
                 <div style="display: flex; margin-left: 50px;">
                     <el-input v-model="productName" placeholder="请输入要查找的商品名"></el-input>
@@ -53,20 +54,20 @@
                 </div>
 
 
-            </div>
 
+            </div>
 
             <el-card :body-style="{ padding: '10px' }" v-for="transaction in transactions" :key="transaction.id"
                 style="float: left; margin-left: 30px ; margin-bottom: 30px; width: 500px;" v-if="transaction">
 
-                <!-- 卖家头像和昵称和订单状态-->
+                <!-- 买家头像和昵称和订单状态-->
                 <div style="display: flex; margin-bottom: 5px;">
                     <div style="flex:0;margin-right: 5px;">
-                        <el-image :src="transaction.seller_avatar" lazy
+                        <el-image :src="transaction.buyer_avatar" lazy
                             style="width: 30px; height: 30px; border-radius: 50%; border: 10px;"></el-image>
                     </div>
                     <div style="height: 30px; width:250px;display: flex; align-items: center;font-size: 14px;">{{
-                        transaction.seller_nickname }}</div>
+                        transaction.buyer_nickname }}</div>
                     <div v-if="transaction.comment === ''"
                         style="height: 30px; width:200px; align-items: center;text-align: right; font-size: 15px;color: rgb(25,156,96);">
                         {{ transaction.state }}</div>
@@ -103,13 +104,13 @@
                             v-if="transaction.state === '待交易'" @click="cancelTransaction(transaction)">取消订单</el-button>
                     </div>
                     <div style="width: 400px; text-align: right;">
-                        <el-popover placement="bottom" title="卖家WeChat" width="200" trigger="click"
-                            :content="transaction.seller_wechat">
-                            <el-button size="small" slot="reference" v-if="transaction.state !== '已取消'">联系卖家</el-button>
+                        <el-popover placement="bottom" title="买家WeChat" width="200" trigger="click"
+                            :content="transaction.buyer_wechat">
+                            <el-button size="small" slot="reference" v-if="transaction.state !== '已取消'">联系买家</el-button>
                         </el-popover>
 
-                        <el-button type="success" size="small" v-if="transaction.state === '待确认'"
-                            @click="finishTransaction(transaction)" style="margin-left: 5px;">完成交易</el-button>
+                        <el-button type="success" size="small" v-if="transaction.state === '待交易'"
+                            @click="confirmTransaction(transaction)" style="margin-left: 5px;">确认交易</el-button>
                         <el-button type="danger" size="small"
                             v-if="transaction.state === '已取消' || transaction.state === '已完成'" 
                             style="margin-left: 5px;" @click="deleteTransaction(transaction)">删除订单</el-button>
@@ -117,14 +118,11 @@
                 </div>
 
             </el-card>
-
-
         </el-main>
 
-        <!-- 分页器 -->
         <el-footer>
-            <el-pagination @current-change="handleCurrentChange" :current-page="page.pageNumber" :page-sizes="[100, 200, 300, 400]"
-                :page-size="page.pageSize" layout="total, prev, pager, next" :total="page.total">
+            <el-pagination @current-change="handleCurrentChange" :current-page="pageNumber" :page-sizes="[100, 200, 300, 400]"
+                :page-size="pageSize" layout="total, prev, pager, next" :total="total">
             </el-pagination>
         </el-footer>
 
@@ -132,72 +130,51 @@
 </template>
 
 <script>
-
-
 export default {
-    name: 'PurchasedProducts',
+    name:'SoldProducts',
     data() {
         return {
-            user: JSON.parse(localStorage.getItem('SecondHand-User') || '{}'),//获取当前登录用户
-            transactionState: null,
-            transactions: [],
-            productName:null,//绑定搜索框
-        }
-    },
-    computed:{
-        page(){
-            return {
-                pageNumber: 1,
-                pageSize: 24,
-                total: 0,
-            }
+           pageNumber:1,
+           pageSize:24,
+           total:0,
+           transactionState:null,//订单状态
+           transactions: [],
+           user: JSON.parse(localStorage.getItem('SecondHand-User') || '{}'),//获取当前登录用户
+           productName:null,//绑定搜索框
+
         }
     },
     created() {
         this.load()
     },
     methods: {
-         load() {
-            this.transactions = []
-            this.$request.get('/transaction/selectAllInfoByBuyerId', {
-                params: {
-                    pageNumber: this.page.pageNumber,
-                    pageSize: this.page.pageSize,
+        load(){
+            this.$request.get('/transaction/selectAllInfoBySellerId',{
+                params:{
+                    pageNumber: this.pageNumber,
+                    pageSize: this.pageSize,
                     userId: this.user.id,
                     transactionState: this.transactionState,
                     productName:this.productName
                 }
-            }).then(async res => {
+            }).then(res=>{
                 this.transactions = res.data.records
-                this.page.total = res.data.total
-
+                this.total = res.data.total
             })
         },
+        handleCurrentChange(newPage){//绑定分页器
+            this.pageNumber=newPage
+            // this.load()
+        },
         changeState(state) {//绑定状态按钮
-            this.page.pageNumber=1
-            this.page.total=0
+            this.pageNumber=1
+            this.total=0
             this.transactionState = state
             this.load()
         },
-        handleCurrentChange(newPage) {//绑定页码选择器
-            this.page.pageNumber = newPage
-            this.load()  
-        },
-        deleteTransaction(transaction){//绑定删除订单按钮
-            this.$confirm('是否删除此交易记录？', '', { type: "warning", dangerouslyUseHTMLString: true }).then(res => {
-                this.$request.put('/transaction/buyerDelete',transaction).then(res=>{
-                    if (res.code === '200') {
-                            this.$message.success('删除交易成功')
-                            this.load()
-                    } else {
-                            this.$message.error(res.msg)
-                    }
-                })
-            }).catch(() => { })
-        },
         cancelTransaction(transaction){
             this.$confirm('是否取消交易？', '', { type: "warning", dangerouslyUseHTMLString: true }).then(res => {
-                this.$request.put('/transaction/cancelByBuyer',transaction).then(res=>{
+                this.$request.put('/transaction/cancelBySeller',transaction).then(res=>{
                     if (res.code === '200') {
                             this.$message.success('取消交易成功')
                             this.load()
@@ -207,11 +184,23 @@ export default {
                 })
             }).catch(() => { })
         },
-        finishTransaction(transaction){
-            this.$confirm('是否完成交易？', '', { type: "warning", dangerouslyUseHTMLString: true }).then(res => {
-                this.$request.put('/transaction/finishTransaction',transaction).then(res=>{
+        deleteTransaction(transaction){//绑定删除订单按钮
+            this.$confirm('是否删除此交易记录？', '', { type: "warning", dangerouslyUseHTMLString: true }).then(res => {
+                this.$request.put('/transaction/sellerDelete',transaction).then(res=>{
                     if (res.code === '200') {
-                            this.$message.success('完成交易成功')
+                            this.$message.success('删除交易成功')
+                            this.load()
+                    } else {
+                            this.$message.error(res.msg)
+                    }
+                })
+            }).catch(() => { })
+        },
+        confirmTransaction(transaction){
+            this.$confirm('是否完成交易？', '', { type: "warning", dangerouslyUseHTMLString: true }).then(res => {
+                this.$request.put('/transaction/confirmTransaction',transaction).then(res=>{
+                    if (res.code === '200') {
+                            this.$message.success('确认交易成功')
                             this.load()
                     } else {
                             this.$message.error(res.msg)
@@ -222,7 +211,7 @@ export default {
         },
         showDetail(transactionId){
             this.$router.push({
-                name: 'BuyerTransactionDetail',
+                name: 'SellerTransactionDetail',
                 query: {
                     id: transactionId
                 }

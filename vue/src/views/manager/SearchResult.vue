@@ -20,7 +20,7 @@
                     </div>
                     <!-- <hr style="border-color: rgb(242,241,246);"> -->
                     <el-divider></el-divider>
-                    <div style=";display: flex;">
+                    <div style="display: flex;">
                         <div style="width: 50px;">
                             <el-image :src="product.user_avatar" lazy
                                 style="width: 40px; height: 40px; border-radius: 50%; border: 10px;"></el-image>
@@ -115,16 +115,36 @@ export default {
 
         };
     },
-    created() {
-        this.load()
+    // created() {
+    //     this.load()
+    // },
+    mounted(){
+        // this.this.productCategory=this.$route.query.productCategory,
+        // this.productName=this.$route.query.productName
+        this.load(this.$route.query.productCategory,this.$route.query.productName)
+        // this.$request.get('/product/selectProductsByPage', {
+        //         params: {
+        //             pageNumber: this.pageNumber,
+        //             pageSize: this.pageSize,
+        //             productCategory:this.$route.query.productCategory,
+        //             productName:this.$route.query.productName
+        //         }
+        //     }).then(res => {
+        //         this.products = res.data.records,
+        //             this.total = res.data.total
+        //     })
     },
+
     methods: {
-        load() {
+        load(category,name) {
+            console.log('category',category)
+            console.log('name',name)
             this.$request.get('/product/selectProductsByPage', {
                 params: {
                     pageNumber: this.pageNumber,
                     pageSize: this.pageSize,
-                    productCategory:'数码'
+                    productCategory:category,
+                    productName:name
                 }
             }).then(res => {
                 this.products = res.data.records,
@@ -133,7 +153,7 @@ export default {
         },
         handleCurrentChange(pageNumber) {//绑定页码选择器
             this.pageNumber = pageNumber
-            this.load()
+            location.reload()
         },
         publishButtom() {//绑定发布按钮
             this.form.userId = this.user.id,
