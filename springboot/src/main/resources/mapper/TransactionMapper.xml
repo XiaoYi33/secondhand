@@ -8,15 +8,18 @@
             <id property="id" column="id" jdbcType="VARCHAR"/>
             <result property="buyerId" column="user_id" jdbcType="INTEGER"/>
             <result property="productId" column="product_id" jdbcType="INTEGER"/>
-            <result property="sellerId" column="seller_id" jdbcType="INTEGER"/>
+            <result property="buyerId" column="buyer_id" jdbcType="INTEGER"/>
             <result property="sellerId" column="seller_id" jdbcType="INTEGER"/>
             <result property="price" column="price" jdbcType="INTEGER"/>
             <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
             <result property="state" column="state" jdbcType="VARCHAR"/>
+            <result property="comment" column="comment" jdbcType="VARCHAR"/>
+            <result property="isShowedToBuyer" column="isShowedToBuyer" jdbcType="VARCHAR"/>
+            <result property="isShowedToSeller" column="isShowedToSeller" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,buyer_id,product_id,seller_id,price,create_time,state
+        id,buyer_id,product_id,seller_id,price,create_time,state,comment
     </sql>
 
     <select id="selectPageById" resultType="map">
@@ -28,16 +31,55 @@
     </select>
 
     <select id="selectAllInfoByBuyerId" resultType="java.util.Map">
-        select t.*,p.name product_name,p.image product_image,u.nickname seller_nickname,u.avatar seller_avatar from transaction t
+        select t.*,p.name product_name,p.image product_image,seller.nickname seller_nickname,seller.wechat seller_wechat,seller.avatar seller_avatar
+        from transaction t
         left join product p on p.id = t.product_id
-        left join user u on seller_username=u.username
-        where t.buyer_id=#{userId} and t.state=#{transactionState}
-
-
+        left join user seller on t.seller_id=seller.id
+        where t.buyer_id=#{userId}
+        <if test="transactionState!=null">
+            and t.state=#{transactionState}
+        </if>
+        <if test="productName!=null">
+            and p.name like CONCAT('%', #{productName}, '%')
+        </if>
+        and is_showed_to_buyer = 1
+        order by t.id desc
     </select>
+
+    <select id="selectAllInfoBySellerId" resultType="java.util.Map">
+        select t.*,p.name product_name,p.image product_image,buyer.nickname buyer_nickname,buyer.wechat buyer_wechat,buyer.avatar buyer_avatar
+        from transaction t
+        left join product p on p.id=t.product_id
+        left join user buyer on t.buyer_id=buyer.id
+        where t.seller_id=#{userId}
+        <if test="transactionState!=null">
+            and t.state=#{transactionState}
+        </if>
+        <if test="productName!=null">
+            and p.name like CONCAT('%', #{productName}, '%')
+        </if>
+        and is_showed_to_seller=1
+        order by t.id desc
+    </select>
+
+
     <select id="getOneByUserId" resultType="com.example.springboot.entity.Transaction">
         select * from transaction where buyer_id=#{userId}
     </select>
+
+    <select id="selectDetailById" resultType="java.util.Map">
+        select t.*,
+        p.id product_id,p.name product_name, p.image product_image, p.description product_description,p.price product_price,
+        seller.nickname seller_nickname,seller.wechat seller_wechat,seller.avatar seller_avatar,
+        buyer.nickname buyer_nickname,buyer.wechat buyer_wechat,buyer.avatar buyer_avatar
+        from transaction t
+        left join product p on t.product_id=p.id
+        left join user seller on t.seller_id=seller.id
+        left join user buyer on t.buyer_id=buyer.id
+        where t.id=#{id}
+    </select>
+
+
 
 
 </mapper>

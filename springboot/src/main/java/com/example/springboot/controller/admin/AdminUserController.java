@@ -128,7 +128,7 @@ public class AdminUserController {
      * @param nickname
      * @return
      */
-    @GetMapping("selectByPage")
+    @GetMapping("/selectByPage")
     public Result selectByPage(@RequestParam Integer pageNumber,
                                @RequestParam Integer pageSize,
                                @RequestParam(required = false) String username,
@@ -140,6 +140,12 @@ public class AdminUserController {
 
         Page<User> page = userService.page(new Page<>(pageNumber, pageSize), queryWrapper);
         return Result.success(page);
+    }
+
+    @PutMapping("/resetPassword")
+    public Result resetPassword(@RequestBody User user){
+        userService.resetPassword(user);
+        return Result.success();
     }
 
 }

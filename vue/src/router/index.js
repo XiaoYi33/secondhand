@@ -16,6 +16,7 @@ const routes = [
     redirect: '/home', //重定向到主页
     children: [
       { path: 'home', name: 'Home', meta: { name: '首页' }, component: () => import('../views/manager/Home') },
+      { path: 'searchResult', name: 'SearchResult', meta: { name: '搜索结果' }, component: () => import('../views/manager/SearchResult') },
       { path: 'productDetail', name: 'ProductDetail', meta: { name: '商品详情' }, component: () => import('../views/manager/ProductDetail') },
       { path: '403', name: 'Auth', meta: { name: '无权限' }, component: () => import('../views/manager/Auth') },
 
@@ -33,6 +34,9 @@ const routes = [
       { path: 'password', name: 'Password', meta: { name: '修改密码' }, component: () => import('../views/manager/personal center/Password') },
       { path: 'MyProducts', name: 'myProducts', meta: { name: '我发布的' }, component: () => import('../views/manager/personal center/MyProducts') },
       { path: 'PurchasedProducts', name: 'purchasedProducts', meta: { name: '我买的' }, component: () => import('../views/manager/personal center/PurchasedProducts') },
+      { path: 'buyerTransactionDetail', name: 'BuyerTransactionDetail', meta: { name: '订单详情' }, component: () => import('../views/manager/personal center/BuyerTransactionDetail') },
+      { path: 'soldProducts', name: 'SoldProducts', meta: { name: '我卖的' }, component: () => import('../views/manager/personal center/SoldProducts') },
+      { path: 'sellerTransactionDetail', name: 'SellerTransactionDetail', meta: { name: '订单详情' }, component: () => import('../views/manager/personal center/SellerTransactionDetail') },
     ]
   },
   { path: '/login', name: 'Login', meta: { name: '登录' }, component: () => import('../views/Login.vue') },

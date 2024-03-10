@@ -20,7 +20,7 @@
                     </div>
                     <!-- <hr style="border-color: rgb(242,241,246);"> -->
                     <el-divider></el-divider>
-                    <div style=";display: flex;">
+                    <div style="display: flex;">
                         <div style="width: 50px;">
                             <el-image :src="product.user_avatar" lazy
                                 style="width: 40px; height: 40px; border-radius: 50%; border: 10px;"></el-image>
@@ -96,7 +96,7 @@ export default {
             total: 0,
             publishDialogVisible: false,//绑定发布商品对话框
             form: {},
-            user: JSON.parse(localStorage.getItem('SecondHand-User')),//获取当前登录用户
+            user: JSON.parse(localStorage.getItem('SecondHand-User') || '{}'),//获取当前登录用户
             rules: {//发布商品校验
                 name: [
                     { required: true, message: '请输入昵称', trigger: 'blur' },

@@ -3,7 +3,6 @@ package com.example.springboot.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.springboot.entity.Product;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 

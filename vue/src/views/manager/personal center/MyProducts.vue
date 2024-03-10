@@ -1,31 +1,38 @@
 <template>
     <el-container v-if="products !== null">
 
-        <!-- 展示卡片 -->
+        
         <el-main>
             <!-- 状态按钮 -->
             <div style="display: flex; margin-bottom: 30px; margin-left: 30px;">
-                <el-button v-if="this.productState === '上架'" class="button" round
+                <div>
+                    <el-button v-if="this.productState === '上架'" class="button" round
                     style="border:0px; font-weight: bold; background-color: #fff;color: #606266;"
                     @click="changeState('上架')">在卖({{ this.total }})</el-button>
-                <el-button v-if="this.productState === '上架'" class="button" round
-                    style="border:0px;  background-color:rgb(242, 241, 246) ;" @click="changeState('下架')">已下架</el-button>
-                <el-button v-if="this.productState === '下架'" class="button" round
+                    <el-button v-if="this.productState !== '上架'" class="button" round
                     style="border:0px;  background-color:rgb(242, 241, 246) ;" @click="changeState('上架')">在卖</el-button>
+                </div>
+                <div>
+                    <el-button v-if="this.productState !== '下架'" class="button" round
+                    style="border:0px;  background-color:rgb(242, 241, 246) ;" @click="changeState('下架')">已下架</el-button>
                 <el-button v-if="this.productState === '下架'" class="button" round
                     style="border:0px; font-weight: bold; background-color: #fff;color: #606266;"
                     @click="changeState('下架')">已下架({{ this.total }})</el-button>
+                </div>
+                
+                
 
             </div>
 
+            <!-- 展示卡片 -->
             <el-card :body-style="{ padding: '0px' }" v-for="product in products" :key="product.id"
                 style="float: left; margin-left: 30px ; margin-bottom: 30px;" v-if="products">
-                <div style="display: flex;">
+                <div style="display: flex;" >
                     <!-- 左边图片 -->
                     <el-image :src="product.image" style="height: 120px; width: 120px;"></el-image>
-                    <div style="width: 450px; display: flex;">
+                    <div style="width: 450px; display: flex;" >
                         <!-- 中间详情 -->
-                        <div style="width: 400px; height: 120px; padding: 10px 0 15px 15px;">
+                        <div style="width: 400px; height: 120px; padding: 10px 0 15px 15px;" @click="check(product.id)">
                             <div
                                 style="height: 29px; text-overflow: ellipsis; overflow: hidden; font-size: 25px; font-weight: bold; margin-bottom: 10px;">
                                 {{ product.name }}</div>
@@ -132,7 +139,7 @@ export default {
             pageNumber: 1,
             pageSize: 24,
             total: 0,
-            user: JSON.parse(localStorage.getItem('SecondHand-User')),//获取当前登录用户
+            user: JSON.parse(localStorage.getItem('SecondHand-User') || '{}'),//获取当前登录用户
             productState: '上架',//绑定
             popconfirmVisable: false,
             form:{},
@@ -154,12 +161,21 @@ export default {
             },
         }
     },
+    computed:{
+        page(){
+            return{
+                pageNumber: 1,
+                pageSize: 24,
+                total: 0,
+            }
+        }
+    },
     created() {
         this.load()
     },
+    
     methods: {
         load() {
-            this.total = 0,
                 this.products = [],
                 this.$request.get('/product/selectProductsByUserId', {
                     params: {
@@ -180,6 +196,8 @@ export default {
         },
         changeState(productState) {//绑定在卖和已下架按钮
             this.productState = productState
+            this.pageNumber=1
+            this.total=0
             this.load()
         },
         takeDown(id) {
@@ -241,6 +259,14 @@ export default {
                 this.$message.error('上传头像图片大小不能超过 5MB!');
             }
             return isJPG && isLt5M;
+        },
+        check(formId) {//绑定卡片，点击查看商品
+            this.$router.push({
+                name: 'ProductDetail',
+                query: {
+                    id: formId
+                }
+            })
         },
 
     }

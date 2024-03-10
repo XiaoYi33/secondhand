@@ -34,7 +34,7 @@ export default {
             }
         }
         return {
-            user: JSON.parse(localStorage.getItem('SecondHand-User' || '{}')),
+            user: JSON.parse(localStorage.getItem('SecondHand-User') || '{}'),
             rules: {
                 password: [
                     { required: true, message: '请输入当前密码', trigger: 'blur' },
