@@ -3,25 +3,22 @@ package com.example.springboot.service;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.springboot.controller.FileController;
 import com.example.springboot.entity.User;
 import com.example.springboot.exception.ServiceException;
 import com.example.springboot.mapper.UserMapper;
+import com.example.springboot.utils.HtmlGenerator;
 import com.example.springboot.utils.MD5PasswordEncoder;
-import com.example.springboot.utils.RandomCode;
+import com.example.springboot.utils.RandomNumber;
 import com.example.springboot.utils.TokenUtils;
 import jakarta.mail.MessagingException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.annotation.Resource;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.example.springboot.utils.HtmlGenerator.codeText;
+
 
 /**
  * author HKX
@@ -80,7 +77,7 @@ public class UserService extends ServiceImpl<UserMapper,User>{
 
         String token = TokenUtils.createToken(dbUser.getId().toString(), dbUser.getPassword());
         dbUser.setToken(token);
-        dbUser.setPassword("");
+        dbUser.setPassword(null);
         return dbUser;
     }
 
@@ -101,9 +98,9 @@ public class UserService extends ServiceImpl<UserMapper,User>{
             //抛出一个自定义的异常
             throw  new ServiceException("用户不存在");//抛出异常，然后会被全局捕获器捕获到
         }
-        String code = RandomCode.generateRandomCode();//获取验证码
+        String code = RandomNumber.generateRandomCode();//获取验证码
         String subject = "找回密码验证";
-        emailService.sendEmail(dbUser.getEmail(),subject,codeText(dbUser.getUsername(),code));
+        emailService.sendEmail(dbUser.getEmail(),subject,HtmlGenerator.codeReminder(dbUser.getUsername(),code));
         verificationCodes.put(dbUser.getUsername(),code);
 //        //dbUser.setPassword(MD5PasswordEncoder.encode("123456"));
 //        updateById(dbUser);
@@ -121,4 +118,11 @@ public class UserService extends ServiceImpl<UserMapper,User>{
         userMapper.updatePasswordByUsername(username,MD5PasswordEncoder.encode(password));
         verificationCodes.remove(username);//清除原有验证码
     }
+    public void resetPasswordAdmin(User user) throws MessagingException {
+        String password = RandomNumber.generateRandomPassword();
+        user.setPassword(MD5PasswordEncoder.encode(password));
+        userMapper.updateById(user);
+        emailService.sendEmail(user.getEmail(),"重置密码成功", HtmlGenerator.resetPasswordReminder(user.getUsername(),password));
+    }
+
 }

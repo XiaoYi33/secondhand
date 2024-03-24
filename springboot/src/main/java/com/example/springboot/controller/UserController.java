@@ -27,6 +27,7 @@ public class UserController {
 
     @PutMapping("/update")
     public Result update(@RequestBody User user){
+        user.setPassword(null);
         userService.updateById(user);
         return Result.success();
     }

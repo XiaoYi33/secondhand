@@ -1,33 +1,43 @@
 package com.example.springboot.utils;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+@Component
 public class HtmlGenerator {
 
-    public static String codeText(String username,String code){
+    private static String url; // 将url字段改为静态字段
+
+    @Value("${myapp.global.staticVar.url}")
+    public void setUrl(String url) {
+        HtmlGenerator.url = url;
+    }
+
+    //验证码提醒
+    public static String codeReminder(String username,String code){
         return "<html><body>" +
                 "<h2>找回密码验证</h2>" +
                 "<p>尊敬的:<b>" + username + "</b>，您的验证码是：</p>" +
                 "<h1 style='font-size: 32px; color: #FF0000;'>" + code + "</h1>" +
                 "</body></html>";
     }
-    public static String sellOutReminder(String username,String name){
-        return "<html>" +
-                "<head>" +
-                "<style>" +
-                "h1 {" +
-                "color: #FF0000;" +
-                "font-weight: bold;" +
-                "}" +
-                "p {" +
-                "color: #0000FF;" +
-                "font-weight: bold;" +
-                "}" +
-                "</style>" +
-                "</head>" +
-                "<body>" +
-                "<h1>亲爱的<span style=\"color: #00FF00;\">"+username+"</span>：</h1>" +
-                "<p>您的商品<span style=\"color: #FF00FF;\">"+ name +"</span>已卖出，请及时登录系统处理</p>" +
-                "<p>链接：<a href=\"此处放链接\" style=\"color: #0000FF; font-weight: bold;\">xxxx</a></p>" +
-                "</body>" +
-                "</html>";
+
+    //卖出提醒
+    public static String sellReminder(String username,String name){
+        return "<html><body>" +
+                "<p>尊敬的:<b>" + username + "</b></p>" +
+                "<p>您的商品:<b>" + name + "</b>已卖出，请及时登录系统与买家联系</p>" +
+                "<p>请点击链接登录系统：<a href=\"" + url + "\">登录系统</a></p>" +
+                "</body></html>";
+    }
+
+    //重置密码提醒
+    public static String resetPasswordReminder(String username,String password){
+        System.out.println(url);
+        return "<html><body>" +
+                "<p>尊敬的:<b>" + username + "</b>，您的密码已重置为：</p>" +
+                "<h1 style='font-size: 32px; color: #FF0000;'>" + password + "</h1>" +
+                "<p>请点击链接登录系统：<a href=\"" + url + "\">登录系统</a></p>" +
+                "</body></html>";
     }
 }

@@ -10,6 +10,7 @@ import com.example.springboot.entity.User;
 import com.example.springboot.service.ProductService;
 import com.example.springboot.service.TransactionService;
 import com.example.springboot.service.UserService;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
@@ -143,8 +144,8 @@ public class AdminUserController {
     }
 
     @PutMapping("/resetPassword")
-    public Result resetPassword(@RequestBody User user){
-        userService.resetPassword(user);
+    public Result resetPassword(@RequestBody User user) throws MessagingException {
+        userService.resetPasswordAdmin(user);
         return Result.success();
     }
 

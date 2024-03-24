@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * author HKX
  * date: 2024-02-17 22:08
  * description:
  **/
