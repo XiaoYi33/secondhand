@@ -8,12 +8,14 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.springboot.common.Result;
 import com.example.springboot.entity.Product;
 import com.example.springboot.mapper.ProductMapper;
+import com.example.springboot.utils.DeleteFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,5 +54,19 @@ public class ProductService extends ServiceImpl<ProductMapper,Product> {
 
     public void deleteByUserId(Integer userId) {
         productMapper.deleteByUserId(userId);
+    }
+    //删除商品后删除商品图片
+    public void deleteById(Integer productId) throws Exception {
+        Product product = productMapper.selectById(productId);
+        productMapper.deleteById(productId);
+        DeleteFile.deleteImage(product.getImage());
+    }
+    //删除商品后删除商品图片
+    public void deleteByIds(List<Integer> ids) throws Exception {
+        List<Product> products = productMapper.selectBatchIds(ids);
+        productMapper.deleteBatchIds(ids);
+        for (Product product : products) {
+            DeleteFile.deleteImage(product.getImage());
+        }
     }
 }
