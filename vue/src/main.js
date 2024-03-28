@@ -5,7 +5,7 @@ import '@/assets/css/global.css'
 
 Vue.config.productionTip = false
 
-//引入vue
+//引入vue和element-ui
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import request from "@/utils/request"

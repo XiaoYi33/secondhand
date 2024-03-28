@@ -61,7 +61,6 @@ public class ProductController {
         product.setUpdateTime(LocalDateTimeUtil.format(LocalDateTimeUtil.now(), "yyyy-MM-dd HH:mm:ss"));//更新商品的update_time
         productService.updateById(product);
         return Result.success();
-
     }
 
     @Deprecated

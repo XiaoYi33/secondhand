@@ -77,7 +77,7 @@
 
                         </div>
 
-
+4
 
                     </div>
                 </div>
@@ -86,7 +86,7 @@
         </el-main>
 
        <!-- 编辑商品对话框 -->
-       <el-dialog title="发布商品" :visible.sync="editFormVisable" width="35%">
+       <el-dialog title="编辑商品" :visible.sync="editFormVisable" width="35%">
             <el-form :model="form" style="padding-right: 20px;" label-width="80px" :rules="rules" ref="formRef">
                 <el-form-item label="名称" prop="name">
                     <el-input v-model="form.name" maxlength="12" show-word-limit></el-input>

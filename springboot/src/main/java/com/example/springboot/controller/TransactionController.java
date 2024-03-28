@@ -178,7 +178,7 @@ public class TransactionController {
     }
 
     /**
-     * 通过订单Id查询订单详细信息，用在PurchasedProduct。vue
+     * 通过订单Id查询订单详细信息，用在PurchasedProduct.vue
      * @param id
      * @return
      */

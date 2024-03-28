@@ -50,7 +50,7 @@
         </div>
 
         <!-- 新增和编辑用户弹出对话框 -->
-        <el-dialog title="新增编辑用户" :visible.sync="formVisible" width="25%">
+        <el-dialog title="编辑用户" :visible.sync="formVisible" width="25%">
             <el-form :model="form" label-width="80px" style="padding-right: 20px;" :rules="rules" ref="formRef">
                 <div style="margin: 15px; text-align: center;">
                     <el-upload class="avatar-uploader" action="http://localhost:9090/file/upload"
