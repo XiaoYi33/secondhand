@@ -99,7 +99,7 @@ public class TransactionController {
         }
         dbTransaction.setState("待确认");
         dbTransaction.setComment("等待买家完成交易");
-        dbTransaction.setUpdateTime(LocalDateTimeUtil.format(LocalDateTimeUtil.now(), "yyyy-MM-dd HH:mm:ss"));
+        //dbTransaction.setUpdateTime(LocalDateTimeUtil.format(LocalDateTimeUtil.now(), "yyyy-MM-dd HH:mm:ss"));
         transactionService.updateById(dbTransaction);
         return Result.success();
     }

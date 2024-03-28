@@ -1,6 +1,7 @@
 package com.example.springboot.controller;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.IdUtil;
 import com.example.springboot.common.AuthAccess;
 import com.example.springboot.common.Result;
 import jakarta.servlet.ServletOutputStream;
@@ -25,23 +26,27 @@ public class FileController {
 
     @Value("${server.port}")
     private String port;
+    @Value("${myapp.global.staticVar.ip}")
 
     private static final String ROOT_PATH = System.getProperty("user.dir") + File.separator + "files";//文件根目录
 
     @PostMapping("/upload")
     public Result upload(MultipartFile file) throws IOException {
-        String originalFilename=file.getOriginalFilename();//获取文件的完整名称
-        String mainName= FileUtil.mainName(originalFilename);//获取文件名称
-        String extName=FileUtil.extName(originalFilename);//获取文件拓展名
-        if(!FileUtil.exist(ROOT_PATH)){
+        String originalFilename = file.getOriginalFilename();//获取文件的完整名称
+        String mainName = FileUtil.mainName(originalFilename);//获取文件名称
+        String extName = FileUtil.extName(originalFilename);//获取文件拓展名
+        if (!FileUtil.exist(ROOT_PATH)) {
             FileUtil.mkdir(ROOT_PATH);
         }
-        if(FileUtil.exist(ROOT_PATH+File.separator+originalFilename)){
-            originalFilename=System.currentTimeMillis()+"_"+mainName+"."+extName;
-        }
-        File savaFile=new File(ROOT_PATH+File.separator+originalFilename);
-        file.transferTo(savaFile);
-        String url="http://localhost:"+port+"/file/download/"+originalFilename;//todo:这里localhost等项目部署到服务器上就换成ip变量
+
+        String randomFileName;
+        do {
+            randomFileName = IdUtil.randomUUID() + "." + extName;
+        } while (FileUtil.exist(ROOT_PATH + File.separator + randomFileName));
+
+        File saveFile = new File(ROOT_PATH + File.separator + randomFileName);
+        file.transferTo(saveFile);
+        String url = "http://localhost:" + port + "/file/download/" + randomFileName;
         return Result.success(url);//返回文件下载链接
     }
 

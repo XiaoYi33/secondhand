@@ -39,6 +39,7 @@ myapp:
   global:
     staticVar:
       url: "http://localhost:9091/"
+      ip: "localhost"
 
 
 

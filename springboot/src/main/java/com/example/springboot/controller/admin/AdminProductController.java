@@ -12,6 +12,7 @@ import com.example.springboot.entity.User;
 import com.example.springboot.service.CategoryService;
 import com.example.springboot.service.ProductService;
 import com.example.springboot.service.UserService;
+import com.example.springboot.utils.DeleteFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,8 +49,8 @@ public class AdminProductController {
      * @return
      */
     @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable Integer id){
-        productService.removeById(id);
+    public Result delete(@PathVariable Integer id) throws Exception {
+        productService.deleteById(id);
         return Result.success();
     }
 
@@ -59,8 +60,8 @@ public class AdminProductController {
      * @return
      */
     @DeleteMapping("/delete/batch")
-    public Result batchDelete(@RequestBody List<Integer> ids){
-        productService.removeBatchByIds(ids);
+    public Result batchDelete(@RequestBody List<Integer> ids) throws Exception {
+        productService.deleteByIds(ids);
         return Result.success();
     }
 
