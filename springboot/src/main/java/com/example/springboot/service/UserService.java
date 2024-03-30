@@ -95,8 +95,18 @@ public class UserService extends ServiceImpl<UserMapper, User> {
             //抛出一个自定义的异常
             throw new ServiceException("用户名已存在");//抛出异常，然后会被全局捕获器捕获到
         }
+        User dbUser1 = userMapper.selectUserByNickname(user.getNickname());
+        if (dbUser1 != null) {
+            throw new ServiceException("显示名已存在");
+        }
+        if(!user.getCode().equals(verificationCodes.get(user.getEmail()))){
+            throw new ServiceException("验证码错误");
+        }
+
         user.setPassword(MD5PasswordEncoder.encode(user.getPassword()));
         userMapper.insert(user);
+        verificationCodes.remove(user.getEmail());//清除原有验证码
+        user.setPassword(null);
         return user;
     }
 
@@ -162,4 +172,20 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         userMapper.deleteById(userId);
     }
 
+    public void updatePassword(Integer id,String oldPassword,String newPassword){
+        User user = userMapper.selectById(id);
+        if(user.getPassword().equals(MD5PasswordEncoder.encode(oldPassword))){
+            userMapper.updatePasswordByUsername(user.getUsername(),MD5PasswordEncoder.encode(newPassword));
+        }else {
+            throw new ServiceException("原始密码不正确，请检查");
+        }
+    }
+
+    public void getCodeForReg(String email) throws MessagingException {
+
+        String code = RandomNumber.generateRandomCode();//获取验证码
+        String subject = "注册账号验证";
+        emailService.sendEmail(email, subject, HtmlGenerator.codeReminderForReg(code));
+        verificationCodes.put(email, code);
+    }
 }

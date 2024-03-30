@@ -33,4 +33,7 @@ public class User {
 
     @TableField(exist = false)//数据库不存在这个字段
     private String token;
+
+    @TableField(exist = false)//数据库不存在这个字段
+    private String code;
 }
