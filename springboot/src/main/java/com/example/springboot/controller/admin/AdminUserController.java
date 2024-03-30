@@ -93,14 +93,8 @@ public class AdminUserController {
      * @return
      */
     @DeleteMapping("/delete/{id}")
-    public Result delete(@PathVariable Integer id){
-        Transaction dbTransaction = transactionService.getOneByUserId(id);
-        if(dbTransaction!=null && StrUtil.equals(dbTransaction.getState(),"待交易")){
-            dbTransaction.setState("已取消");
-            transactionService.updateById(dbTransaction);
-        }
-        productService.deleteByUserId(id);
-        userService.removeById(id);
+    public Result delete(@PathVariable Integer id) throws Exception {
+        userService.deleteUserById(id);
 
         return Result.success();
     }
@@ -111,11 +105,10 @@ public class AdminUserController {
      * @return
      */
     @DeleteMapping("/delete/batch")
-    public Result batchDelete(@RequestBody List<Integer> ids){
+    public Result batchDelete(@RequestBody List<Integer> ids) throws Exception {
         for(Integer id:ids){
-            productService.deleteByUserId(id);
+            userService.deleteUserById(id);
         }
-        userService.removeBatchByIds(ids);
         return Result.success();
     }
 

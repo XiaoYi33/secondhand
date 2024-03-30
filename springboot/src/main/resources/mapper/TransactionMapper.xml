@@ -63,7 +63,7 @@
     </select>
 
 
-    <select id="getOneByUserId" resultType="com.example.springboot.entity.Transaction">
+    <select id="getTransactionByUserId" resultType="com.example.springboot.entity.Transaction">
         select * from transaction where buyer_id=#{userId}
     </select>
 

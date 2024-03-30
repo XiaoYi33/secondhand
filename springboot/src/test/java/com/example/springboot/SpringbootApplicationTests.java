@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
 class SpringbootApplicationTests {
 	@Autowired
@@ -18,7 +20,7 @@ class SpringbootApplicationTests {
 	}
 	@Test
 	void getOneByUserId() {
-		Transaction oneByUserId = transactionService.getOneByUserId(1);
+		List<Transaction> oneByUserId = transactionService.getTransactionByUserId(1);
 		System.out.println("oneByUserId = " + oneByUserId);
 	}
 

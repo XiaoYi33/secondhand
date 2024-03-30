@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.springboot.entity.Transaction;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,7 +21,7 @@ public interface TransactionMapper extends BaseMapper<Transaction> {
 
     IPage<Map> selectAllInfoByBuyerId(IPage<Map> page, Integer userId,String transactionState,String productName);
 
-    Transaction getOneByUserId(Integer userId);
+    List<Transaction> getTransactionByUserId(Integer userId);
 
     Map selectDetailById(String id);
 

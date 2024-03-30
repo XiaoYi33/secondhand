@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.example.springboot.entity.Product;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ProductMapper extends BaseMapper<Product> {
@@ -15,6 +16,9 @@ public interface ProductMapper extends BaseMapper<Product> {
     IPage<Map> selectByParams(IPage page,Integer productId,String username);
 
     IPage<Map> selectProductsByUserId(IPage page, Integer userId, String productState);
+    List<Map<String, Object>> selectProductsByUserId(Integer userId, String productState);
+    List<Product> selectProductsByUserIdRetProduct(Integer userId, String productState);
+
 
     void deleteByUserId(Integer userId);
 }
