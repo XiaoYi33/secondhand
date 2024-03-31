@@ -40,10 +40,8 @@ public class WebController {
     @PostMapping("/register")
     public Result register(@RequestBody User user) {
         if (StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword())) {
-            //todo 这里修改注册界面的时候要改校验规则
             return Result.error("数据输入不合法");
         }
-        //todo：这里可以校验一下输入用户名的规则，前后端一起做校验
         user = userService.register(user);
         return Result.success(user);
     }

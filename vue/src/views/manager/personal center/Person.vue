@@ -3,12 +3,8 @@
         <el-card style="width: 35%; ">
             <el-form :model="user" label-width="80px" style="padding-right: 20px;" :rules="rules">
                 <div style="margin: 15px; text-align: center;">
-                    <el-upload 
-                    class="avatar-uploader" 
-                    action="http://localhost:9090/file/upload"
-                        :headers="{ token: user.token }" 
-                        :show-file-list="false" 
-                        :before-upload="beforeAvatarUpload"
+                    <el-upload class="avatar-uploader" action="http://localhost:9090/file/upload"
+                        :headers="{ token: user.token }" :show-file-list="false" :before-upload="beforeAvatarUpload"
                         :on-success="handleAvatarSuccess">
                         <img v-if="user.avatar" :src="user.avatar" class="avatar">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -33,7 +29,7 @@
                     <el-input v-model="user.wechat" placeholder="微信"></el-input>
                 </el-form-item>
                 <el-form-item label="电话" prop="phone">
-                    <el-input v-model="user.phone" placeholder="电话"></el-input>
+                    <el-input v-model.number="user.phone" placeholder="电话"></el-input>
                 </el-form-item>
                 <el-form-item label="创建时间" prop="createTime">
                     <el-input v-model="user.createTime" placeholder="创建时间" disabled></el-input>
@@ -44,7 +40,7 @@
             </el-form>
         </el-card>
     </div>
-</template> 
+</template>
 
 <script>
 export default {
@@ -54,13 +50,26 @@ export default {
             user: JSON.parse(localStorage.getItem('SecondHand-User') || '{}'),
 
             rules: {
-                name: [
+                username: [
+                    { required: true, message: '请输入账号', trigger: 'blur' },
+                    { min: 1, max: 30, message: '微信号长度在20个字符以内', trigger: 'blur' }
+                ],
+                nickname: [
                     { required: true, message: '请输入昵称', trigger: 'blur' },
+                    { min: 1, max: 30, message: '长度在30个字符以内', trigger: 'blur' }
+                ],
+                wechat: [
+                    { required: true, message: '请输入微信，买家或卖家将通过微信联系你', trigger: 'blur' },
+                    { min: 1, max: 30, message: '长度在30个字符以内', trigger: 'blur' }
+                ],
+                phone: [
+                    { type: 'number', message: '手机号码必须为数字值' },
                 ],
                 email: [
-                    { required: true, message: '请输入邮箱', trigger: 'blur' },
+                    { required: true, message: '请输入邮箱，邮箱是找回密码的重要凭据', trigger: 'blur' },
+                    { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] },
+                    { min: 1, max: 30, message: '长度在30个字符以内', trigger: 'blur' }
                 ],
-
             }
         }
     },
@@ -81,6 +90,7 @@ export default {
             return isJPG && isLt5M;
         },
         update() {
+            
             //更新数据库当前用户信息
             this.$request.put('/user/update', this.user).then(res => {
                 if (res.code === '200') {
@@ -138,6 +148,7 @@ export default {
     display: block;
     border-radius: 50%;
 }
+
 .el-button--success {
     background-color: rgb(25, 156, 96);
     border-color: rgb(25, 156, 96);
