@@ -21,6 +21,13 @@ public class HtmlGenerator {
                 "<h1 style='font-size: 32px; color: #FF0000;'>" + code + "</h1>" +
                 "</body></html>";
     }
+    public static String codeReminderForReg(String code){
+        return "<html><body>" +
+                "<h2>注册账号验证</h2>" +
+                "<p>感谢您注册本系统，您的验证码是：</p>" +
+                "<h1 style='font-size: 32px; color: #FF0000;'>" + code + "</h1>" +
+                "</body></html>";
+    }
 
     //卖出提醒
     public static String sellReminder(String username,String name){

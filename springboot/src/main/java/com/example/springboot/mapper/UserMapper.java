@@ -11,4 +11,5 @@ import com.example.springboot.entity.User;
 
 public interface UserMapper extends BaseMapper<User> {
     void updatePasswordByUsername(String username,String password);
+    User selectUserByNickname (String nickname);
 }

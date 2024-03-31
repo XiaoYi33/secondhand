@@ -8,6 +8,7 @@ import com.example.springboot.mapper.TransactionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,8 +35,8 @@ public class TransactionService extends ServiceImpl<TransactionMapper, Transacti
         transactionMapper.insert(transaction);
     }
 
-    public Transaction getOneByUserId(Integer userId) {
-        return transactionMapper.getOneByUserId(userId);
+    public List<Transaction> getTransactionByUserId(Integer userId) {
+        return transactionMapper.getTransactionByUserId(userId);
     }
 
     public IPage<Map> selectAllInfoByBuyerId(Integer pageNumber, Integer pageSize, Integer userId,String transactionState,String productName) {

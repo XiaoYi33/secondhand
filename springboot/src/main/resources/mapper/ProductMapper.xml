@@ -73,6 +73,12 @@
         from product p inner join category c on p.category_id=c.id
         where p.user_id=#{userId} and p.state=#{productState}
     </select>
+    <select id="selectProductsByUserIdRetProduct" resultType="com.example.springboot.entity.Product">
+        select p.*,c.name category_name
+        from product p inner join category c on p.category_id=c.id
+        where p.user_id=#{userId} and p.state=#{productState}
+    </select>
+
 
 
 </mapper>

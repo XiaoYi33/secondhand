@@ -14,6 +14,9 @@
         SET password = #{password}
         WHERE username = #{username}
     </update>
+    <select id="selectUserByNickname" resultType="com.example.springboot.entity.User">
+        SELECT * FROM user WHERE nickname = #{nickname}
+    </select>
 
 
 </mapper>

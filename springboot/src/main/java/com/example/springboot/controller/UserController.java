@@ -32,6 +32,15 @@ public class UserController {
         return Result.success();
     }
 
+    @PutMapping("/updatePassword")
+    public Result updatePassword(@RequestParam(required = true) Integer id,
+                                 @RequestParam(required = true) String oldPassword,
+                                 @RequestParam(required = true) String newPassword){
+        userService.updatePassword(id, oldPassword, newPassword);
+        return Result.success();
+    }
+
+
 
     @GetMapping("/selectByUsername/{username}")
     public Result selectByUsername(@PathVariable String username){
