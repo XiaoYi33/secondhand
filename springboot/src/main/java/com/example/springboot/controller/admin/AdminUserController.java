@@ -64,7 +64,6 @@ public class AdminUserController {
     @PostMapping("/add")
     public Result add(@RequestBody User user){
         try {
-
             userService.save(user);
         }catch (Exception e){
             if(e instanceof DuplicateKeyException){

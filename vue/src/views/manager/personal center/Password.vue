@@ -1,11 +1,15 @@
 <template>
     <div>
         <el-card style="width: 35%;">
-            <el-form ref="formRef" :rules="rules" :model="user" label-width="80px" style="padding-right: 20px;" >
+            <el-form ref="formRef" :rules="rules" :model="user" label-width="80px" style="padding-right: 20px;">
+                <el-form-item label="旧密码" prop="password">
+                    <el-input v-model="user.password" placeholder="当前密码" show-password></el-input>
+                </el-form-item>
                 <el-form-item label="新密码" prop="newPassword">
                     <el-input v-model="user.newPassword" placeholder="新密码" show-password></el-input>
-                </el-form-item><el-form-item label="确认密码" prop="confirmPassword" show-password>
-                    <el-input v-model="user.confirmPassword" placeholder="确认密码"></el-input>
+                </el-form-item>
+                <el-form-item label="确认密码" prop="confirmPassword" >
+                    <el-input v-model="user.confirmPassword" placeholder="确认密码" show-password></el-input>
                 </el-form-item>
                 <div style="text-align: center;">
                     <el-button type="primary" @click="update">确认修改</el-button>
@@ -24,7 +28,7 @@ export default {
         const validatePassword = (rule, value, callback) => {
             if (value === '') {
                 callback(new Error('请确认密码'))
-            } else if (value!==this.user.newPassword) {
+            } else if (value !== this.user.newPassword) {
                 callback(new Error('确认密码错误'))
             } else {
                 callback()
@@ -40,7 +44,7 @@ export default {
                     { required: true, message: '请输入新密码', trigger: 'blur' },
                 ],
                 confirmPassword: [
-                    { validator: validatePassword, required: true,requtrigger: 'blur' },
+                    { validator: validatePassword, required: true, requtrigger: 'blur' },
                 ],
 
             }
@@ -52,11 +56,16 @@ export default {
             this.$refs.formRef.validate((valid) => {
                 //valid为true时触发更新
                 if (valid) {
-                    this.user.password=this.user.newPassword
-                    this.$request.put('/user/update', this.user).then(res => {
+                    this.$request.put('/user/updatePassword', null,{
+                        params:{
+                            id: this.user.id,
+                        oldPassword: this.user.password,
+                        newPassword: this.user.newPassword
+                        }
+                    }).then(res => {
                         if (res.code === '200') {
                             this.$message.success('保存成功')
-                            
+
                             this.$router.push('/login')
 
                         } else {

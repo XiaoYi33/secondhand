@@ -1,7 +1,7 @@
 <template>
     <div style="display: flex; ">
         <el-card style="width: 35%; ">
-            <el-form :model="user" label-width="80px" style="padding-right: 20px;" :rules="rules">
+            <el-form :model="user" label-width="80px" style="padding-right: 20px;" :rules="rules" ref="personRef">
                 <div style="margin: 15px; text-align: center;">
                     <el-upload class="avatar-uploader" action="http://localhost:9090/file/upload"
                         :headers="{ token: user.token }" :show-file-list="false" :before-upload="beforeAvatarUpload"
@@ -27,9 +27,6 @@
                 </el-form-item>
                 <el-form-item label="微信" prop="wechat">
                     <el-input v-model="user.wechat" placeholder="微信"></el-input>
-                </el-form-item>
-                <el-form-item label="电话" prop="phone">
-                    <el-input v-model.number="user.phone" placeholder="电话"></el-input>
                 </el-form-item>
                 <el-form-item label="创建时间" prop="createTime">
                     <el-input v-model="user.createTime" placeholder="创建时间" disabled></el-input>
@@ -62,9 +59,6 @@ export default {
                     { required: true, message: '请输入微信，买家或卖家将通过微信联系你', trigger: 'blur' },
                     { min: 1, max: 30, message: '长度在30个字符以内', trigger: 'blur' }
                 ],
-                phone: [
-                    { type: 'number', message: '手机号码必须为数字值' },
-                ],
                 email: [
                     { required: true, message: '请输入邮箱，邮箱是找回密码的重要凭据', trigger: 'blur' },
                     { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] },
@@ -90,21 +84,25 @@ export default {
             return isJPG && isLt5M;
         },
         update() {
-            
-            //更新数据库当前用户信息
-            this.$request.put('/user/update', this.user).then(res => {
-                if (res.code === '200') {
-                    this.$message.success('保存成功')
-                    //数据库更新成功后，再更新浏览器本地用户信息
-                    localStorage.setItem('SecondHand-User', JSON.stringify(this.user))
+            this.$refs['personRef'].validate((valid) => {
+                if (valid) {
+                    //更新数据库当前用户信息
+                    this.$request.put('/user/update', this.user).then(res => {
+                        if (res.code === '200') {
+                            this.$message.success('保存成功')
+                            //数据库更新成功后，再更新浏览器本地用户信息
+                            localStorage.setItem('SecondHand-User', JSON.stringify(this.user))
 
-                    //触发Manager.vue数据更新
-                    this.$emit('update:user', this.user)
+                            //触发Manager.vue数据更新
+                            this.$emit('update:user', this.user)
 
-                } else {
-                    this.$message.error(res.msg)
-                }
+                        } else {
+                            this.$message.error(res.msg)
+                        }
+                    })
+                }else{this.$message.error('请检查信息是否填写完整')}
             })
+
         }
     }
 }

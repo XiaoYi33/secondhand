@@ -18,10 +18,13 @@ public class EmailService {
     @Value("${spring.mail.from}")
     private String from;
 
+    @Value("${spring.mail.nickname}")
+    private String nickname;
+
     public void sendEmail(String to,String subject ,String text) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true);
-        mimeMessageHelper.setFrom(from);
+        mimeMessageHelper.setFrom(nickname+'<'+from+'>');
         mimeMessageHelper.setTo(to);
         mimeMessageHelper.setSubject(subject);
         mimeMessageHelper.setText(text,true);//第二个参数加true可发送html格式

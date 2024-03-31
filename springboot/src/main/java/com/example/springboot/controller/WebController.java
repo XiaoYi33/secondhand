@@ -44,10 +44,8 @@ public class WebController {
                 StrUtil.isBlank(user.getCode()) ||
                 StrUtil.isBlank(user.getNickname()) ||
                 StrUtil.isBlank(user.getEmail())) {
-            //todo 这里修改注册界面的时候要改校验规则
             return Result.error("数据输入不合法");
         }
-        //todo：这里可以校验一下输入用户名的规则，前后端一起做校验
         user = userService.register(user);
         return Result.success(user);
     }
@@ -78,12 +76,12 @@ public class WebController {
     }
 
     @AuthAccess
-    @PostMapping("/resetPassword")
-    public Result resetPassword(@RequestParam String username, @RequestParam String password, @RequestParam String code) {
-        if (StrUtil.isBlank(username) || StrUtil.isBlank(password) || StrUtil.isBlank(code)) {
+    @PutMapping("/resetPassword")
+    public Result resetPassword(@RequestBody User user) {
+        if (StrUtil.isBlank(user.getUsername()) || StrUtil.isBlank(user.getPassword()) || StrUtil.isBlank(user.getCode())) {
             return Result.error("数据输入不合法");
         }
-        userService.resetPassword(username, password, code);
+        userService.resetPassword(user.getUsername(), user.getPassword(), user.getCode());
         return Result.success();
     }
 }

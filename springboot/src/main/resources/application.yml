@@ -24,9 +24,12 @@ spring:
   mail:
     host: smtp.qq.com
     port: 587
-    username: 1029807850@qq.com
-    password: abgigruefebsbbai
-    from: 1029807850@qq.com
+#    username: 1029807850@qq.com
+#    password: abgigruefebsbbai
+    username: campus_secondhand@qq.com
+    password: zvwwybucsgtngach
+    from: campus_secondhand@qq.com
+    nickname: "培正校园二手交易平台"
     properties:
       mail:
         smtp:
