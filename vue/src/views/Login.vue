@@ -44,7 +44,7 @@
     </div>
 
     <!-- 忘记密码对话框 -->
-    <el-dialog title="忘记密码" :visible.sync="forgetPasswordDialogVisible" width="20%">
+    <el-dialog title="忘记密码" :visible.sync="forgetPasswordDialogVisible" width="500px">
       <el-form :model="forgetUser" label-width="100px" style="padding-right: 20px" :rules="rulesForForget"
         ref="forgetRef">
         <el-form-item label="用户名" prop="username">

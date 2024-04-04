@@ -94,7 +94,6 @@ public class AdminUserController {
     @DeleteMapping("/delete/{id}")
     public Result delete(@PathVariable Integer id) throws Exception {
         userService.deleteUserById(id);
-
         return Result.success();
     }
 
