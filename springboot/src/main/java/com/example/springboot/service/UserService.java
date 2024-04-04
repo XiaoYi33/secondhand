@@ -188,4 +188,15 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         emailService.sendEmail(email, subject, HtmlGenerator.codeReminderForReg(code));
         verificationCodes.put(email, code);
     }
+
+    public boolean updateById(User user) {
+        System.out.println("user = " + user);
+        User dbuser=userMapper.selectUserByNickname(user.getNickname());
+        if(dbuser==null||Objects.equals(dbuser.getId(), user.getId())){
+            return super.updateById(user);
+        }else{
+            throw new ServiceException("昵称重复");
+        }
+    }
+
 }
