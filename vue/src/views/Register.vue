@@ -1,19 +1,26 @@
 <template>
-  <div style="height: 100vh; display: flex; align-items: center; justify-content: center; background-color: #67C23A;">
+  <div style="height: 100vh;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       background-image: url(https://img0.baidu.com/it/u=3996078719,2754082441&fm=253&fmt=auto&app=138&f=PNG?w=667&h=500);
+       background-size: cover;
+       background-position: center;
+       background-repeat: no-repeat;">
     <!--align-items: center; justify-content: center;垂直水平居中-->
 
     <!-- 把这个flex平均拆成两部分 -->
     <div
-      style="display: flex; background-color: white; width: 500px; height: 750px; border-radius: 5px; overflow: hidden;">
+      style="display: flex;  background-color:rgba(255, 255, 255, 0.4); width: 500px; height: 750px; border-radius: 5px; overflow: hidden;">
 
       <!-- <div style="flex: 1">
         <img src="@/assets/register.png" alt="" style="width: 100%;"> 
       </div> -->
 
-      <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
+      <div style="flex: 1; display: flex; align-items: center;justify-content: center;">
         <el-form :model="user" style="width: 80%;" :rules="rules" ref="registerRef">
 
-          <div style="font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 20px;">欢迎注册培正校园二手网</div>
+          <div style="font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 20px;">欢迎注册广应科二手易物平台</div>
 
           <el-form-item prop="username">
             <el-input prefix-icon="el-icon-user" size="medium" v-model="user.username" placeholder="用户名"></el-input>

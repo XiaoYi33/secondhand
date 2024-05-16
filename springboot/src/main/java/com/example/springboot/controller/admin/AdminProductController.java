@@ -20,11 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
-/**
- * author HKX
- * date: 2024-02-22 00:26
- * description: 管理员操作商品的控制类
- **/
+
 @RestController
 @RequestMapping("/admin/product")
 public class AdminProductController {

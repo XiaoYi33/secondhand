@@ -9,11 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * author HKX
- * date: 2024-01-30 16:15
- * description: 用户实体类
- **/
+
 @Data
 @AllArgsConstructor //所有属性的构造方法
 @NoArgsConstructor //无参构造方法

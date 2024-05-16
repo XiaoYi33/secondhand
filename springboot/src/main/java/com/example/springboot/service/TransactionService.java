@@ -11,11 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-/**
-* @author HKX
-* @description 针对表【order】的数据库操作Service
-* @createDate 2024-02-27 21:42:54
-*/
+
 @Service
 public class TransactionService extends ServiceImpl<TransactionMapper, Transaction> {
     @Autowired

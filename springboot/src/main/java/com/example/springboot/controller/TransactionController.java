@@ -7,6 +7,7 @@ import com.example.springboot.common.Result;
 import com.example.springboot.entity.Product;
 import com.example.springboot.entity.Transaction;
 import com.example.springboot.entity.User;
+import com.example.springboot.service.EmailService;
 import com.example.springboot.service.TransactionService;
 import com.example.springboot.service.ProductService;
 import com.example.springboot.utils.TokenUtils;
@@ -16,11 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.Random;
 
-/**
- * author HKX
- * date: 2024-02-27 00:51
- * description: 订单控制类
- **/
+
 @RestController
 @RequestMapping("/transaction")
 public class TransactionController {
@@ -28,6 +25,9 @@ public class TransactionController {
     private TransactionService transactionService;
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private EmailService emailService;
 
     /**
      * 创建订单接口，给home.vue用

@@ -5,11 +5,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-/**
- * author HKX
- * date: 2024-01-31 19:44
- * description: 自定义异常
- **/
+
 @ControllerAdvice
 public class GlobalException {
     @ExceptionHandler(ServiceException.class)

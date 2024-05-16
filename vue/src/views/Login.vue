@@ -1,18 +1,21 @@
 <template>
-  <div style="height: 100vh; display: flex; align-items: center; justify-content: center; background-color: #409EFF;">
+  <div style="
+       height: 100vh;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       background-image: url(https://img0.baidu.com/it/u=3996078719,2754082441&fm=253&fmt=auto&app=138&f=PNG?w=667&h=500);
+       background-size: cover;
+       background-position: center;
+       background-repeat: no-repeat;
+  ">
     <!--align-items: center; justify-content: center;垂直水平居中-->
 
     <!-- 把这个flex平均拆成两部分 -->
-    <div style="display: flex; background-color: white; width: 50%; border-radius: 5px; overflow: hidden;">
-
-      <div style="flex: 1">
-        <!-- 图片一定要设置宽 -->
-        <img src="@/assets/login.png" alt="" style="width: 100%;">
-      </div>
-
+    <div style="width: 30%; border-radius: 5px;background-color: rgba(255, 255, 255, 0.4); overflow: hidden;">
       <div style="flex: 1; display: flex; align-items: center; justify-content: center;">
         <el-form :model="user" style="width: 80%;" :rules="rulesForLogin" ref="loginRef">
-          <div style="font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 20px;">欢迎登录培正校园二手网</div>
+          <div style="font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 20px;">欢迎登录广应科二手易物平台</div>
           <el-form-item prop="username">
             <el-input prefix-icon="el-icon-user" size="medium" v-model="user.username" placeholder="请输入账号"></el-input>
           </el-form-item>
@@ -22,15 +25,15 @@
           </el-form-item>
           <el-form-item prop="code">
             <div style="display: flex;">
-              <el-input prefix-icon="el-icon-circle-check" size="medium" style="flex: 1;" v-model="user.code"
+              <el-input prefix-icon="el-icon-circle-check" size="medium"  style="flex: 1;" v-model="user.code"
                 placeholder="请输入验证码"></el-input>
-              <div style="flex: 1; height: 36px;">
-                <valid-code @update:value="getCode"></valid-code>
+              <div style="flex: 0.5%; height: 36px;width: 5px;">
+                <valid-code @update:value="getCode" ></valid-code>
               </div>
             </div>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" style="width: 100%;" @click="login">登 录</el-button>
+            <el-button type="primary" style="width: 100%; background-color: cornflowerblue" @click="login">登 录</el-button>
           </el-form-item>
           <div style="display: flex;">
             <div style="flex: 1;">还没有账号？请 <span style="color:#409EFF; cursor: pointer;"

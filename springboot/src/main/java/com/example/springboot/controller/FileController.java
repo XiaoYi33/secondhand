@@ -13,11 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 
-/**
- * author HKX
- * date: 2024-02-11 07:58
- * description: 文件控制类，
- **/
+
 @RestController
 @RequestMapping("file")
 public class FileController {

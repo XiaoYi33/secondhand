@@ -9,11 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-/**
- * author HKX
- * date: 2024-02-27 01:15
- * description: 管理员操作订单控制类
- **/
+
 
 @RestController
 @RequestMapping("/admin/transaction")

@@ -14,12 +14,12 @@
         </div>
         <div style="display: flex; font-size: smaller; justify-content: center;align-items:start;height: 28px;">
           <div
-            style="border-radius:5px; border: 1px solid rgb(25,156,96); width: 50px; justify-content: center;text-align: center; color: rgb(25,156,96); height: 20px; line-height: 20px;">
+            style="border-radius:5px; border: 1px solid cornflowerblue; width: 50px; justify-content: center;text-align: center; color:cornflowerblue; height: 20px; line-height: 20px;">
             {{ user.role }}</div>
         </div>
 
 
-        <el-menu router background-color="#ffffff" text-color="rgb(144,147,153)" active-text-color="rgb(25,156,96)"
+        <el-menu router background-color="#ffffff" text-color="rgb(144,147,153)" active-text-color="cornflowerblue"
           style="border: none;" :default-active="$route.path">
           <el-menu-item index="/home">
             <i class="el-icon-s-home"></i>
@@ -69,7 +69,7 @@
 
           <!-- 导航栏 -->
           <el-breadcrumb separator-class="el-icon-arrow-right" style="margin-left: 20px;width: 300px;" >
-            <el-breadcrumb-item :to="{ path: '/home' }">校园二手交易平台</el-breadcrumb-item>
+            <el-breadcrumb-item :to="{ path: '/home' }">广应科二手易物平台</el-breadcrumb-item>
             <el-breadcrumb-item :to="{ path: $route.path }">{{ $route.meta.name }}</el-breadcrumb-item>
           </el-breadcrumb>
 
@@ -144,12 +144,12 @@ export default {
 
 .el-submenu .el-menu-item:hover {
   color: #fff !important;
-  background-color: rgb(25, 156, 96) !important;
+  background-color: cornflowerblue !important;
 }
 
 .el-menu-item:hover {
   color: #fff !important;
-  background-color: rgb(25, 156, 96) !important;
+  background-color:cornflowerblue !important;
 }
 
 .el-menu-item.is-active {

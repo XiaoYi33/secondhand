@@ -10,11 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-/**
- * author HKX
- * date: 2024-02-19 00:25
- * description: 商品类
- **/
+
 
 @Data
 @AllArgsConstructor //所有属性的构造方法

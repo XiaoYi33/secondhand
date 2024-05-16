@@ -5,11 +5,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
-/**
- * author HKX
- * date: 2024-02-20 22:57
- * description: 类别实体类
- **/
+
 
 @Data
 @TableName("category")

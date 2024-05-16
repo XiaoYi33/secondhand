@@ -17,11 +17,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * author HKX
- * date: 2024-02-21 22:21
- * description: 管理员操作用户的控制类
- **/
 
 @RestController
 @RequestMapping("/admin/user")

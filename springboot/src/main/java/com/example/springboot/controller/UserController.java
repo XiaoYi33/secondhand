@@ -12,11 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * author HKX
- * date: 2024-01-30 16:23
- * description:
- **/
+
 @CrossOrigin
 @RestController
 @RequestMapping("/user")

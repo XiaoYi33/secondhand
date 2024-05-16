@@ -11,11 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
-/**
- * author HKX
- * date: 2024-01-30 14:16
- * description: 提供接口返回数据
- **/
+
 @RestController
 public class WebController {
     @Autowired

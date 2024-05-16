@@ -12,6 +12,7 @@ import com.example.springboot.entity.User;
 import com.example.springboot.service.CategoryService;
 import com.example.springboot.service.ProductService;
 import com.example.springboot.service.UserService;
+import com.example.springboot.utils.DateTimeUtils;
 import com.example.springboot.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-/**
- * author HKX
- * date: 2024-02-19 17:34
- * description:
- **/
+
 @RestController
 @RequestMapping("/product")
 public class ProductController {
@@ -108,6 +105,7 @@ public class ProductController {
 
     @PostMapping("/add")
     public Result add(@RequestBody Product product){
+        product.setCreateTime(DateTimeUtils.getCurrentTimeString());
         productService.save(product);
         return Result.success();
     }

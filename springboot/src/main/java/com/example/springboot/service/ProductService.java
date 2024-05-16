@@ -18,11 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * author HKX
- * date: 2024-02-19 17:36
- * description:
- **/
+
 @Service
 public class ProductService extends ServiceImpl<ProductMapper,Product> {
     @Autowired
