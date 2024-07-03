@@ -201,6 +201,19 @@ public class ProductController {
         productService.updateById(product);
         return Result.success();
     }
+    @PutMapping("/takeUp")
+    public Result takeUp(@RequestParam Integer productId){
+        User currentUser = TokenUtils.getCurrentUser();//获取传进token的用户id
+        Product product = productService.getById(productId);
+        if(product.getUserId()!=currentUser.getId()){//将当前用户id和商品的用户id进行比较
+            return Result.error("无法编辑他人商品");
+        }
+        product.setState("上架");
+        product.setUpdateTime(LocalDateTimeUtil.format(LocalDateTimeUtil.now(), "yyyy-MM-dd HH:mm:ss"));//更新商品的update_time
+        product.setReason("");
+        productService.updateById(product);
+        return Result.success();
+    }
 
 
 

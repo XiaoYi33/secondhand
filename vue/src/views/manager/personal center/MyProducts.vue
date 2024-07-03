@@ -63,9 +63,9 @@
                                     style="padding-right: 20px; float: right; color: rgb(25,156,96);" v-if="productState === '上架'" @click="editProduct(product.id)">编辑</el-button>
                             </div>
                             <div style="width: 50px; height: 39px;">
-                                <el-popconfirm title="确定下架吗？" @confirm="takeDown(product.id)">
+                                <el-popconfirm :title="productState === '上架' ? '确定下架吗？' : '确定上架吗？'" @confirm="productState === '上架' ? takeDown(product.id) : takeUp(product.id)">
                                     <el-button slot="reference" type="text"
-                                        style="padding-right: 20px; float: right; color: rgb(221, 173, 68);" v-if="productState === '上架'">下架</el-button>
+                                        style="padding-right: 20px; float: right; color: rgb(221, 173, 68);">{{ productState === '上架' ? '下架' : '上架' }}</el-button>
                                 </el-popconfirm>
                             </div>
                             <div style="width: 50px; height: 39px;">
@@ -211,6 +211,18 @@ export default {
                     this.$message.error(res.msg)
                 }
             })
+        },
+        takeUp(id) {
+          this.$request.put('/product/takeUp', null, {
+            params: { productId: id }
+          }).then(res => {
+            if (res.code === '200') {
+              this.$message.success('上架成功')
+              this.load()
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
         },
         deleteProduct(id) {
             this.$request.delete('/product/delete/' + id).then(res => {

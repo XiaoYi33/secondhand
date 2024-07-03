@@ -44,7 +44,7 @@
             <el-menu-item index="/user">用户管理</el-menu-item>
             <el-menu-item index="/product">商品管理</el-menu-item>
             <el-menu-item index="/transaction">订单管理</el-menu-item>
-            <el-menu-item>数据统计</el-menu-item>
+
           </el-submenu>
 
           <el-submenu index="center">

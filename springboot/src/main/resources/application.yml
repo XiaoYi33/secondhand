@@ -28,10 +28,6 @@ spring:
     password: abgigruefebsbbai
     from: 1029807850@qq.com
     nickname: "广应科二手易物平台"
-#    username: campus_secondhand@qq.com
-#    password: zvwwybucsgtngach
-#    from: campus_secondhand@qq.com
-#    nickname: "培正校园二手交易平台"
 
     properties:
       mail:
@@ -44,7 +40,7 @@ ip: 47.236.125.77
 myapp:
   global:
     staticVar:
-      url: "http://localhost:9091/"
+      url: "http://localhost:9091/login"
       ip: "localhost"
 
 

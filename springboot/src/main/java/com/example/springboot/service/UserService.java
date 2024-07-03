@@ -129,7 +129,6 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         User user = new User();
         user.setUsername(username);
         user.setPassword(MD5PasswordEncoder.encode(password));
-        //差一个根据username更新数据库的方法
         userMapper.updatePasswordByUsername(username, MD5PasswordEncoder.encode(password));
         verificationCodes.remove(username);//清除原有验证码
     }
