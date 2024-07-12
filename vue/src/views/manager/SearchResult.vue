@@ -67,7 +67,7 @@
                     <el-input v-model="form.price"></el-input>
                 </el-form-item>
                 <el-form-item label="图片" prop="image">
-                    <el-upload class="upload-demo" action="http://localhost:9090/file/upload"
+                    <el-upload class="upload-demo" :action="$baseUrl+'/file/upload'"
                         :headers="{ token: user.token }" :before-upload="beforeImageUpload" :limit="1"
                         :on-success="handleImageSuccess" :auto-upload="false" ref="upload">
                         <el-button size="small" type="primary">点击上传</el-button>

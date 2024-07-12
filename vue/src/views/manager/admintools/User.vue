@@ -53,7 +53,7 @@
         <el-dialog title="编辑用户" :visible.sync="formVisible" width="25%">
             <el-form :model="form" label-width="80px" style="padding-right: 20px;" :rules="rules" ref="formRef">
                 <div style="margin: 15px; text-align: center;">
-                    <el-upload class="avatar-uploader" action="http://localhost:9090/file/upload"
+                    <el-upload class="avatar-uploader" :action="$baseUrl+'file/upload'"
                         :headers="{ token: user.token }" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
                         <img v-if="form.avatar" :src="form.avatar" class="avatar">
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>

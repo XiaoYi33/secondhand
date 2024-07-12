@@ -12,7 +12,7 @@ import request from "@/utils/request"
 Vue.use(ElementUI);
 
 Vue.prototype.$request=request //定义全局变量request
-
+Vue.prototype.$baseUrl=process.env.VUE_APP_BASEURL
 new Vue({
   router,
   render: h => h(App)
