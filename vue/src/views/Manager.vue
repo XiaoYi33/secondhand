@@ -110,6 +110,11 @@ export default {
       productCategory:null,
     }
   },
+  mounted() {//页面加载后触发
+    if(!this.user.id){
+      this.$router.push('/login')
+    }
+  },
   methods: {
     updateUser(user) {//获取子组件传过来的数据，更新当前页面的数据
       this.user = JSON.parse(JSON.stringify(user))//让父级的对象跟子级对象毫无关联

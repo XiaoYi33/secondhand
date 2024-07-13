@@ -42,7 +42,7 @@ public class FileController {
 
         File saveFile = new File(ROOT_PATH + File.separator + randomFileName);
         file.transferTo(saveFile);
-        String url = "http://localhost:" + port + "/file/download/" + randomFileName;
+        String url = "http://"+ip+":" + port + "/file/download/" + randomFileName;
         return Result.success(url);//返回文件下载链接
     }
 
